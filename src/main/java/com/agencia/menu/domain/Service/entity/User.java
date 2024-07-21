@@ -6,14 +6,19 @@ String NumeroDocumento;
 String password;
 String nombre;
 String tipoUser;
+int rol;
+String StringRol;
 public User() {
 }
-public User(int idTipoDocumento, String numeroDocumento, String password, String nombre, String tipoUser) {
+public User(int idTipoDocumento, String numeroDocumento, String password, String nombre, String tipoUser, int rol,
+        String stringRol) {
     this.idTipoDocumento = idTipoDocumento;
     NumeroDocumento = numeroDocumento;
     this.password = password;
     this.nombre = nombre;
     this.tipoUser = tipoUser;
+    this.rol = rol;
+    StringRol = stringRol;
 }
 public int getIdTipoDocumento() {
     return idTipoDocumento;
@@ -44,6 +49,18 @@ public String getTipoUser() {
 }
 public void setTipoUser(String tipoUser) {
     this.tipoUser = tipoUser;
+}
+public int getRol() {
+    return rol;
+}
+public void setRol(int rol) {
+    this.rol = rol;
+}
+public String getStringRol() {
+    return StringRol;
+}
+public void setStringRol(String stringRol) {
+    StringRol = stringRol;
 }
 
 

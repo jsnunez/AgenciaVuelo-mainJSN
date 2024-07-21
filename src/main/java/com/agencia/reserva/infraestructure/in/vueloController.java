@@ -130,7 +130,7 @@ private BuscarSillasOcupadas buscarSillasOcupadas;
           asientodetalle.setIdConexion(escalas.get(j).getId());
           asientodetalle.setIdDetalleReserva(idDetalleReserva);
           asientodetalle.setIdAsiento(sillaseleccionada);
-  asignarsillaUseCase.execute(asientodetalle);
+          asignarsillaUseCase.execute(asientodetalle);
         }
       
       yesOrNo = JOptionPane.showConfirmDialog(null, "Desea agregar un nuevo pasajero?");

@@ -36,7 +36,7 @@ public class menuRepository implements menuService {
   public User inciarSesion(User usuario) {
 
     if (usuario.getTipoUser().equals("Cliente")) {
-      String query = "SELECT nombre  FROM clientes c where idtipodocumento= ? AND numerodocumento=? AND password= ?";
+      String query = "SELECT c.nombre,c.rol,r.nombre AS rol  FROM clientes AS c JOIN roles AS r ON c.rol=r.id  where idtipodocumento= ? AND numerodocumento=? AND password= ?";
     System.out.println(usuario.getNombre());
     System.out.println(usuario.getIdTipoDocumento());
     System.out.println(usuario.getNumeroDocumento());
@@ -49,16 +49,22 @@ public class menuRepository implements menuService {
 
       try (ResultSet rs = ps.executeQuery()) {
         if (rs.next()) {
-          usuario.setNombre(rs.getString("nombre"));
+          usuario.setNombre(rs.getString("c.nombre"));
+          usuario.setRol(rs.getInt("c.rol"));
+          usuario.setStringRol(rs.getString("rol"));
 
         }
+
+
+
+
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
     }
     if (usuario.getTipoUser().equals("Empleado")) {
-      String query = "SELECT nombre  FROM empleados c where idtipodocumento= ? AND numerodocumento=? AND password= ?";
+      String query = "SELECT e.nombre, e.idrol, r.nombre AS rol  FROM empleados  AS e JOIN roles AS r ON e.idrol=r.id  where idtipodocumento= ? AND numerodocumento=? AND password= ?;";
     System.out.println(usuario.getNombre());
     System.out.println(usuario.getIdTipoDocumento());
     System.out.println(usuario.getNumeroDocumento());
@@ -71,8 +77,10 @@ public class menuRepository implements menuService {
 
       try (ResultSet rs = ps.executeQuery()) {
         if (rs.next()) {
-          usuario.setNombre(rs.getString("nombre"));
-
+          usuario.setNombre(rs.getString("e.nombre"));
+          usuario.setRol(rs.getInt("e.idrol"));
+          usuario.setStringRol(rs.getString("rol"));
+System.out.println(usuario.getStringRol());
         }
       }
     } catch (SQLException e) {
@@ -83,5 +91,7 @@ public class menuRepository implements menuService {
 
     return usuario;
   }
+
+
 
 }
