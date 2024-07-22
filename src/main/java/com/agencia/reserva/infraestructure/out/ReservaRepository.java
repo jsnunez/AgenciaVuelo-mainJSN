@@ -134,6 +134,17 @@ public class ReservaRepository implements ReservaServiceOlf {
     //     }
     //     return false;
     // }
+
+    @Override
+    public void deleteDetalleReserva(int id) {
+        String query= "DELETE FROM detallesreservaviaje where id=?" ;
+        try (PreparedStatement ps=connection.prepareStatement(query)){
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        } }
     
     
 }

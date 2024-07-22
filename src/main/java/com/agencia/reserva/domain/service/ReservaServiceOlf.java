@@ -8,5 +8,6 @@ public interface ReservaServiceOlf {
     void deleteReservaAgente (Reserva reserva);
     Reserva findReservaAgente(int id);
     void cancelReservaCliente (Reserva reserva);
+    void deleteDetalleReserva(int id);
 
 }

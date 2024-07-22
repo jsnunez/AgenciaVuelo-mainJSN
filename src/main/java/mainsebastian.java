@@ -110,7 +110,7 @@ public class mainsebastian {
 
                     vueloController consoleAdapterVuelo = new vueloController(consultvueloUseCase, buscarCiudades,
                             buscarvuelosUseCase, crearReservaUseCase, verificarPasajero, buscarTiposDocumentos,
-                            findEscalaUseCase, crearReservaDetalleUseCase, asignarSillaUseCase, buscarSillasOcupadas);
+                            findEscalaUseCase, crearReservaDetalleUseCase, asignarSillaUseCase, buscarSillasOcupadas, null,null);
                     Object[] optionsVuelos = { "Consultar vuelos", "Buscar vuelo", "Seleccionar vuelo",
                             "Añadir pasajero", "Seleccionar asiento", " Salir" };
                     Object menuVuelos = JOptionPane.showInputDialog(null, "Seleccione Una Opcion",

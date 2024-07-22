@@ -21,9 +21,12 @@ import com.agencia.reserva.application.BuscarvuelosUseCase;
 import com.agencia.reserva.application.ConsultvueloUseCase;
 import com.agencia.reserva.application.CrearReservaDetalleUseCase;
 import com.agencia.reserva.application.CrearReservaUseCase;
+import com.agencia.reserva.application.DeleteDetalleReserva;
+import com.agencia.reserva.application.DeleteReservaAgenteUseCase;
 import com.agencia.reserva.application.VerificarPasajero;
 import com.agencia.reserva.domain.service.vueloService;
 import com.agencia.reserva.infraestructure.in.vueloController;
+import com.agencia.reserva.infraestructure.out.ReservaRepository;
 import com.agencia.reserva.infraestructure.out.vueloRepository;
 import com.agencia.tipoDocumento.domain.entity.TipoDocumento;
 
@@ -39,69 +42,180 @@ public class menuUI {
     }
 
     public void menu() {
-        String tipoUser = mostrarMenu();
-        User usuario = menuInicio();
+        int ventana = 1;
+        while (ventana != 0) {
 
-        if (tipoUser == "Cliente") {
-            usuario.setTipoUser("Cliente");
-            usuario = iniciarsesion.execute(usuario);
-            int opcionCliente = menuCliente();
-            System.out.println(opcionCliente);
-            switch (opcionCliente) {
-                case 1:
-                    EscalaRepository escalaRepository = new EscalaRepository();
-                    vueloService vueloService = new vueloRepository();
-                    FindEscalaUseCase findEscalaUseCase = new FindEscalaUseCase(escalaRepository);
-                    ConsultvueloUseCase consultvueloUseCase = new ConsultvueloUseCase(vueloService);
-                    BuscarCiudades buscarCiudades = new BuscarCiudades(vueloService);
-                    BuscarvuelosUseCase buscarvuelosUseCase = new BuscarvuelosUseCase(vueloService);
-                    CrearReservaUseCase crearReservaUseCase = new CrearReservaUseCase(vueloService);
-                    VerificarPasajero verificarPasajero = new VerificarPasajero(vueloService);
-                    // BuscarTiposDocumentos buscarTiposDocumentos = new
-                    // BuscarTiposDocumentos(vueloService);
-                    AsignarsillaUseCase asignarSillaUseCase = new AsignarsillaUseCase(vueloService);
-                    CrearReservaDetalleUseCase crearReservaDetalleUseCase = new CrearReservaDetalleUseCase(
-                            vueloService);
-                    BuscarSillasOcupadas buscarSillasOcupadas = new BuscarSillasOcupadas(vueloService);
+            String tipoUser = mostrarMenu();
+            User usuario = menuInicio();
+            if (tipoUser == "Cliente") {
 
-                    vueloController consoleAdapterVuelo = new vueloController(consultvueloUseCase, buscarCiudades,
-                            buscarvuelosUseCase, crearReservaUseCase, verificarPasajero, buscarTiposDocumentos,
-                            findEscalaUseCase, crearReservaDetalleUseCase, asignarSillaUseCase, buscarSillasOcupadas);
-                    consoleAdapterVuelo.buscar();
-                    break;
-                case 2:
+                usuario.setTipoUser("Cliente");
+                usuario = iniciarsesion.execute(usuario);
+                if (usuario.getNombre() == null) {
+                    System.out.println("error incio sesion");
+                    JOptionPane.showMessageDialog(null, "usuario y contraseña incorrecta");
 
-                    break;
-                case 3:
+                    continue;
+                }
+                mostrarUsuario(usuario);
 
-                    break;
-                default:
-                    break;
+                int opcionCliente = menuCliente();
+                System.out.println(opcionCliente);
+                switch (opcionCliente) {
+                    case 1:
+                        EscalaRepository escalaRepository = new EscalaRepository();
+                        vueloService vueloService = new vueloRepository();
+
+                        ReservaRepository reservaRepository = new ReservaRepository();
+                        FindEscalaUseCase findEscalaUseCase = new FindEscalaUseCase(escalaRepository);
+                        ConsultvueloUseCase consultvueloUseCase = new ConsultvueloUseCase(vueloService);
+                        BuscarCiudades buscarCiudades = new BuscarCiudades(vueloService);
+                        BuscarvuelosUseCase buscarvuelosUseCase = new BuscarvuelosUseCase(vueloService);
+                        CrearReservaUseCase crearReservaUseCase = new CrearReservaUseCase(vueloService);
+                        VerificarPasajero verificarPasajero = new VerificarPasajero(vueloService);
+                        DeleteReservaAgenteUseCase deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
+                                reservaRepository);
+                        DeleteDetalleReserva deleteDetalleReserva= new DeleteDetalleReserva(reservaRepository);        
+
+                        // BuscarTiposDocumentos buscarTiposDocumentos = new
+                        // BuscarTiposDocumentos(vueloService);
+                        AsignarsillaUseCase asignarSillaUseCase = new AsignarsillaUseCase(vueloService);
+                        CrearReservaDetalleUseCase crearReservaDetalleUseCase = new CrearReservaDetalleUseCase(
+                                vueloService);
+                        BuscarSillasOcupadas buscarSillasOcupadas = new BuscarSillasOcupadas(vueloService);
+
+                        vueloController consoleAdapterVuelo = new vueloController(consultvueloUseCase, buscarCiudades,
+                                buscarvuelosUseCase, crearReservaUseCase, verificarPasajero, buscarTiposDocumentos,
+                                findEscalaUseCase, crearReservaDetalleUseCase, asignarSillaUseCase,
+                                buscarSillasOcupadas,
+                                deleteReservaAgenteUseCase, deleteDetalleReserva);
+                        consoleAdapterVuelo.buscar();
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    default:
+                        break;
+                }
             }
+            if (tipoUser == "Empleado") {
+
+                usuario.setTipoUser("Empleado");
+                usuario = iniciarsesion.execute(usuario);
+                System.out.println(usuario.getRol());
+                if (usuario.getNombre() == null) {
+                    System.out.println("error incio sesion");
+                    JOptionPane.showMessageDialog(null, "usuario y contraseña incorrecta");
+
+                    continue;
+                }
+                mostrarUsuario(usuario);
+
+                if (usuario.getRol() == 3) {
+                    int opcionAdmin = menuAdministrador();
+                    System.out.println(opcionAdmin);
+                    switch (opcionAdmin) {
+                        case 1:
+                           // registrarAvion();
+                            break;
+                        case 2:
+                           // asignarTripulacionATrayecto();
+                            break;
+                        case 3:
+                           // consultarInformacionAvion();
+                            break;
+                        case 4:
+                          //  consultarInformacionTrayecto();
+                            break;
+                        case 5:
+                        //    registrarAeropuerto();
+                            break;
+                        case 6:
+                          //  consultarInformacionAeropuerto();
+                            break;
+                        case 7:
+//actualizarInformacionAvion();
+                            break;
+                        case 8:
+                          //  eliminarAvion();
+                            break;
+                        case 9:
+                  //          asignarAeronaveATrayecto();
+                            break;
+                        case 10:
+                    //        actualizarInformacionTrayecto();
+                            break;
+                        case 11:
+                        //    eliminarTrayecto();
+                            break;
+                        case 12:
+                    //        actualizarInformacionAeropuerto();
+                            break;
+                        case 13:
+                     //       eliminarAeropuerto();
+                            break;
+                        case 14:
+                     //       consultarInformacionVuelo();
+                            break;
+                        case 15:
+                      //      consultarAsignacionDeTripulacion();
+                            break;
+                        case 16:
+                     //       consultarEscalasDeUnTrayecto();
+                            break;
+                        case 17:
+                   //         actualizarInformacionEscala();
+                            break;
+                        case 18:
+                    //        eliminarEscala();
+                            break;
+                        case 19:
+                    //        registrarTarifaDeVuelo();
+                            break;
+                        case 20:
+                     //       actualizarInformacionTarifaDeVuelo();
+                            break;
+                        case 21:
+                   //         eliminarTarifaDeVuelo();
+                            break;
+                        case 22:
+                     //       consultarTarifaDeVuelo();
+                            break;
+                        case 23:
+                     //       registrarTipoDeDocumento();
+                            break;
+                        case 24:
+                      //      actualizarTipoDeDocumento();
+                            break;
+                        case 25:
+                        //    eliminarTipoDeDocumento();
+                            break;
+                        case 26:
+                   //         consultarTipoDeDocumento();
+                            break;
+                        default:
+                            System.out.println("Opción no válida.");
+                            break;
+                    }
+
+
+                }
+                if (usuario.getRol() == 4) {
+                    int opcionAdmin = menuAgenteVentas();
+                    System.out.println(opcionAdmin);
+                }
+                if (usuario.getRol() == 5) {
+                    int opcionAdmin = menuTecnico();
+                    System.out.println(opcionAdmin);
+                }
+
+            }
+
+            System.out.println(usuario.getNombre());
         }
-        if (tipoUser == "Empleado") {
-
-            usuario.setTipoUser("Empleado");
-            usuario = iniciarsesion.execute(usuario);
-            System.out.println(usuario.getRol());
-            mostrarUsuario(usuario);
-
-            if (usuario.getRol() == 3) {
-                int opcionAdmin = menuAdministrador();
-                System.out.println(opcionAdmin);
-            }
-            if (usuario.getRol() == 4) {
-                int opcionAdmin = menuAgenteVentas();
-                System.out.println(opcionAdmin);
-            }
-            if (usuario.getRol() == 5) {
-                int opcionAdmin = menuTecnico();
-                System.out.println(opcionAdmin);
-            }
-
-        }
-
-        System.out.println(usuario.getNombre());
     }
 
     private int menuCliente() {
@@ -138,8 +252,31 @@ public class menuUI {
     }
 
     private int menuTecnico() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'menuTecnico'");
+        ArrayList<String> opcionTecnico = new ArrayList<>();
+        opcionTecnico.add("  Actualizar Información de Revisión");
+        opcionTecnico.add("Eliminar Revisión de Mantenimiento");
+        JComboBox<String> comboBoxMenuAgente = new JComboBox<>(opcionTecnico.toArray(new String[0]));
+        JPanel panelTipoUser = new JPanel(new GridLayout(0, 1));
+        panelTipoUser.add(new JLabel("Menu Tecnicos:"));
+        panelTipoUser.add(comboBoxMenuAgente);
+
+        int resultTipo = JOptionPane.showConfirmDialog(null, panelTipoUser, "tecnicos",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        String opcionSeleccionada = "";
+        if (resultTipo == JOptionPane.OK_OPTION) {
+            opcionSeleccionada = (String) comboBoxMenuAgente.getSelectedItem();
+
+        }
+        int contador = 0;
+        for (String opciones : opcionTecnico) {
+            contador++;
+            if (opciones.equals(opcionSeleccionada)) {
+                break;
+            }
+        }
+
+        return contador;
+
     }
 
     private int menuAgenteVentas() {
@@ -183,34 +320,33 @@ public class menuUI {
     private int menuAdministrador() {
 
         ArrayList<String> opcionesAdmin = new ArrayList<>();
-        opcionesAdmin.add("Registrar Avión");
-        opcionesAdmin.add("Asignar Tripulación a Trayecto");
-        opcionesAdmin.add("Registrar Avión");
-        opcionesAdmin.add("Asignar Tripulación a Trayecto");
-        opcionesAdmin.add("Consultar Información de Avión");
-        opcionesAdmin.add("Consultar Información de Trayecto");
-        opcionesAdmin.add("Registrar Aeropuerto");
-        opcionesAdmin.add("Consultar Información de Aeropuerto");
-        opcionesAdmin.add("Actualizar Información de Avión");
-        opcionesAdmin.add("Eliminar Avión");
-        opcionesAdmin.add("Asignar Aeronave a Trayecto");
-        opcionesAdmin.add("Actualizar Información de Trayecto");
-        opcionesAdmin.add("Eliminar Trayecto");
-        opcionesAdmin.add("Actualizar Información de Aeropuerto");
-        opcionesAdmin.add("Eliminar Aeropuerto");
-        opcionesAdmin.add("Consultar Información de Vuelo");
-        opcionesAdmin.add("Consultar Asignación de Tripulación");
-        opcionesAdmin.add("Consultar Escalas de un Trayecto");
-        opcionesAdmin.add("Actualizar Información de Escala");
-        opcionesAdmin.add("Eliminar Escala");
-        opcionesAdmin.add("Registrar Tarifa de Vuelo");
-        opcionesAdmin.add("Actualizar Información de Tarifa de Vuelo");
-        opcionesAdmin.add("Eliminar Tarifa de Vuelo");
-        opcionesAdmin.add("Consultar Tarifa de Vuelo");
-        opcionesAdmin.add("Registrar Tipo de Documento");
-        opcionesAdmin.add("Actualizar Tipo de Documento");
-        opcionesAdmin.add("Eliminar Tipo de Documento");
-        opcionesAdmin.add("Consultar Tipo de Documento");
+     
+        opcionesAdmin.add("Registrar Avión");                       //1
+        opcionesAdmin.add("Asignar Tripulación a Trayecto");        //2
+        opcionesAdmin.add("Consultar Información de Avión");        //3
+        opcionesAdmin.add("Consultar Información de Trayecto");     //4
+        opcionesAdmin.add("Registrar Aeropuerto");                  //5
+        opcionesAdmin.add("Consultar Información de Aeropuerto");   //6
+        opcionesAdmin.add("Actualizar Información de Avión");       //7
+        opcionesAdmin.add("Eliminar Avión");                        //8
+        opcionesAdmin.add("Asignar Aeronave a Trayecto");           //9
+        opcionesAdmin.add("Actualizar Información de Trayecto");    //10
+        opcionesAdmin.add("Eliminar Trayecto");                     //11
+        opcionesAdmin.add("Actualizar Información de Aeropuerto");  //12
+        opcionesAdmin.add("Eliminar Aeropuerto");                   //13
+        opcionesAdmin.add("Consultar Información de Vuelo");        //14
+        opcionesAdmin.add("Consultar Asignación de Tripulación");   //15
+        opcionesAdmin.add("Consultar Escalas de un Trayecto");      //16
+        opcionesAdmin.add("Actualizar Información de Escala");      //17
+        opcionesAdmin.add("Eliminar Escala");                       //18
+        opcionesAdmin.add("Registrar Tarifa de Vuelo");             //19
+        opcionesAdmin.add("Actualizar Información de Tarifa de Vuelo"); //20
+        opcionesAdmin.add("Eliminar Tarifa de Vuelo");              //21
+        opcionesAdmin.add("Consultar Tarifa de Vuelo");             //22
+        opcionesAdmin.add("Registrar Tipo de Documento");           //23
+        opcionesAdmin.add("Actualizar Tipo de Documento");          //24
+        opcionesAdmin.add("Eliminar Tipo de Documento");            //25
+        opcionesAdmin.add("Consultar Tipo de Documento");           //26
         JComboBox<String> comboBoxMenuAdmin = new JComboBox<>(opcionesAdmin.toArray(new String[0]));
         JPanel panelTipoUser = new JPanel(new GridLayout(0, 1));
         panelTipoUser.add(new JLabel("menu administrador:"));
@@ -272,6 +408,7 @@ public class menuUI {
 
             }
             if (resultTipo == JOptionPane.CANCEL_OPTION) {
+                JOptionPane.showMessageDialog(null, "gracias por visitar nuestro sitio");
                 System.exit(0);
             }
             System.out.println(tipousuario);
@@ -281,43 +418,55 @@ public class menuUI {
     }
 
     public User menuInicio() {
-        List<TipoDocumento> tipos = buscarTiposDocumentos.execute();
-        List<String> listTiposDocuemtnos = new ArrayList<>();
-        User user = new User();
-        for (TipoDocumento tipoDocumento : tipos) {
-            listTiposDocuemtnos.add(tipoDocumento.getNombre());
-        }
-        JComboBox<String> comboBoxTipoDocumento = new JComboBox<>(listTiposDocuemtnos.toArray(new String[0]));
+        User user = new User(0, "", "", null, null, 0, null);
+        while ((user.getNumeroDocumento().equals("") | user.getPassword().equals(""))) {
 
-        JPanel panelInicio = new JPanel(new GridLayout(0, 2));
-        panelInicio.add(new JLabel("Seleccione tipo documento:"));
-        panelInicio.add(comboBoxTipoDocumento);
-        panelInicio.add(new JLabel("Ingrese numero documento: "));
-        JTextField documentoField = new JTextField();
-        panelInicio.add(documentoField);
-        user.setNumeroDocumento(null);
-        panelInicio.add(new JLabel("Ingrese password: "));
-        JTextField passwordField = new JTextField();
-        panelInicio.add(passwordField);
-        String tipoDocumento = null;
-        int result = JOptionPane.showConfirmDialog(null, panelInicio, "inicio de sesion",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        if (result == JOptionPane.OK_OPTION) {
-            tipoDocumento = (String) comboBoxTipoDocumento.getSelectedItem();
-            for (TipoDocumento selecionado : tipos) {
-                if (tipoDocumento.equals(selecionado.getNombre())) {
-                    user.setIdTipoDocumento(selecionado.getId());
-                }
-                user.setNumeroDocumento(documentoField.getText());
-                user.setPassword(passwordField.getText());
+            List<TipoDocumento> tipos = buscarTiposDocumentos.execute();
+            List<String> listTiposDocuemtnos = new ArrayList<>();
 
+            for (TipoDocumento tipoDocumento : tipos) {
+                listTiposDocuemtnos.add(tipoDocumento.getNombre());
             }
-        }
-        System.out.println(user.getNombre());
-        System.out.println(user.getIdTipoDocumento());
-        System.out.println(user.getNumeroDocumento());
-        System.out.println(user.getPassword());
-        return user;
+            JComboBox<String> comboBoxTipoDocumento = new JComboBox<>(listTiposDocuemtnos.toArray(new String[0]));
 
+            JPanel panelInicio = new JPanel(new GridLayout(0, 2));
+            panelInicio.add(new JLabel("Seleccione tipo documento:"));
+            panelInicio.add(comboBoxTipoDocumento);
+            panelInicio.add(new JLabel("Ingrese numero documento: "));
+            JTextField documentoField = new JTextField();
+            panelInicio.add(documentoField);
+            user.setNumeroDocumento(null);
+            panelInicio.add(new JLabel("Ingrese password: "));
+            JTextField passwordField = new JTextField();
+            panelInicio.add(passwordField);
+            String tipoDocumento = null;
+            int result = JOptionPane.showConfirmDialog(null, panelInicio, "inicio de sesion",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (result == JOptionPane.OK_OPTION) {
+                tipoDocumento = (String) comboBoxTipoDocumento.getSelectedItem();
+                for (TipoDocumento selecionado : tipos) {
+                    if (tipoDocumento.equals(selecionado.getNombre())) {
+                        user.setIdTipoDocumento(selecionado.getId());
+                    }
+                    user.setNumeroDocumento(documentoField.getText());
+                    user.setPassword(passwordField.getText());
+
+                }
+                if (user.getNumeroDocumento().equals("") | user.getPassword().equals("")) {
+                    JOptionPane.showMessageDialog(null, "campos en blanco, revisar campos");
+
+                }
+            }
+            if (result == JOptionPane.CANCEL_OPTION) {
+                JOptionPane.showMessageDialog(null, "gracias por visitar nuestro sitio");
+                System.exit(0);
+            }
+            System.out.println(user.getNombre());
+            System.out.println(user.getIdTipoDocumento());
+            System.out.println(user.getNumeroDocumento());
+            System.out.println(user.getPassword());
+
+        }
+        return user;
     }
 }

@@ -431,7 +431,7 @@ public class vueloRepository implements vueloService {
     String sqlPasajero = "SELECT c.id, c.nombre, c.idtipodocumento, c.numerodocumento, c.edad, t.nombre as tipodocumento " +
                          "FROM clientes c " +
                          "JOIN tiposdocumentos t ON c.idtipodocumento = t.id " +
-                         "WHERE numerodocumento = ? AND idtipodocumento = ?";
+                         "WHERE numerodocumento = ? AND idtipodocumento = ?;";
 
     try (PreparedStatement statement = connection.prepareStatement(sqlPasajero)) {
         statement.setString(1, pasajero.getDocumento());
@@ -483,6 +483,32 @@ public class vueloRepository implements vueloService {
                     // Add code to insert the new passenger into the database and retrieve the new id
                     // idPasajero = createNewPasajero(pasajero); // This should be a method to insert and return the new ID
                 }
+
+                try {
+                  String query = "INSERT INTO clientes (nombre,edad,idtipodocumento,numerodocumento,rol) VALUES (?,?,?,?,?)";
+                  PreparedStatement ps = connection.prepareStatement(query,
+                      PreparedStatement.RETURN_GENERATED_KEYS);
+                  ps.setString(1, pasajero.getNombre());
+                  ps.setInt(2, pasajero.getEdad());
+                  ps.setInt(3, pasajero.getIdTipoDocumento());
+                  ps.setString(4, pasajero.getDocumento());
+                  ps.setInt(5, 2);
+      
+                  ps.executeUpdate();
+      
+                  try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                      pasajero.setId(generatedKeys.getInt(1));
+                      System.out.println(pasajero.getId());
+                      idPasajero=pasajero.getId();
+                    }
+                  }
+                } catch (SQLException e) {
+                  e.printStackTrace();
+      
+                }
+
+
             }
         }
     } catch (SQLException e) {

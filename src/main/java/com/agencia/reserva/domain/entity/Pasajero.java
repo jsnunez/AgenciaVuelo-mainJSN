@@ -4,6 +4,11 @@ public class Pasajero {
 private int id;
 private String nombre;
 private int edad;
+public Pasajero(String nombre, String tipoDocumento, int idTipoDocumento) {
+    this.nombre = nombre;
+    this.tipoDocumento = tipoDocumento;
+    this.idTipoDocumento = idTipoDocumento;
+}
 private String tipoDocumento;
 private int idTipoDocumento;
 private String documento;
