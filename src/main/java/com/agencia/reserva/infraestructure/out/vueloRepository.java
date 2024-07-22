@@ -609,4 +609,17 @@ public class vueloRepository implements vueloService {
       e.printStackTrace();
     }
     return listasillas;
-  }}
+  }
+
+  @Override
+  public void eliminarAsientoPago(int id) {
+    try{ 
+    String asientoquery ="DELETE FROM asientodetallereservaviajeconexion WHERE iddetallereserva=? ";
+    PreparedStatement statement = connection.prepareStatement(asientoquery);
+    statement.setInt(1, id);
+    statement.executeUpdate();
+    }catch(SQLException e){
+      e.printStackTrace();
+    }
+  }
+}
