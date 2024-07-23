@@ -30,7 +30,7 @@ import com.agencia.tarifa.infraestructure.in.TarifaController;
 import com.agencia.tarifa.infraestructure.out.TarifaRepository;
 
 public class mainsebastian {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         // Scanner scanner = new Scanner(System.in);
         menuService menuService = new menuRepository();
         vueloService vueloService = new vueloRepository();
