@@ -46,6 +46,14 @@ public class vueloController {
   private DeleteReservaAgenteUseCase deleteReservaAgenteUseCase;
   private DeleteDetalleReserva deleteDetalleReserva;
   private EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase;
+  private ConsultaPrecioUseCase consultaPrecioUseCase;
+  private PagoUseCase pagoUseCase;
+
+
+ 
+  
+
+  
 
   public vueloController(ConsultvueloUseCase consultvueloUseCase, BuscarCiudades buscarCiudades,
       BuscarvuelosUseCase buscarvuelosUseCase, CrearReservaUseCase crearReservaUseCase,
@@ -53,7 +61,8 @@ public class vueloController {
       FindEscalaUseCase findEscalaUseCase, CrearReservaDetalleUseCase crearReservaDetalleUseCase,
       AsignarsillaUseCase asignarsillaUseCase, BuscarSillasOcupadas buscarSillasOcupadas,
       DeleteReservaAgenteUseCase deleteReservaAgenteUseCase, DeleteDetalleReserva deleteDetalleReserva,
-      EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase) {
+      EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase, ConsultaPrecioUseCase consultaPrecioUseCase,
+      PagoUseCase pagoUseCase) {
     this.consultvueloUseCase = consultvueloUseCase;
     this.buscarCiudades = buscarCiudades;
     this.buscarvuelosUseCase = buscarvuelosUseCase;
@@ -67,6 +76,8 @@ public class vueloController {
     this.deleteReservaAgenteUseCase = deleteReservaAgenteUseCase;
     this.deleteDetalleReserva = deleteDetalleReserva;
     this.eliminarAsientoPorPagoUseCase = eliminarAsientoPorPagoUseCase;
+    this.consultaPrecioUseCase = consultaPrecioUseCase;
+    this.pagoUseCase = pagoUseCase;
   }
 
   public void consultar() throws SQLException {
@@ -110,8 +121,9 @@ public class vueloController {
       }
     }
     Asientosdetalles asientodetalle = new Asientosdetalles();
+    idReserva = crearReservaUseCase.execute(bvuelo);
     while (yesOrNo == 0) {
-      idReserva = crearReservaUseCase.execute(bvuelo);
+      
       List<TipoDocumento> tipos = buscarTiposDocumentos.execute();
       Pasajero pasajero = verificarPasajero(tipos, idReserva);
       if (pasajero.getDocumento().equals("ninguno")) {
@@ -160,7 +172,50 @@ public class vueloController {
     }
 
     JOptionPane.showMessageDialog(null, "Entrando a pasarela de pago");
-    idDetalleReserva = 0;
+    // Consultar precio
+    Reserva reservaPrecio = consultaPrecioUseCase.execute(idReserva);
+    System.out.println("idreserva:" + idReserva);
+    int tarifaTotal = reservaPrecio.getPrecio();
+    System.out.println("la tarifa" + tarifaTotal);
+    String mensaje = String.format("El Id de reserva: %d, tarifa: %d",
+        idReserva, tarifaTotal);
+
+    int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmacion de pago", JOptionPane.YES_NO_OPTION);
+    if (respuesta == JOptionPane.YES_OPTION) {
+      String[] opcionesPago = { "Tarjeta de Crédito", "PSE", "Bancolombia", "PayPal" };
+      JComboBox<String> comboBox = new JComboBox<>(opcionesPago);
+      int seleccionPago = JOptionPane.showOptionDialog(null,
+          new Object[] { "Selecciona un método de pago:", comboBox },
+          "Método de Pago",
+          JOptionPane.OK_CANCEL_OPTION,
+          JOptionPane.QUESTION_MESSAGE,
+          null,
+          null,
+          null);
+      if (seleccionPago == JOptionPane.OK_OPTION) {
+        String metodoSeleccionado = (String) comboBox.getSelectedItem();
+        JOptionPane.showMessageDialog(null, "Método de pago seleccionado: " + metodoSeleccionado);
+
+        // Ejecutar el método de pago
+        pagoUseCase.execute(reservaPrecio);
+        JOptionPane.showMessageDialog(null, "Procesando el pago...");
+
+      } else {
+        // aqui agregar opciones de eliminar la reserva,sientos
+
+        for (Integer id : listIdDetalleReserva) {
+          eliminarAsientoPorPagoUseCase.execute(id);
+
+        }
+        deleteDetalleReserva.execute(idReserva);
+        Reserva reserva = new Reserva();
+        reserva.setId(idReserva);
+        deleteReservaAgenteUseCase.execute(reserva);
+
+        JOptionPane.showMessageDialog(null, "No se ha realizado el pago y se cancela reserva ");
+
+      }
+    }
   }
 
   public Pasajero verificarPasajero(List<TipoDocumento> tipos, int id) {

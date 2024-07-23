@@ -8,6 +8,7 @@ import com.agencia.reserva.domain.entity.BuscarVuelo;
 import com.agencia.reserva.domain.entity.Ciudad;
 import com.agencia.reserva.domain.entity.DetalleReserva;
 import com.agencia.reserva.domain.entity.Pasajero;
+import com.agencia.reserva.domain.entity.Reserva;
 import com.agencia.reserva.domain.entity.VuelosDto;
 import com.agencia.reserva.domain.entity.vuelo;
 import com.agencia.tipoDocumento.domain.entity.TipoDocumento;
@@ -28,6 +29,10 @@ public interface vueloService {
     List<String> sillasVacias(int idConexion);
     //Metodo elimiinar asiento
     void eliminarAsientoPago(int id);
+    // interfaz dd pago
+    void pagoReserva (Reserva reserva);
+    Reserva consultatarifa (int id);
+    
     
 
 
