@@ -3,7 +3,6 @@ package com.agencia.reserva.infraestructure.in;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +29,6 @@ import com.agencia.reserva.domain.entity.Ciudad;
 import com.agencia.reserva.domain.entity.DetalleReserva;
 import com.agencia.reserva.domain.entity.Pasajero;
 import com.agencia.reserva.domain.entity.Reserva;
-import com.agencia.reserva.domain.entity.vuelo;
 import com.agencia.tipoDocumento.domain.entity.TipoDocumento;
 import com.toedter.calendar.JCalendar;
 
@@ -49,9 +47,6 @@ public class vueloController {
   private DeleteDetalleReserva deleteDetalleReserva;
   private EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase;
 
-
-
- 
   public vueloController(ConsultvueloUseCase consultvueloUseCase, BuscarCiudades buscarCiudades,
       BuscarvuelosUseCase buscarvuelosUseCase, CrearReservaUseCase crearReservaUseCase,
       VerificarPasajero verificarPasajero, BuscarTiposDocumentos buscarTiposDocumentos,
@@ -95,7 +90,8 @@ public class vueloController {
     int idReserva;
     int idDetalleReserva = 0;
     List<Escala> escalas = findEscalaUseCase.execute(Integer.valueOf(Idvuelo));
-    List<Integer> listIdDetalleReserva =new ArrayList<>();;
+    List<Integer> listIdDetalleReserva = new ArrayList<>();
+    ;
     if (escalas.isEmpty()) {
       System.out.println(escalas);
       // escalas.forEach(escala -> System.out.println(escala.getId()));
@@ -133,7 +129,7 @@ public class vueloController {
       idDetalleReserva = crearReservaDetalleUseCase.execute(detalleReserva);
       detalleReserva.setId(idDetalleReserva);
       listIdDetalleReserva.add(idDetalleReserva);
- 
+
       System.out.println("cantidad" + escalas.size());
       int sillaseleccionada;
 
@@ -164,11 +160,10 @@ public class vueloController {
     }
 
     JOptionPane.showMessageDialog(null, "Entrando a pasarela de pago");
-    idDetalleReserva=0;
+    idDetalleReserva = 0;
   }
 
   public Pasajero verificarPasajero(List<TipoDocumento> tipos, int id) {
-    String nombrePasajero = "";
     int idtipodocumento = 0;
     List<String> listTiposDocuemtnos = new ArrayList<>();
     for (TipoDocumento tipoDocumento : tipos) {
@@ -187,11 +182,11 @@ public class vueloController {
     int result = JOptionPane.showConfirmDialog(null, panelBuscar, "ingrese datos del usuario",
         JOptionPane.OK_CANCEL_OPTION,
         JOptionPane.PLAIN_MESSAGE);
-  String numeroDocumento="";
-    
+    String numeroDocumento = "";
+
     if (result == JOptionPane.OK_OPTION) {
       tipoDocumento = (String) comboBoxTipoDocumento.getSelectedItem();
-      numeroDocumento=documentoField.getText();
+      numeroDocumento = documentoField.getText();
     }
 
     if (result == JOptionPane.CANCEL_OPTION) {
@@ -200,12 +195,10 @@ public class vueloController {
       deleteReservaAgenteUseCase.execute(elimina);
       JOptionPane.showMessageDialog(null, "se cancelo la reseva");
       tipoDocumento = "DNI";
-      numeroDocumento="ninguno";
-      
-      
+      numeroDocumento = "ninguno";
 
     }
-  
+
     for (TipoDocumento selecionado : tipos) {
       if (tipoDocumento.equals(selecionado.getNombre())) {
         idtipodocumento = selecionado.getId();
@@ -287,14 +280,14 @@ public class vueloController {
   }
 
   public void actualizar() throws SQLException {
-    String idString = JOptionPane.showInputDialog("Ingrese id modificar");
-    int id = Integer.parseInt(idString);
-    String descripcion = JOptionPane.showInputDialog("Ingrese descripcion");
-    String detalle = JOptionPane.showInputDialog("Ingrese detalle");
-    String valorString = JOptionPane.showInputDialog("Ingrese valor");
-    vuelo vuelo = new vuelo();
-    BigDecimal valor = new BigDecimal(valorString);
-    vuelo.setId(id);
+    // String idString = JOptionPane.showInputDialog("Ingrese id modificar");
+    // int id = Integer.parseInt(idString);
+    // String descripcion = JOptionPane.showInputDialog("Ingrese descripcion");
+    // String detalle = JOptionPane.showInputDialog("Ingrese detalle");
+    // String valorString = JOptionPane.showInputDialog("Ingrese valor");
+    // vuelo vuelo = new vuelo();
+    // BigDecimal valor = new BigDecimal(valorString);
+    // vuelo.setId(id);
   }
 
   public void eliminar() throws SQLException {
@@ -373,6 +366,7 @@ public class vueloController {
 
   class BackgroundPanel extends JPanel {
     private Image backgroundImage;
+    @SuppressWarnings("unused")
     private JComponent component;
 
     public BackgroundPanel(JComponent component, String filePath) {

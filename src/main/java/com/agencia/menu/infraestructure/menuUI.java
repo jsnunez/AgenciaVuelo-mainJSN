@@ -18,14 +18,18 @@ import com.agencia.reserva.application.BuscarCiudades;
 import com.agencia.reserva.application.BuscarSillasOcupadas;
 import com.agencia.reserva.application.BuscarTiposDocumentos;
 import com.agencia.reserva.application.BuscarvuelosUseCase;
+import com.agencia.reserva.application.CancelReservaClienteUseCase;
 import com.agencia.reserva.application.ConsultvueloUseCase;
 import com.agencia.reserva.application.CrearReservaDetalleUseCase;
 import com.agencia.reserva.application.CrearReservaUseCase;
+import com.agencia.reserva.application.CreateReservaAgenteUseCase;
 import com.agencia.reserva.application.DeleteDetalleReserva;
 import com.agencia.reserva.application.DeleteReservaAgenteUseCase;
 import com.agencia.reserva.application.EliminarAsientoPorPagoUseCase;
+import com.agencia.reserva.application.FindReservaAgenteUseCase;
 import com.agencia.reserva.application.VerificarPasajero;
 import com.agencia.reserva.domain.service.vueloService;
+import com.agencia.reserva.infraestructure.in.ReservaController;
 import com.agencia.reserva.infraestructure.in.vueloController;
 import com.agencia.reserva.infraestructure.out.ReservaRepository;
 import com.agencia.reserva.infraestructure.out.vueloRepository;
@@ -93,7 +97,20 @@ public class menuUI {
                         consoleAdapterVuelo.buscar();
                         break;
                     case 2:// "Consultar Reserva de Vuelo"
+                        reservaRepository = new ReservaRepository();
 
+                        CreateReservaAgenteUseCase createReservaAgenteUseCase = new CreateReservaAgenteUseCase(
+                                reservaRepository);
+                        FindReservaAgenteUseCase findReservaAgenteUseCase = new FindReservaAgenteUseCase(
+                                reservaRepository);
+                        deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
+                                reservaRepository);
+                        CancelReservaClienteUseCase cancelReservaClienteUseCase = new CancelReservaClienteUseCase(
+                                reservaRepository);
+                        ReservaController reservaController = new ReservaController(createReservaAgenteUseCase,
+                                findReservaAgenteUseCase,
+                                deleteReservaAgenteUseCase, cancelReservaClienteUseCase);
+                                reservaController.findReservaAgente();
                         break;
                     case 3:// "Cancelar Reserva de Vuelo
 
