@@ -17,6 +17,7 @@ import com.agencia.reserva.domain.entity.BuscarVuelo;
 import com.agencia.reserva.domain.entity.Ciudad;
 import com.agencia.reserva.domain.entity.DetalleReserva;
 import com.agencia.reserva.domain.entity.Pasajero;
+import com.agencia.reserva.domain.entity.Reserva;
 import com.agencia.reserva.domain.entity.VuelosDto;
 import com.agencia.reserva.domain.entity.vuelo;
 import com.agencia.reserva.domain.service.vueloService;
@@ -385,12 +386,13 @@ public class vueloRepository implements vueloService {
     int generatedId = -1; // Initialize with a default invalid value
     System.out.println(detalleReserva.getIdReserva());
     System.out.println(detalleReserva.getIdReserva());
-
-    String query = "INSERT INTO detallesreservaviaje (idreserva, idpasajero) VALUES (?, ?)";
+    
+    String query = "INSERT INTO detallesreservaviaje (idreserva, idpasajero,idtarifa) VALUES (?, ?,?)";
 
     try (PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
         ps.setInt(1, detalleReserva.getIdReserva());
         ps.setInt(2, detalleReserva.getIdPasajero());
+        ps.setInt(3, 1);
 
         int affectedRows = ps.executeUpdate();
 
@@ -442,4 +444,49 @@ public class vueloRepository implements vueloService {
       e.printStackTrace();
     }
   }
+
+  @Override
+  public void  pagoReserva (Reserva reserva) {
+    System.out.println("el id" + reserva.getId());
+    String query = "UPDATE reservaviaje SET estado= ? WHERE id =?  ";
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+      ps.setString(1, "Confirmada");
+
+      ps.setInt(2, reserva.getId());
+      ps.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  @Override
+  public Reserva consultatarifa(int id) {
+    String query = "SELECT SUM(v.precioviaje + t.valor) AS total_valor " +
+                   "FROM reservaviaje r " +
+                   "INNER JOIN detallesreservaviaje d ON d.idreserva = r.id " +
+                   "INNER JOIN tarifasvuelos t ON t.id = d.idtarifa " +
+                   "INNER JOIN viajes v ON v.id = r.idvuelos " +
+                   "WHERE r.id = ?";
+    
+    Reserva reserva = null;
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, id);
+        try (ResultSet resultSet = ps.executeQuery()) {
+            if (resultSet.next()) {
+                reserva = new Reserva();
+                
+                reserva.setId(id);
+                reserva.setPrecio(resultSet.getInt("total_valor"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return reserva;
+}
 }
