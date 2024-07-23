@@ -86,7 +86,7 @@ public class MainAeropuerto {
                     DeleteClienteCase deleteClienteCase = new DeleteClienteCase(clienteService);
 
                     ClienteController clienteController = new ClienteController(
-                        clienteService, 
+                      
                         createClienteCase, 
                         findClienteCase, 
                         deleteClienteCase, 

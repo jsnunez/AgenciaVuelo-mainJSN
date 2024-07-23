@@ -12,16 +12,14 @@ import com.agencia.cliente.domain.entity.Cliente;
 import com.agencia.cliente.domain.service.ClienteService;
 
 public class ClienteController {
-    private ClienteService clienteService;
     private CreateClienteCase createClienteCase;
     private FindClienteCase findClienteCase;
     private DeleteClienteCase deleteClienteCase;
     private UpdateClienteCase updateClienteCase;
 
-    public ClienteController(ClienteService clienteService, CreateClienteCase createClienteCase, 
+    public ClienteController(CreateClienteCase createClienteCase, 
                              FindClienteCase findClienteCase, DeleteClienteCase deleteClienteCase, 
                              UpdateClienteCase updateClienteCase) {
-        this.clienteService = clienteService;
         this.createClienteCase = createClienteCase;
         this.findClienteCase = findClienteCase;
         this.deleteClienteCase = deleteClienteCase;
@@ -42,7 +40,7 @@ public class ClienteController {
         cliente.setNumerodocumento(numerodocumento);
         cliente.setRol(rol);
 
-        clienteService.createCliente(cliente);
+        createClienteCase.execute(cliente);
         JOptionPane.showMessageDialog(null, "Cliente creado correctamente!");
     }
 
@@ -62,13 +60,13 @@ public class ClienteController {
         cliente.setNumerodocumento(numerodocumento);
         cliente.setRol(rol);
 
-        clienteService.updateCliente(cliente);
+        updateClienteCase.execute(cliente);
         JOptionPane.showMessageDialog(null, "Cliente actualizado correctamente!");
     }
 
     public void buscar() throws SQLException {
         int id = Integer.parseInt(JOptionPane.showInputDialog("ID del cliente a buscar:"));
-        Cliente cliente = clienteService.findCliente(id);
+        Cliente cliente = findClienteCase.execute(id);
 
         if (cliente != null) {
             System.out.println("Id: " + cliente.getId());
@@ -85,7 +83,7 @@ public class ClienteController {
 
     public void eliminar() throws SQLException {
         int id = Integer.parseInt(JOptionPane.showInputDialog("ID del cliente a eliminar:"));
-        clienteService.deleteCliente(id);
+        deleteClienteCase.execute(id);
         JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente!");
     }
 }
