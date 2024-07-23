@@ -47,15 +47,18 @@ public class vueloController {
   private BuscarSillasOcupadas buscarSillasOcupadas;
   private DeleteReservaAgenteUseCase deleteReservaAgenteUseCase;
   private DeleteDetalleReserva deleteDetalleReserva;
+  private EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase;
 
 
 
+ 
   public vueloController(ConsultvueloUseCase consultvueloUseCase, BuscarCiudades buscarCiudades,
       BuscarvuelosUseCase buscarvuelosUseCase, CrearReservaUseCase crearReservaUseCase,
       VerificarPasajero verificarPasajero, BuscarTiposDocumentos buscarTiposDocumentos,
       FindEscalaUseCase findEscalaUseCase, CrearReservaDetalleUseCase crearReservaDetalleUseCase,
       AsignarsillaUseCase asignarsillaUseCase, BuscarSillasOcupadas buscarSillasOcupadas,
-      DeleteReservaAgenteUseCase deleteReservaAgenteUseCase, DeleteDetalleReserva deleteDetalleReserva) {
+      DeleteReservaAgenteUseCase deleteReservaAgenteUseCase, DeleteDetalleReserva deleteDetalleReserva,
+      EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase) {
     this.consultvueloUseCase = consultvueloUseCase;
     this.buscarCiudades = buscarCiudades;
     this.buscarvuelosUseCase = buscarvuelosUseCase;
@@ -68,6 +71,7 @@ public class vueloController {
     this.buscarSillasOcupadas = buscarSillasOcupadas;
     this.deleteReservaAgenteUseCase = deleteReservaAgenteUseCase;
     this.deleteDetalleReserva = deleteDetalleReserva;
+    this.eliminarAsientoPorPagoUseCase = eliminarAsientoPorPagoUseCase;
   }
 
   public void consultar() throws SQLException {
@@ -144,7 +148,11 @@ public class vueloController {
 
       yesOrNo = JOptionPane.showConfirmDialog(null, "Desea agregar un nuevo pasajero?");
       if (yesOrNo == JOptionPane.CANCEL_OPTION) {
-        deleteDetalleReserva.execute(idDetalleReserva);
+        eliminarAsientoPorPagoUseCase.execute(idDetalleReserva);
+        deleteDetalleReserva.execute(idReserva);
+        Reserva reserva = new Reserva();
+        reserva.setId(idReserva);
+        deleteReservaAgenteUseCase.execute(reserva);
         JOptionPane.showMessageDialog(null, "cerrando aplicativo");
 
       }

@@ -137,7 +137,7 @@ public class ReservaRepository implements ReservaServiceOlf {
 
     @Override
     public void deleteDetalleReserva(int id) {
-        String query= "DELETE FROM detallesreservaviaje where id=?" ;
+        String query= "DELETE FROM detallesreservaviaje where idreserva=?" ;
         try (PreparedStatement ps=connection.prepareStatement(query)){
             ps.setInt(1, id);
             ps.executeUpdate();

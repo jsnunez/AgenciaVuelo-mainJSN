@@ -23,6 +23,7 @@ import com.agencia.reserva.application.CrearReservaDetalleUseCase;
 import com.agencia.reserva.application.CrearReservaUseCase;
 import com.agencia.reserva.application.DeleteDetalleReserva;
 import com.agencia.reserva.application.DeleteReservaAgenteUseCase;
+import com.agencia.reserva.application.EliminarAsientoPorPagoUseCase;
 import com.agencia.reserva.application.VerificarPasajero;
 import com.agencia.reserva.domain.service.vueloService;
 import com.agencia.reserva.infraestructure.in.vueloController;
@@ -76,7 +77,7 @@ public class menuUI {
                         DeleteReservaAgenteUseCase deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
                                 reservaRepository);
                         DeleteDetalleReserva deleteDetalleReserva= new DeleteDetalleReserva(reservaRepository);        
-
+EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase = new EliminarAsientoPorPagoUseCase(vueloService);
                         // BuscarTiposDocumentos buscarTiposDocumentos = new
                         // BuscarTiposDocumentos(vueloService);
                         AsignarsillaUseCase asignarSillaUseCase = new AsignarsillaUseCase(vueloService);
@@ -88,7 +89,7 @@ public class menuUI {
                                 buscarvuelosUseCase, crearReservaUseCase, verificarPasajero, buscarTiposDocumentos,
                                 findEscalaUseCase, crearReservaDetalleUseCase, asignarSillaUseCase,
                                 buscarSillasOcupadas,
-                                deleteReservaAgenteUseCase, deleteDetalleReserva);
+                                deleteReservaAgenteUseCase, deleteDetalleReserva, eliminarAsientoPorPagoUseCase);
                         consoleAdapterVuelo.buscar();
                         break;
                     case 2:
@@ -137,7 +138,7 @@ public class menuUI {
                           //  consultarInformacionAeropuerto();
                             break;
                         case 7:
-//actualizarInformacionAvion();
+                        //actualizarInformacionAvion();
                             break;
                         case 8:
                           //  eliminarAvion();

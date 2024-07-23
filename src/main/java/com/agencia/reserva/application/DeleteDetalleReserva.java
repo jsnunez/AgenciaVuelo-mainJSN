@@ -1,6 +1,5 @@
 package com.agencia.reserva.application;
 
-import com.agencia.reserva.domain.entity.Reserva;
 import com.agencia.reserva.domain.service.ReservaServiceOlf;
 
 public class DeleteDetalleReserva {
