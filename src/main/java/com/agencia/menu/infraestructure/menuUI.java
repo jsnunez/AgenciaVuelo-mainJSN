@@ -46,6 +46,13 @@ import com.agencia.reserva.infraestructure.in.ReservaController;
 import com.agencia.reserva.infraestructure.in.vueloController;
 import com.agencia.reserva.infraestructure.out.ReservaRepository;
 import com.agencia.reserva.infraestructure.out.vueloRepository;
+import com.agencia.revision.application.CreateRevisionUseCase;
+import com.agencia.revision.application.DeleteRevisionUseCase;
+import com.agencia.revision.application.FindRevisionUseCase;
+import com.agencia.revision.application.UpdateRevisionUseCase;
+import com.agencia.revision.domain.service.RevisionService;
+import com.agencia.revision.infraestructure.RevisionController;
+import com.agencia.revision.infraestructure.RevisionRepository;
 import com.agencia.tarifa.application.FindTarifaUseCase;
 import com.agencia.tarifa.domain.service.TarifaService;
 import com.agencia.tarifa.infraestructure.in.TarifaController;
@@ -353,6 +360,40 @@ public class menuUI {
                 if (usuario.getRol() == 5) {
                     int opcionAdmin = menuTecnico();
                     System.out.println(opcionAdmin);
+                    switch (opcionAdmin) {
+                        case 1:
+                        // Registrar revision mantenimiento
+                        RevisionService revisionService = new RevisionRepository();
+                        CreateRevisionUseCase createRevisionUseCase = new CreateRevisionUseCase(revisionService);
+                        RevisionController revisionController = new RevisionController(createRevisionUseCase, null, null, null);
+                        revisionController.createRevision();                        
+                            break;
+
+                        case 2:
+                        // consulta historial revision
+                        RevisionService consultRevisionService=new RevisionRepository();
+                        FindRevisionUseCase findRevisionUseCase=new FindRevisionUseCase(consultRevisionService);
+                        RevisionController consultRevisionController=new RevisionController(null,null,findRevisionUseCase,null);
+                        consultRevisionController.findRevision();
+                            break;
+
+                        case 3:
+                        // Actualizar ifnromacion revision
+                        RevisionService actualizaRevisionService=new RevisionRepository();
+                        UpdateRevisionUseCase updateRevisionUseCase=new UpdateRevisionUseCase(actualizaRevisionService);
+                        RevisionController actualizaRevisionController=new RevisionController(null,updateRevisionUseCase,null,null);
+                        actualizaRevisionController.updateRevision();
+                            break;
+
+                        case 4:
+                        // Eliminar revision mantenimiento
+                        RevisionService elimRevisionService=new RevisionRepository();
+                        DeleteRevisionUseCase deleteRevisionUseCase=new DeleteRevisionUseCase(elimRevisionService);
+                        RevisionController elimController=new RevisionController(null,null,null,deleteRevisionUseCase);
+                        elimController.deleteRevision();
+                            break;
+                        
+                    }
                 }
 
             }
