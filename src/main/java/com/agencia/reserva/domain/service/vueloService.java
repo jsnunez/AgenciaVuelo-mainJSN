@@ -26,6 +26,9 @@ public interface vueloService {
     List<TipoDocumento> buscarTipoDocumento();
     int crearReservaDetalle(DetalleReserva detalleReserva);
     List<String> sillasVacias(int idConexion);
+    //Metodo elimiinar asiento
+    void eliminarAsientoPago(int id);
+    
 
 
 }
