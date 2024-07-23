@@ -118,10 +118,36 @@ public class menuUI {
                                 reservaController.findReservaAgente();
                         break;
                     case 3:// "Cancelar Reserva de Vuelo
+                    reservaRepository = new ReservaRepository();
 
+                        createReservaAgenteUseCase = new CreateReservaAgenteUseCase(
+                                reservaRepository);
+                        findReservaAgenteUseCase = new FindReservaAgenteUseCase(
+                                reservaRepository);
+                        deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
+                                reservaRepository);
+                        cancelReservaClienteUseCase = new CancelReservaClienteUseCase(
+                                reservaRepository);
+                        reservaController = new ReservaController(createReservaAgenteUseCase,
+                                findReservaAgenteUseCase,
+                                deleteReservaAgenteUseCase, cancelReservaClienteUseCase);
+                    reservaController.deleteReservaAgente();
                         break;
-                    case 4:// "Cancelar Reserva de Vuelo
+                    case 4:// "modificar reserva
+                    reservaRepository = new ReservaRepository();
 
+                    createReservaAgenteUseCase = new CreateReservaAgenteUseCase(
+                            reservaRepository);
+                    findReservaAgenteUseCase = new FindReservaAgenteUseCase(
+                            reservaRepository);
+                    deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
+                            reservaRepository);
+                    cancelReservaClienteUseCase = new CancelReservaClienteUseCase(
+                            reservaRepository);
+                    reservaController = new ReservaController(createReservaAgenteUseCase,
+                            findReservaAgenteUseCase,
+                            deleteReservaAgenteUseCase, cancelReservaClienteUseCase);
+                    // reservaController.updateClienteCase();
                         break;
                     default:
                         break;

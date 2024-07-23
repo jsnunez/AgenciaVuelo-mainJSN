@@ -143,14 +143,19 @@ JOptionPane.showConfirmDialog(null, panelBuscarReserva, "ingrese datos del usuar
     }
     
     public void deleteReservaAgente() {
-        System.out.println("ingrese id reserva eliminar");
-        int idReservaAgente = scanner.nextInt();
-        scanner.nextLine();
+
+        
+
+    String idReservaAgente = JOptionPane.showInputDialog("ingrese id reserva eliminar:");
+        // System.out.println("ingrese id reserva eliminar");
+        // int idReservaAgente = scanner.nextInt();
+        // scanner.nextLine();
 
         Reserva elimina = new Reserva();
-        elimina.setId(idReservaAgente);
+        elimina.setId(Integer.parseInt(idReservaAgente));
         deleteReservaAgenteUseCase.execute(elimina);
-        System.out.println("Reserva eliminada con éxito");
+        JOptionPane.showMessageDialog(null, "Reserva eliminada con éxito:");
+        // System.out.println("Reserva eliminada con éxito");
 
     }
     
