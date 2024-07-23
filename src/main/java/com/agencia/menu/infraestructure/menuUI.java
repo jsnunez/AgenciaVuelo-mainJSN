@@ -161,7 +161,7 @@ public class menuUI {
                         reservaController = new ReservaController(createReservaAgenteUseCase,
                                 findReservaAgenteUseCase,
                                 deleteReservaAgenteUseCase, cancelReservaClienteUseCase);
-                    reservaController.deleteReservaAgente();
+                    reservaController.cancelarReserva();
                         break;
                     case 4:// "modificar reserva
                     reservaRepository = new ReservaRepository();
