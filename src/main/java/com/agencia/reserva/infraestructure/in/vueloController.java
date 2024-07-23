@@ -95,7 +95,7 @@ public class vueloController {
     int idReserva;
     int idDetalleReserva = 0;
     List<Escala> escalas = findEscalaUseCase.execute(Integer.valueOf(Idvuelo));
-
+    List<Integer> listIdDetalleReserva =new ArrayList<>();;
     if (escalas.isEmpty()) {
       System.out.println(escalas);
       // escalas.forEach(escala -> System.out.println(escala.getId()));
@@ -132,6 +132,8 @@ public class vueloController {
       detalleReserva.setIdPasajero(idPasajero);
       idDetalleReserva = crearReservaDetalleUseCase.execute(detalleReserva);
       detalleReserva.setId(idDetalleReserva);
+      listIdDetalleReserva.add(idDetalleReserva);
+ 
       System.out.println("cantidad" + escalas.size());
       int sillaseleccionada;
 
@@ -148,7 +150,10 @@ public class vueloController {
 
       yesOrNo = JOptionPane.showConfirmDialog(null, "Desea agregar un nuevo pasajero?");
       if (yesOrNo == JOptionPane.CANCEL_OPTION) {
-        eliminarAsientoPorPagoUseCase.execute(idDetalleReserva);
+        for (Integer id : listIdDetalleReserva) {
+          eliminarAsientoPorPagoUseCase.execute(id);
+
+        }
         deleteDetalleReserva.execute(idReserva);
         Reserva reserva = new Reserva();
         reserva.setId(idReserva);

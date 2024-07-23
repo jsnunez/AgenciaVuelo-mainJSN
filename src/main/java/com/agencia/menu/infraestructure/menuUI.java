@@ -63,10 +63,9 @@ public class menuUI {
                 int opcionCliente = menuCliente();
                 System.out.println(opcionCliente);
                 switch (opcionCliente) {
-                    case 1:
+                    case 1:// "Buscar Vuelos"
                         EscalaRepository escalaRepository = new EscalaRepository();
                         vueloService vueloService = new vueloRepository();
-
                         ReservaRepository reservaRepository = new ReservaRepository();
                         FindEscalaUseCase findEscalaUseCase = new FindEscalaUseCase(escalaRepository);
                         ConsultvueloUseCase consultvueloUseCase = new ConsultvueloUseCase(vueloService);
@@ -93,10 +92,13 @@ public class menuUI {
                                 deleteReservaAgenteUseCase, deleteDetalleReserva, eliminarAsientoPorPagoUseCase);
                         consoleAdapterVuelo.buscar();
                         break;
-                    case 2:
+                    case 2:// "Consultar Reserva de Vuelo"
 
                         break;
-                    case 3:
+                    case 3:// "Cancelar Reserva de Vuelo
+
+                        break;
+                    case 4:// "Cancelar Reserva de Vuelo
 
                         break;
                     default:
