@@ -2,6 +2,8 @@ package com.agencia.tipoDocumento.infraestructure;
 
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import com.agencia.tipoDocumento.application.CreateTipoDocumentoUseCase;
 import com.agencia.tipoDocumento.application.DeleteTipoDocumentoUseCase;
 import com.agencia.tipoDocumento.application.FindTipoDocumentoUseCase;
@@ -15,100 +17,109 @@ public class TipoDocumentoController {
     private final DeleteTipoDocumentoUseCase deleteTipoDocumentoUseCase;
     private final FindTipoDocumentoUseCase findTipoDocumentoUseCase;
 
-    public TipoDocumentoController(CreateTipoDocumentoUseCase createTipoDocumentoUseCase, UpdateTipoDocumentoUseCase updateTipoDocumentoUseCase,
-    DeleteTipoDocumentoUseCase deleteTipoDocumentoUseCase, FindTipoDocumentoUseCase findTipoDocumentoUseCase) {
+    public TipoDocumentoController(CreateTipoDocumentoUseCase createTipoDocumentoUseCase,
+            UpdateTipoDocumentoUseCase updateTipoDocumentoUseCase,
+            DeleteTipoDocumentoUseCase deleteTipoDocumentoUseCase, FindTipoDocumentoUseCase findTipoDocumentoUseCase) {
         this.createTipoDocumentoUseCase = createTipoDocumentoUseCase;
         this.updateTipoDocumentoUseCase = updateTipoDocumentoUseCase;
-        this.deleteTipoDocumentoUseCase=deleteTipoDocumentoUseCase;
+        this.deleteTipoDocumentoUseCase = deleteTipoDocumentoUseCase;
         this.findTipoDocumentoUseCase = findTipoDocumentoUseCase;
     }
-    
 
-    Scanner scanner = new Scanner(System.in);
+    // Scanner scanner = new Scanner(System.in);
 
-    public void gestionTipoDocumento() {
-        while (true) {
-            System.out.println("1. crear tipo documento");
-            System.out.println("2. Modificar tipo documento");
-            System.out.println("3. Eliminar tipo documento");
-            System.out.println("4. Buscar documento");
-            System.out.println("5. Salir");
+    // public void gestionTipoDocumento() {
+    // while (true) {
+    // System.out.println("1. crear tipo documento");
+    // System.out.println("2. Modificar tipo documento");
+    // System.out.println("3. Eliminar tipo documento");
+    // System.out.println("4. Buscar documento");
+    // System.out.println("5. Salir");
 
-            int opcion = scanner.nextInt();
-            scanner.nextLine();
+    // int opcion = scanner.nextInt();
+    // scanner.nextLine();
 
-            switch (opcion) {
-                case 1:
-                    createTipoDocumento();
-                    break;
-                case 2:
-                    updateTipoDocumento();
-                    break;
-                case 3: 
-                deleteTipoDocumento();
-                break;
+    // switch (opcion) {
+    // case 1:
+    // createTipoDocumento();
+    // break;
+    // case 2:
+    // updateTipoDocumento();
+    // break;
+    // case 3:
+    // deleteTipoDocumento();
+    // break;
 
-                case 4:
-                findIdtipoDocumento();
-                break;
+    // case 4:
+    // findIdtipoDocumento();
+    // break;
 
-                default:
-                    break;
-            }
+    // default:
+    // break;
+    // }
 
-        }
+    // }
 
-    }
+    // }
 
     public void createTipoDocumento() {
-        System.out.print(" ingrese nombre de documento: ");
-        String nombre = scanner.nextLine();
+        String imputNombre = JOptionPane.showInputDialog(null, "Ingrese Nombre de documento");
 
         TipoDocumento tipoDocumento = new TipoDocumento();
-        tipoDocumento.setNombre(nombre);
+        tipoDocumento.setNombre(imputNombre);
         createTipoDocumentoUseCase.execute(tipoDocumento);
-
-        System.out.println("creado siuuuuuuuu");
-    }
-    public void updateTipoDocumento(){
-        System.out.println("Ingrese el id del documento a modificar");
-        int idUpdtTipoDocumento = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Ingrese nuevo nombre del documento");
-        String nombreupdtTipoDocumento = scanner.nextLine();
-
-        TipoDocumento updttipoDocumento=new TipoDocumento();
-        updttipoDocumento.setId(idUpdtTipoDocumento);
-        updttipoDocumento.setNombre(nombreupdtTipoDocumento);
-
-        updateTipoDocumentoUseCase.execute(updttipoDocumento);
-
-    }
-    public void deleteTipoDocumento(){
-        System.out.println("Ingrese el id del documento a eliminar");
-        int idDeleteTipoDocumento = scanner.nextInt();
-        scanner.nextLine();
-
-        TipoDocumento deletTipoDocumento=new TipoDocumento();
-        deletTipoDocumento.setId(idDeleteTipoDocumento);
-
-        deleteTipoDocumentoUseCase.execute(deletTipoDocumento);
     }
 
-    public void findIdtipoDocumento(){
-        System.out.println("Ingrese id a consultar");
-        int idfindTipoDocumento=scanner.nextInt();
-        scanner.nextLine();
+    public void updateTipoDocumento() {
 
-        TipoDocumento encontrar= findTipoDocumentoUseCase.execute(idfindTipoDocumento);
-        if(encontrar!= null){
-            System.out.println("Id: "+encontrar.getId());
-            System.out.println("Nombre: "+encontrar.getNombre());
+        String inputId = JOptionPane.showInputDialog(null, "Ingrese Id de documento");
+        int nuevoId = Integer.parseInt(inputId);
+
+        TipoDocumento tipoDocumentoExistente = new TipoDocumento();
+        tipoDocumentoExistente.setId(nuevoId);
+
+        if (tipoDocumentoExistente != null) {
+            String inputNombre = JOptionPane.showInputDialog(null, "ingrese nombre de documento");
+            TipoDocumento updttipoDocumento = new TipoDocumento();
+
+            updttipoDocumento.setId(nuevoId);
+            updttipoDocumento.setNombre(inputNombre);
+            updateTipoDocumentoUseCase.execute(updttipoDocumento);
+
+            JOptionPane.showMessageDialog(null, "Actualización creada");
 
         }
-        else {
-            System.out.println("No se encontro el tipo de documento");
+        JOptionPane.showMessageDialog(null, "Id no encontrado");
+
+    }
+
+    public void deleteTipoDocumento() {
+        String inputId = JOptionPane.showInputDialog(null, "Ingrese Id de documento");
+        int nuevoId = Integer.parseInt(inputId);
+
+        TipoDocumento documentExistente = new TipoDocumento();
+        documentExistente.setId(nuevoId);
+        if(documentExistente != null){
+            deleteTipoDocumentoUseCase.execute(documentExistente);
+            JOptionPane.showMessageDialog(null, "Eliminación realizada");
+        }
+
+        JOptionPane.showMessageDialog(null,"Id no encontrado");
+    }
+
+    public void findIdtipoDocumento() {
+        String inputId = JOptionPane.showInputDialog(null, "Ingrese Id de documento");
+        int nuevoId = Integer.parseInt(inputId);
+
+        TipoDocumento encontrar = findTipoDocumentoUseCase.execute(nuevoId);
+        if (encontrar != null) {
+            JOptionPane.showMessageDialog(null, String.format(
+                "Id: %d%nNombre: %s",
+                encontrar.getId(),
+                encontrar.getNombre()
+            ));
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el tipo de documento", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }

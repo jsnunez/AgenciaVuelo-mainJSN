@@ -1,13 +1,8 @@
 package com.agencia.reserva.infraestructure.in;
 
-import java.awt.GridLayout;
-import java.util.Scanner;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
+
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import com.agencia.reserva.application.CancelReservaClienteUseCase;
 import com.agencia.reserva.application.CreateReservaAgenteUseCase;
@@ -31,157 +26,150 @@ public class ReservaController {
         
     }
 
-    Scanner scanner = new Scanner(System.in);
+    // Scanner scanner = new Scanner(System.in);
 
-    public void gestionReserva(int opcion) {
-        while (true) {
-            // System.out.println("1. crear Reserva");
-            // System.out.println("2. Consultar resrva vuelo Agente");
-            // System.out.println("3. Eliminar tipo documento");
-            // System.out.println("4. Buscar documento");
-            // System.out.println("5. Salir");
+    // public void gestionReserva() {
+    //     while (true) {
+    //         System.out.println("1. crear Reserva");
+    //         System.out.println("2. Consultar resrva vuelo Agente");
+    //         System.out.println("3. Eliminar tipo documento");
+    //         System.out.println("4. Buscar documento");
+    //         System.out.println("5. Salir");
 
-            // int opcion = scanner.nextInt();
-            // scanner.nextLine();
+    //         int opcion = scanner.nextInt();
+    //         scanner.nextLine();
 
-            switch (opcion) {
-                case 1:
-                    createReserva();
-                    break;
-                case 2:
-                    findReservaAgente();
-                    break;
-                case 3:
-                    deleteReservaAgente();
-                break;
+    //         switch (opcion) {
+    //             case 1:
+    //                 createReserva();
+    //                 break;
+    //             case 2:
+    //                 findReservaAgente();
+    //                 break;
+    //             case 3:
+    //                 deleteReservaAgente();
+    //             break;
 
-                case 4:
-                cancelarReserva();
-                break;
+    //             case 4:
+    //             cancelarReserva();
+    //             break;
 
-                default:
-                    break;
-            }
+    //             default:
+    //                 break;
+    //         }
 
-        }
-    }
+    //     }
+    // }
 
     public void createReserva() {
-        System.out.println("ingrese fecha  AAAA-MM-DD");
-        String fechaInput = scanner.nextLine();
+       
+        String fechaInput = JOptionPane.showInputDialog(null,"Ingrese fecha AAAA-MM-DD");
 
-        System.out.println("Ingrese id vuelo");
-        int idVueloReservaAgente = scanner.nextInt();
-        scanner.nextLine();
 
-        System.out.println("ingrese ud cliente");
-        int idClienteReservaAgente = scanner.nextInt();
-        scanner.nextLine();
+        String inputIdVuelo = JOptionPane.showInputDialog(null,"Ingrese Id Vuelo Porfavor");
+        int idVueloReservaAgente=Integer.parseInt(inputIdVuelo);
+
+       
+        String inputCliente=JOptionPane.showInputDialog(null,"Ingrese id Cliente");
+        int idCliente=Integer.parseInt(inputCliente);
 
         Reserva reserva = new Reserva();
         reserva.setFechaReserva(fechaInput);
         reserva.setIdVuelo(idVueloReservaAgente);
-        reserva.setIdCliente(idClienteReservaAgente);
+        reserva.setIdCliente(idCliente);
         createReservaAgenteUseCase.execute(reserva);
+        JOptionPane.showMessageDialog(null,"Reserva Creada con exito");
 
     }
 
     public void findReservaAgente() {
         System.out.println("Ingrese id de la reserva");
-
-        JPanel panelIdReserva = new JPanel(new GridLayout(0, 2));
-        panelIdReserva.add(new JLabel("Seleccione Id reserva:"));
-  JTextField idReservaField = new JTextField();
-  panelIdReserva.add(idReservaField);
-  int result = JOptionPane.showConfirmDialog(null, panelIdReserva, "ingrese Id reserva",
-  JOptionPane.OK_CANCEL_OPTION,
-  JOptionPane.PLAIN_MESSAGE);
-int idReservaAgente=0;
-if (result == JOptionPane.OK_OPTION) {
-    idReservaAgente = Integer.parseInt(idReservaField.getText());
-
-}
-
-        // int idReservaAgente = scanner.nextInt();
-        // scanner.nextLine();
-
-
-        Reserva reserva = findReservaAgenteUseCase.execute(idReservaAgente);
+        String inputIdReserva = JOptionPane.showInputDialog(null,"Ingrese id de la reserva porfavor");
+        int idReserva=Integer.parseInt(inputIdReserva);
+        
+        Reserva reserva = findReservaAgenteUseCase.execute(idReserva);
         if (reserva != null) {
-
-
-    JPanel panelBuscarReserva = new JPanel(new GridLayout(0, 2));
-    // JPanel panel = new JPanel(new GridLayout(0, 2));
-    panelBuscarReserva.add(new JLabel("Id:"));
-    panelBuscarReserva.add(new JLabel(String. valueOf(reserva.getId())));
-    panelBuscarReserva.add(new JLabel("Fecha:"));
-    panelBuscarReserva.add(new JLabel(reserva.getFechaReserva()));
-    panelBuscarReserva.add(new JLabel("Aeropuerto Origen:"));
-    panelBuscarReserva.add(new JLabel(reserva.getAeropuertoOrigen()));
-    panelBuscarReserva.add(new JLabel("Aeropuerto Destino:"));
-    panelBuscarReserva.add(new JLabel( reserva.getAeropuertoDestino()));
-    panelBuscarReserva.add(new JLabel("Precio Vuelo:"));
-    panelBuscarReserva.add(new JLabel(String. valueOf(reserva.getPrecio())));
-    panelBuscarReserva.add(new JLabel("Estado Reserva:"));
-    panelBuscarReserva.add(new JLabel(reserva.getEstado()));
-
-JOptionPane.showConfirmDialog(null, panelBuscarReserva, "ingrese datos del usuario",
-        JOptionPane.OK_CANCEL_OPTION,
-        JOptionPane.PLAIN_MESSAGE);
-            // System.out.println("Id" + reserva.getId());
-            // System.out.println("Fecha: " + reserva.getFechaReserva());
-            // System.out.println("Aeropuerto Origen"+ reserva.getAeropuertoOrigen());
-            // System.out.println("Aeropuerto Destino: " + reserva.getAeropuertoDestino());
-            // System.out.println("Nombre Cliente"+ reserva.getNombreCliente());
-            // System.out.println("Precio Vuelo"+ reserva.getPrecio());
-            // System.out.println("Estado Reserva "+ reserva.getEstado());
+            String mensaje = String.format(
+                    "Id: %d%n" +
+                    "Fecha: %s%n" +
+                    "Aeropuerto Origen: %s%n" +
+                    "Aeropuerto Destino: %s%n" +
+                    "Nombre Cliente: %s%n" +
+                    "Precio Vuelo: %.2f%n" +
+                    "Estado Reserva: %s",
+                    reserva.getId(),
+                    reserva.getFechaReserva(),
+                    reserva.getAeropuertoOrigen(),
+                    reserva.getAeropuertoDestino(),
+                    reserva.getNombreCliente(),
+                    reserva.getPrecio(),
+                    reserva.getEstado()
+                );
             
-        } else {
-            System.out.println("Reserva no encontrada");
-        }
+                JOptionPane.showMessageDialog(null, mensaje, "Detalles de la Reserva", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                
+                JOptionPane.showMessageDialog(null, "Reserva no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
     }
     
     public void deleteReservaAgente() {
+        System.out.println("ingrese id reserva eliminar");
+        String inputidReservaString = JOptionPane.showInputDialog(null,"Ingrese Id de Reserva a eliminar ");
+        int idReservaEliminar=Integer.parseInt(inputidReservaString);        
 
+        //Reserva elimina = new Reserva();
+        Reserva reserva=findReservaAgenteUseCase.execute(idReservaEliminar);
+        if (reserva != null) {
+            deleteReservaAgenteUseCase.execute(reserva);
+            JOptionPane.showMessageDialog(null,"Reserva Eliminada con éxito");
+        } else{
+            JOptionPane.showMessageDialog(null, "Reserva no encontrada");
+        }
+        //elimina.setId(idReservaEliminar);
         
-
-    String idReservaAgente = JOptionPane.showInputDialog("ingrese id reserva eliminar:");
-        // System.out.println("ingrese id reserva eliminar");
-        // int idReservaAgente = scanner.nextInt();
-        // scanner.nextLine();
-
-        Reserva elimina = new Reserva();
-        elimina.setId(Integer.parseInt(idReservaAgente));
-        deleteReservaAgenteUseCase.execute(elimina);
-        JOptionPane.showMessageDialog(null, "Reserva eliminada con éxito:");
-        // System.out.println("Reserva eliminada con éxito");
 
     }
     
     public void cancelarReserva() {
         System.out.println("ingrese id reserva cancelar");
-        int idReservaAgente = scanner.nextInt();
-        scanner.nextLine();
+        String inputReservaAgente = JOptionPane.showInputDialog(null,"Ingrese ID de la reserva a eliminar");
+        int idReservaAgente=Integer.parseInt(inputReservaAgente);
+
+        //Reserva cancela = new Reserva();
         Reserva reserva=findReservaAgenteUseCase.execute(idReservaAgente);
         if (reserva != null) {
-            System.out.println("Detalles de la Reserva:");
-            System.out.println("ID: " + reserva.getId());
-            System.out.println("Fecha: " + reserva.getFechaReserva());
-            System.out.println("Aeropuerto Origen: " + reserva.getAeropuertoOrigen());
-            System.out.println("Aeropuerto Destino: " + reserva.getAeropuertoDestino());
-            System.out.println("Nombre Cliente: " + reserva.getNombreCliente());
-            System.out.println("Precio Vuelo: " + reserva.getPrecio());
-            System.out.println("Estado Reserva: " + reserva.getEstado());
-            System.out.println("¿Está seguro de que desea cancelar esta reserva? (S/N)");
-            String confirmacion = scanner.nextLine();
-            if (confirmacion.equalsIgnoreCase("S")) {
+            JOptionPane.showConfirmDialog(null, "Detalles de la reserva:");
+            String mensaje=String.format(
+                "Id: %d%n" +
+                "Fecha: %s%n" +
+                "Aeropuerto Origen: %s%n" +
+                "Aeropuerto Destino: %s%n" +
+                "Nombre Cliente: %s%n" +
+                "Precio Vuelo: %.2f%n" +
+                "Estado Reserva: %s",
+                    reserva.getId(),
+                    reserva.getFechaReserva(),
+                    reserva.getAeropuertoOrigen(),
+                    reserva.getAeropuertoDestino(),
+                    reserva.getNombreCliente(),
+                    reserva.getPrecio(),
+                    reserva.getEstado()
+                );
+            JOptionPane.showMessageDialog(null, mensaje, "Detalles de la Reserva", JOptionPane.INFORMATION_MESSAGE);
+            
+            // confirmacion
+            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea cancelar esta reserva?", "Confirmar Cancelación", JOptionPane.YES_NO_OPTION);
+            if (confirmacion == JOptionPane.YES_OPTION) {
                 cancelReservaClienteUseCase.execute(reserva);
-            } else {
-                System.out.println("Cancelación de la reserva abortada.");
-            }
+                JOptionPane.showMessageDialog(null,"Reserva Cancelada con éxito");
+            }else{
+                JOptionPane.showMessageDialog(null,"No se realizó cancelación");
+            }        
+            
         } else {
-            System.out.println("Reserva no encontrada.");
+            JOptionPane.showMessageDialog(null,"Reserva no encontrada");
         }
         
     }
