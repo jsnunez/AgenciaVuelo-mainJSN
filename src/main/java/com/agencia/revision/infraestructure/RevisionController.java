@@ -2,21 +2,22 @@ package com.agencia.revision.infraestructure;
 
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import com.agencia.revision.application.CreateRevisionUseCase;
 import com.agencia.revision.application.DeleteRevisionUseCase;
 import com.agencia.revision.application.FindRevisionUseCase;
 import com.agencia.revision.application.UpdateRevisionUseCase;
 import com.agencia.revision.domain.entity.Revision;
 
-public class RevisionController{
+public class RevisionController {
     private final CreateRevisionUseCase createRevisionUseCase;
     private final UpdateRevisionUseCase updateRevisionUseCase;
     private final FindRevisionUseCase findRevisionUseCase;
     private final DeleteRevisionUseCase deleteRevisionUseCase;
 
-    
-
-    public RevisionController(CreateRevisionUseCase createRevisionUseCase, UpdateRevisionUseCase updateRevisionUseCase, FindRevisionUseCase findRevisionUseCase, DeleteRevisionUseCase deleteRevisionUseCase) {
+    public RevisionController(CreateRevisionUseCase createRevisionUseCase, UpdateRevisionUseCase updateRevisionUseCase,
+            FindRevisionUseCase findRevisionUseCase, DeleteRevisionUseCase deleteRevisionUseCase) {
         this.createRevisionUseCase = createRevisionUseCase;
         this.updateRevisionUseCase = updateRevisionUseCase;
         this.findRevisionUseCase = findRevisionUseCase;
@@ -24,150 +25,136 @@ public class RevisionController{
 
     }
 
-    Scanner scanner = new Scanner(System.in);
+    // Scanner scanner = new Scanner(System.in);
 
-    public void gestionRevision(){
+    // public void gestionRevision(){
 
+    // while(true){
+    // System.out.println("1. Crear Revision: ");
+    // System.out.println("2. Borrar Revision: ");
+    // System.out.println("3. Encontrar Revision: ");
+    // System.out.println("4. Actualizar Revision: ");
+    // System.out.println("5. Salir: ");
 
-        while(true){
-            System.out.println("1. Crear Revision: ");
-            System.out.println("2. Borrar Revision: ");
-            System.out.println("3. Encontrar Revision: ");
-            System.out.println("4. Actualizar Revision: ");
-            System.out.println("5. Salir: ");
-            
-            int opcion = scanner.nextInt();
-            scanner.nextLine();
+    // int opcion = scanner.nextInt();
+    // scanner.nextLine();
 
-            switch (opcion) {
-                case 1:
+    // switch (opcion) {
+    // case 1:
 
-                    createRevision();
-                    break;
+    // createRevision();
+    // break;
 
-                case 2:
-                    deleteRevision();
-                    break;
+    // case 2:
+    // deleteRevision();
+    // break;
 
+    // case 3:
+    // findRevision();
+    // break;
 
-                case 3:
-                    findRevision();
-                    break;
+    // case 4:
+    // updateRevision();
+    // break;
+    // }
+    // }
+    // }
 
-                case 4:
-                    updateRevision();
-                    break;
-            }
-        }
-    }
-
-    public void createRevision(){
+    public void createRevision() {
 
         System.out.println("Ingrese la fecha de la revisión (YYYY-MM-DD):");
-        String fechaRevision = scanner.nextLine();
-        
+        String inputFecha = JOptionPane.showInputDialog(null, "Ingrese fecha de la revisión YYYY-MM-DD");
+
         System.out.println("Ingrese el ID del avion:");
-        int idAvion = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salto de línea después de nextInt
-        
-        System.out.print("Ingrese la descripción de la revisión ");
-        String descripcion = scanner.nextLine();
-        
-        System.out.print("Ingrese el id del empleado: ");
-        int idEmpleado = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salto de línea después de nextInt
+        String inputIdAvion = JOptionPane.showInputDialog(null, "Ingrese Id del avión");
+        int idAvion = Integer.parseInt(inputIdAvion);
+
+        String inputDescripcion = JOptionPane.showInputDialog(null, "Ingrese Descripcion de la revisión");
+
+        String inputIdEmpleado = JOptionPane.showInputDialog(null, "Ingrese Id del empleado");
+        int idEmpleado = Integer.parseInt(inputIdEmpleado);
 
         Revision revision = new Revision();
 
-        revision.setFechaRevision(fechaRevision);
+        revision.setFechaRevision(inputFecha);
         revision.setIdAvion(idAvion);
-        revision.setDescripcion(descripcion);
+        revision.setDescripcion(inputDescripcion);
         revision.setIdEmpleado(idEmpleado);
 
         createRevisionUseCase.execute(revision);
-        System.out.println("Revision creada exitosamente. ");
+        JOptionPane.showMessageDialog(null, "Revisión Registrada con exito");
 
     }
 
-    public void findRevision(){
+    public void findRevision() {
 
-        System.out.println("Cuál es el id de la revisión que desea consultar: ");
-        int idRevision = scanner.nextInt();
-        scanner.nextLine();
+        String inputIdConsulta = JOptionPane.showInputDialog(null, "Ingrese el id de la revisión a a consultar:");
+        int idRevision = Integer.parseInt(inputIdConsulta);
 
         Revision foundRevision = findRevisionUseCase.execute(idRevision);
 
-        if(foundRevision != null){
-            System.out.println("Revision id: " + foundRevision.getId());
-            System.out.println("Fecha revisión: " + foundRevision.getFechaRevision());
-            System.out.println("ID Avión: " + foundRevision.getIdAvion());
-            System.out.println("Descripción de la revisión: " + foundRevision.getDescripcion());
-            System.out.println("ID empleado encargado: " + foundRevision.getIdEmpleado());
-           
-        }
-        else{
-            System.out.println("Revisión no encontrada c:");
+        if (foundRevision != null) {
+            String mensaje = String.format(
+                    "Revision id: %d\n" +
+                            "Fecha revisión: %s\n" +
+                            "ID Avión: %d\n" +
+                            "Descripción de la revisión: %s\n" +
+                            "ID empleado encargado: %d\n",
+                    foundRevision.getId(),
+                    foundRevision.getFechaRevision(),
+                    foundRevision.getIdAvion(),
+                    foundRevision.getDescripcion(),
+                    foundRevision.getIdEmpleado());
+            JOptionPane.showMessageDialog(null, mensaje, "Detalle de revision", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Id no encontrado");
         }
 
     }
 
+    public void updateRevision() {
 
-    public void updateRevision(){
+        String inputIdConsulta = JOptionPane.showInputDialog(null, "Ingrese el id de la revisión ha actualizar");
+        int revisionUpdate = Integer.parseInt(inputIdConsulta);
 
+        Revision revisionExistente = new Revision();
+        revisionExistente.setId(revisionUpdate);
+        if (revisionExistente != null) {
+            String inputFecha = JOptionPane.showInputDialog(null, "ingrese nueva fecha AAAA-MM-DD");
 
-        System.out.println("Ingrese el id de la revisión que desea actualizar: ");
-        int revisionUpdate = scanner.nextInt();
-        scanner.nextLine();
+            String inputIdAvion = JOptionPane.showInputDialog(null, "Agregue el id del avión");
+            int nuevoidAvion = Integer.parseInt(inputIdAvion);
 
-        System.out.println("Ingrese la nueva fecha de la revisión: ");
-        String nuevaFecha = scanner.nextLine();
+            String nuevaDescripcion = JOptionPane.showInputDialog(null, "ingrese descripcion de la revision");
 
-        System.out.println("Ingrese el nuevo ID del avión: ");
-        int nuevoAvion = scanner.nextInt();
-        scanner.nextLine();
+            String inputIdNuevoEmpleado = JOptionPane.showInputDialog(null, "Ingrse nuevo id Empleado");
+            int nuevoEmpleado = Integer.parseInt(inputIdNuevoEmpleado);
 
-        System.out.println("Ingrese la nueva descripción de la revisión: ");
-        String nuevaDescripcion = scanner.nextLine();
+            Revision newRevision = new Revision();
+            newRevision.setId(revisionUpdate);
+            newRevision.setFechaRevision(inputFecha);
+            newRevision.setIdAvion(nuevoidAvion);
+            newRevision.setDescripcion(nuevaDescripcion);
+            newRevision.setIdEmpleado(nuevoEmpleado);
 
-        System.out.println("Ingrese el nuevo ID del empleado: ");
-        int nuevoEmpleado = scanner.nextInt();
+            updateRevisionUseCase.execute(newRevision);
+            JOptionPane.showMessageDialog(null,"REvision actualizada");
 
-        Revision newRevision = new Revision();
-
-        newRevision.setId(revisionUpdate);
-        newRevision.setFechaRevision(nuevaFecha);
-        newRevision.setIdAvion(nuevoAvion);
-        newRevision.setDescripcion(nuevaDescripcion);
-        newRevision.setIdEmpleado(nuevoEmpleado);
-
-        updateRevisionUseCase.execute(newRevision);
-
-    }
-
-
-    public void deleteRevision(){
-        System.out.println("Ingrese el id para eliminar la revisión: ");
-        int deleteRevision = scanner.nextInt();
-        scanner.nextLine();
-
-        deleteRevisionUseCase.execute(deleteRevision);
-
-        if(deleteRevisionUseCase != null){
-            System.out.println("Revisión eliminada");
-        }else{
-            System.out.println("Revisión no eliminada");
         }
     }
 
+    public void deleteRevision() {
 
+        String inputIdElim=JOptionPane.showInputDialog(null,"Ingrese id de la revisión a eliminar");
+        int idDelete=Integer.parseInt(inputIdElim);
 
+        deleteRevisionUseCase.execute(idDelete);
 
-
-
+        if (deleteRevisionUseCase != null) {
+            JOptionPane.showMessageDialog(null, "Revisión eliminada");
+        } else {
+            JOptionPane.showMessageDialog(null, "Revisión no encontrada");
+        }
+    }
 
 }
-
-
-
-
-
