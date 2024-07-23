@@ -18,12 +18,14 @@ import com.agencia.reserva.application.BuscarCiudades;
 import com.agencia.reserva.application.BuscarSillasOcupadas;
 import com.agencia.reserva.application.BuscarTiposDocumentos;
 import com.agencia.reserva.application.BuscarvuelosUseCase;
+import com.agencia.reserva.application.ConsultaPrecioUseCase;
 import com.agencia.reserva.application.ConsultvueloUseCase;
 import com.agencia.reserva.application.CrearReservaDetalleUseCase;
 import com.agencia.reserva.application.CrearReservaUseCase;
 import com.agencia.reserva.application.DeleteDetalleReserva;
 import com.agencia.reserva.application.DeleteReservaAgenteUseCase;
 import com.agencia.reserva.application.EliminarAsientoPorPagoUseCase;
+import com.agencia.reserva.application.PagoUseCase;
 import com.agencia.reserva.application.VerificarPasajero;
 import com.agencia.reserva.domain.service.vueloService;
 import com.agencia.reserva.infraestructure.in.vueloController;
@@ -78,6 +80,9 @@ public class menuUI {
                         DeleteDetalleReserva deleteDetalleReserva = new DeleteDetalleReserva(reservaRepository);
                         EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase = new EliminarAsientoPorPagoUseCase(
                                 vueloService);
+                        PagoUseCase pagoUseCase=new PagoUseCase(vueloService);
+                        ConsultaPrecioUseCase consultaPrecioUseCase=new ConsultaPrecioUseCase(vueloService);
+
                         // BuscarTiposDocumentos buscarTiposDocumentos = new
                         // BuscarTiposDocumentos(vueloService);
                         AsignarsillaUseCase asignarSillaUseCase = new AsignarsillaUseCase(vueloService);
@@ -89,7 +94,7 @@ public class menuUI {
                                 buscarvuelosUseCase, crearReservaUseCase, verificarPasajero, buscarTiposDocumentos,
                                 findEscalaUseCase, crearReservaDetalleUseCase, asignarSillaUseCase,
                                 buscarSillasOcupadas,
-                                deleteReservaAgenteUseCase, deleteDetalleReserva, eliminarAsientoPorPagoUseCase);
+                                deleteReservaAgenteUseCase, deleteDetalleReserva, eliminarAsientoPorPagoUseCase, consultaPrecioUseCase,pagoUseCase);
                         consoleAdapterVuelo.buscar();
                         break;
                     case 2:// "Consultar Reserva de Vuelo"
