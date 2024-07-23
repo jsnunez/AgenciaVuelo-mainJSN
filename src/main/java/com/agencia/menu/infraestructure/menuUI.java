@@ -76,8 +76,9 @@ public class menuUI {
                         VerificarPasajero verificarPasajero = new VerificarPasajero(vueloService);
                         DeleteReservaAgenteUseCase deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
                                 reservaRepository);
-                        DeleteDetalleReserva deleteDetalleReserva= new DeleteDetalleReserva(reservaRepository);        
-EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase = new EliminarAsientoPorPagoUseCase(vueloService);
+                        DeleteDetalleReserva deleteDetalleReserva = new DeleteDetalleReserva(reservaRepository);
+                        EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase = new EliminarAsientoPorPagoUseCase(
+                                vueloService);
                         // BuscarTiposDocumentos buscarTiposDocumentos = new
                         // BuscarTiposDocumentos(vueloService);
                         AsignarsillaUseCase asignarSillaUseCase = new AsignarsillaUseCase(vueloService);
@@ -120,88 +121,87 @@ EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase = new EliminarAsient
                     System.out.println(opcionAdmin);
                     switch (opcionAdmin) {
                         case 1:
-                           // registrarAvion();
+                            // registrarAvion();
                             break;
                         case 2:
-                           // asignarTripulacionATrayecto();
+                            // asignarTripulacionATrayecto();
                             break;
                         case 3:
-                           // consultarInformacionAvion();
+                            // consultarInformacionAvion();
                             break;
                         case 4:
-                          //  consultarInformacionTrayecto();
+                            // consultarInformacionTrayecto();
                             break;
                         case 5:
-                        //    registrarAeropuerto();
+                            // registrarAeropuerto();
                             break;
                         case 6:
-                          //  consultarInformacionAeropuerto();
+                            // consultarInformacionAeropuerto();
                             break;
                         case 7:
-                        //actualizarInformacionAvion();
+                            // actualizarInformacionAvion();
                             break;
                         case 8:
-                          //  eliminarAvion();
+                            // eliminarAvion();
                             break;
                         case 9:
-                  //          asignarAeronaveATrayecto();
+                            // asignarAeronaveATrayecto();
                             break;
                         case 10:
-                    //        actualizarInformacionTrayecto();
+                            // actualizarInformacionTrayecto();
                             break;
                         case 11:
-                        //    eliminarTrayecto();
+                            // eliminarTrayecto();
                             break;
                         case 12:
-                    //        actualizarInformacionAeropuerto();
+                            // actualizarInformacionAeropuerto();
                             break;
                         case 13:
-                     //       eliminarAeropuerto();
+                            // eliminarAeropuerto();
                             break;
                         case 14:
-                     //       consultarInformacionVuelo();
+                            // consultarInformacionVuelo();
                             break;
                         case 15:
-                      //      consultarAsignacionDeTripulacion();
+                            // consultarAsignacionDeTripulacion();
                             break;
                         case 16:
-                     //       consultarEscalasDeUnTrayecto();
+                            // consultarEscalasDeUnTrayecto();
                             break;
                         case 17:
-                   //         actualizarInformacionEscala();
+                            // actualizarInformacionEscala();
                             break;
                         case 18:
-                    //        eliminarEscala();
+                            // eliminarEscala();
                             break;
                         case 19:
-                    //        registrarTarifaDeVuelo();
+                            // registrarTarifaDeVuelo();
                             break;
                         case 20:
-                     //       actualizarInformacionTarifaDeVuelo();
+                            // actualizarInformacionTarifaDeVuelo();
                             break;
                         case 21:
-                   //         eliminarTarifaDeVuelo();
+                            // eliminarTarifaDeVuelo();
                             break;
                         case 22:
-                     //       consultarTarifaDeVuelo();
+                            // consultarTarifaDeVuelo();
                             break;
                         case 23:
-                     //       registrarTipoDeDocumento();
+                            // registrarTipoDeDocumento();
                             break;
                         case 24:
-                      //      actualizarTipoDeDocumento();
+                            // actualizarTipoDeDocumento();
                             break;
                         case 25:
-                        //    eliminarTipoDeDocumento();
+                            // eliminarTipoDeDocumento();
                             break;
                         case 26:
-                   //         consultarTipoDeDocumento();
+                            // consultarTipoDeDocumento();
                             break;
                         default:
                             System.out.println("Opción no válida.");
                             break;
                     }
-
 
                 }
                 if (usuario.getRol() == 4) {
@@ -321,33 +321,33 @@ EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase = new EliminarAsient
     private int menuAdministrador() {
 
         ArrayList<String> opcionesAdmin = new ArrayList<>();
-     
-        opcionesAdmin.add("Registrar Avión");                       //1
-        opcionesAdmin.add("Asignar Tripulación a Trayecto");        //2
-        opcionesAdmin.add("Consultar Información de Avión");        //3
-        opcionesAdmin.add("Consultar Información de Trayecto");     //4
-        opcionesAdmin.add("Registrar Aeropuerto");                  //5
-        opcionesAdmin.add("Consultar Información de Aeropuerto");   //6
-        opcionesAdmin.add("Actualizar Información de Avión");       //7
-        opcionesAdmin.add("Eliminar Avión");                        //8
-        opcionesAdmin.add("Asignar Aeronave a Trayecto");           //9
-        opcionesAdmin.add("Actualizar Información de Trayecto");    //10
-        opcionesAdmin.add("Eliminar Trayecto");                     //11
-        opcionesAdmin.add("Actualizar Información de Aeropuerto");  //12
-        opcionesAdmin.add("Eliminar Aeropuerto");                   //13
-        opcionesAdmin.add("Consultar Información de Vuelo");        //14
-        opcionesAdmin.add("Consultar Asignación de Tripulación");   //15
-        opcionesAdmin.add("Consultar Escalas de un Trayecto");      //16
-        opcionesAdmin.add("Actualizar Información de Escala");      //17
-        opcionesAdmin.add("Eliminar Escala");                       //18
-        opcionesAdmin.add("Registrar Tarifa de Vuelo");             //19
-        opcionesAdmin.add("Actualizar Información de Tarifa de Vuelo"); //20
-        opcionesAdmin.add("Eliminar Tarifa de Vuelo");              //21
-        opcionesAdmin.add("Consultar Tarifa de Vuelo");             //22
-        opcionesAdmin.add("Registrar Tipo de Documento");           //23
-        opcionesAdmin.add("Actualizar Tipo de Documento");          //24
-        opcionesAdmin.add("Eliminar Tipo de Documento");            //25
-        opcionesAdmin.add("Consultar Tipo de Documento");           //26
+
+        opcionesAdmin.add("Registrar Avión"); // 1
+        opcionesAdmin.add("Asignar Tripulación a Trayecto"); // 2
+        opcionesAdmin.add("Consultar Información de Avión"); // 3
+        opcionesAdmin.add("Consultar Información de Trayecto"); // 4
+        opcionesAdmin.add("Registrar Aeropuerto"); // 5
+        opcionesAdmin.add("Consultar Información de Aeropuerto"); // 6
+        opcionesAdmin.add("Actualizar Información de Avión"); // 7
+        opcionesAdmin.add("Eliminar Avión"); // 8
+        opcionesAdmin.add("Asignar Aeronave a Trayecto"); // 9
+        opcionesAdmin.add("Actualizar Información de Trayecto"); // 10
+        opcionesAdmin.add("Eliminar Trayecto"); // 11
+        opcionesAdmin.add("Actualizar Información de Aeropuerto"); // 12
+        opcionesAdmin.add("Eliminar Aeropuerto"); // 13
+        opcionesAdmin.add("Consultar Información de Vuelo"); // 14
+        opcionesAdmin.add("Consultar Asignación de Tripulación"); // 15
+        opcionesAdmin.add("Consultar Escalas de un Trayecto"); // 16
+        opcionesAdmin.add("Actualizar Información de Escala"); // 17
+        opcionesAdmin.add("Eliminar Escala"); // 18
+        opcionesAdmin.add("Registrar Tarifa de Vuelo"); // 19
+        opcionesAdmin.add("Actualizar Información de Tarifa de Vuelo"); // 20
+        opcionesAdmin.add("Eliminar Tarifa de Vuelo"); // 21
+        opcionesAdmin.add("Consultar Tarifa de Vuelo"); // 22
+        opcionesAdmin.add("Registrar Tipo de Documento"); // 23
+        opcionesAdmin.add("Actualizar Tipo de Documento"); // 24
+        opcionesAdmin.add("Eliminar Tipo de Documento"); // 25
+        opcionesAdmin.add("Consultar Tipo de Documento"); // 26
         JComboBox<String> comboBoxMenuAdmin = new JComboBox<>(opcionesAdmin.toArray(new String[0]));
         JPanel panelTipoUser = new JPanel(new GridLayout(0, 1));
         panelTipoUser.add(new JLabel("menu administrador:"));
