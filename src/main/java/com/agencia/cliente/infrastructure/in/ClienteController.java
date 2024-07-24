@@ -1,8 +1,11 @@
 package com.agencia.cliente.infrastructure.in;
 
+import java.awt.GridLayout;
 import java.sql.SQLException;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.agencia.cliente.aplication.CreateClienteCase;
 import com.agencia.cliente.aplication.DeleteClienteCase;
@@ -17,9 +20,9 @@ public class ClienteController {
     private DeleteClienteCase deleteClienteCase;
     private UpdateClienteCase updateClienteCase;
 
-    public ClienteController(CreateClienteCase createClienteCase, 
-                             FindClienteCase findClienteCase, DeleteClienteCase deleteClienteCase, 
-                             UpdateClienteCase updateClienteCase) {
+    public ClienteController(CreateClienteCase createClienteCase,
+            FindClienteCase findClienteCase, DeleteClienteCase deleteClienteCase,
+            UpdateClienteCase updateClienteCase) {
         this.createClienteCase = createClienteCase;
         this.findClienteCase = findClienteCase;
         this.deleteClienteCase = deleteClienteCase;
@@ -69,13 +72,20 @@ public class ClienteController {
         Cliente cliente = findClienteCase.execute(id);
 
         if (cliente != null) {
-            System.out.println("Id: " + cliente.getId());
-            System.out.println("Nombre: " + cliente.getNombre());
-            System.out.println("Edad: " + cliente.getEdad());
-            System.out.println("ID Tipo Documento: " + cliente.getIdtipodocumento());
-            System.out.println("Número Documento: " + cliente.getNumerodocumento());
-            System.out.println("Rol: " + cliente.getRol());
-            System.out.println("Tipo Documento: "+cliente.getTipodocumento());
+            JPanel panel = new JPanel(new GridLayout(0, 2));
+            panel.add(new JLabel("ID cliente"));
+            panel.add(new JLabel(String.valueOf(cliente.getId())));
+            panel.add(new JLabel("Nombre cliente"));
+            panel.add(new JLabel(cliente.getNombre()));
+            panel.add(new JLabel("Edad cliente"));
+            panel.add(new JLabel(String.valueOf(cliente.getEdad())));
+            panel.add(new JLabel("ID Tipo Documento"));
+            panel.add(new JLabel(String.valueOf(cliente.getIdtipodocumento())));
+            panel.add(new JLabel("Número Documento"));
+            panel.add(new JLabel(cliente.getNumerodocumento()));
+            panel.add(new JLabel("Rol"));
+            panel.add(new JLabel(String.valueOf(cliente.getRol())));
+
         } else {
             JOptionPane.showMessageDialog(null, "Cliente no encontrado!");
         }
@@ -83,7 +93,14 @@ public class ClienteController {
 
     public void eliminar() throws SQLException {
         int id = Integer.parseInt(JOptionPane.showInputDialog("ID del cliente a eliminar:"));
-        deleteClienteCase.execute(id);
-        JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente!");
+        Cliente clienteExistente = findClienteCase.execute(id);
+        if (clienteExistente == null) {
+            JOptionPane.showMessageDialog(null, "Cliente no encontrado!");
+            return;
+        } else {
+            deleteClienteCase.execute(id);
+            JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente!");
+        }
+
     }
 }

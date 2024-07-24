@@ -1,6 +1,11 @@
 package com.agencia.trayecto.infraestructure;
 
-import java.util.Scanner;
+
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import java.awt.GridLayout;
 
 import com.agencia.trayecto.application.DeleteTrayectoUseCase;
 import com.agencia.trayecto.application.FindTrayectoUseCase;
@@ -18,87 +23,46 @@ public class TrayectoController {
         this.updateTrayectoUseCase = updateTrayectoUseCase;
         this.deleteTrayectoUseCase = deleteTrayectoUseCase;
     }
-
-
-    Scanner scanner = new Scanner(System.in);
-
-    public void gestionTrayecto(){
-
-        while (true) {
-            
-            System.out.println("1. Encontrar trayecto: ");
-            System.out.println("2. Actualizar trayecto: ");
-            System.out.println("3. Eliminar Trayecto");
-            System.out.println("3. Salir: ");
-
-            int opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (opcion) {
-                case 1:
-                    
-                    findTrayecto();
-
-                    break;
-                
-                case 2:
-
-                    updateTrayecto();
-
-                case 3:
-
-                    deleteTrayecto();
-
-                case 4: 
-
-                    return;
-
-                default:
-                    break;
-            }
-
-        }
-
-    }
-
     public void findTrayecto(){
-
-        System.out.println("Cuál es el id del trayecto que desea consultar: ");
-        int idTrayecto = scanner.nextInt();
-        scanner.nextLine();
+        String inputId=JOptionPane.showInputDialog(null, "ingrese id del trayecto a consultar");
+        int idTrayecto=Integer.parseInt(inputId);
 
         Trayecto foundTrayecto = findTrayectoUseCase.execute(idTrayecto);
 
         if(foundTrayecto != null){
-            System.out.println("Trayecto id: " + foundTrayecto.getId());
-            System.out.println("Trayecto fecha viaje: " + foundTrayecto.getFechaViaje());
-            System.out.println("Precio viaje trayecto: " + foundTrayecto.getPrecioViaje());
-            System.out.println("Aeropuerto Origen Trayecto: " + foundTrayecto.getIdOrigenAeropuerto());
-            System.out.println("Aeropuerto Destino Trayecto: " + foundTrayecto.getIdDestinoAeropuerto());
+            JPanel panel=new JPanel(new GridLayout(0,2));
+            panel.add(new JLabel("Trayecto id:"));
+            panel.add(new JLabel(String.valueOf(foundTrayecto.getId())));
+            panel.add(new JLabel("Trayecto fecha viaje:"));
+            panel.add(new JLabel(foundTrayecto.getFechaViaje()));
+            panel.add(new JLabel("Trayecto precio viaje:"));
+            panel.add(new JLabel(String.valueOf(foundTrayecto.getPrecioViaje())));
+            panel.add(new JLabel("Trayecto aeropuerto origen:"));
+            panel.add(new JLabel(foundTrayecto.getIdOrigenAeropuerto()));
+            panel.add(new JLabel("Trayecto aeropuerto destino:"));
+            panel.add(new JLabel(foundTrayecto.getIdDestinoAeropuerto()));
+            
         }else{
-            System.out.println("Trayecto no encontrado :c");
+            JOptionPane.showMessageDialog(null,"Trayecto no encontrado");
         }
 
     }
 
     public void updateTrayecto(){
 
-        System.out.println("Ingrese el id para actualizar el trayecto: ");
-        int idTrayectoUpdate = scanner.nextInt();
-        scanner.nextLine();
+        
+        String inputId = JOptionPane.showInputDialog(null, "Ingrese el id para actualizar el trayecto:");
+        int idTrayectoUpdate = Integer.parseInt(inputId);
 
-        System.out.println("Ingrese la nueva fecha de viaje: ");
-        String nuevaFecha = scanner.nextLine();
+        String nuevaFecha = JOptionPane.showInputDialog(null, "Ingrese la nueva fecha de viaje:");
 
-        System.out.println("Ingrese el precio del trayecto: ");
-        int nuevoPrecio = scanner.nextInt();
-        scanner.nextLine();
+        String inputPrecio = JOptionPane.showInputDialog(null, "Ingrese el precio del trayecto:");
+        int nuevoPrecio = Integer.parseInt(inputPrecio);
 
-        System.out.println("Ingrese el id del aeropuerto de origen:  ");
-        String nuevoAeropuerto = scanner.nextLine();
+        String nuevoAeropuerto = JOptionPane.showInputDialog(null, "Ingrese el id del aeropuerto de origen:");
 
-        System.out.println("Ingrese el ide del aeropuerto de destino: ");
-        String destinoAeropuerto = scanner.nextLine();
+        String destinoAeropuerto = JOptionPane.showInputDialog(null, "Ingrese el id del aeropuerto de destino:");
+
 
         Trayecto updateTrayecto = new Trayecto();
 
@@ -113,16 +77,17 @@ public class TrayectoController {
     }
 
     public void deleteTrayecto(){
-        System.out.println("Ingrese el id del trayecto para eliminarlo: ");
-        int deleteTrayecto = scanner.nextInt();
-        scanner.nextLine();
+        String inputId=JOptionPane.showInputDialog(null,"Ingrese id del trayecto a eliminar");
+        int idTrayecto=Integer.parseInt(inputId);
         
-        deleteTrayectoUseCase.execute(deleteTrayecto);
+        deleteTrayectoUseCase.execute(idTrayecto);
 
         if (deleteTrayectoUseCase != null) {
-            System.out.println("Eliminado");
+            JOptionPane.showConfirmDialog(null,"Eliminado con exito");
+            
         }else{
-            System.out.println("No eliminado");
+            JOptionPane.showConfirmDialog(null,"No se encontro id");
+            
         }
     }
 
