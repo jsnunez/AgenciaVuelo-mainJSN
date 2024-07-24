@@ -32,6 +32,9 @@ public interface vueloService {
     // interfaz dd pago
     void pagoReserva (Reserva reserva);
     Reserva consultatarifa (int id);
+    List<Pasajero> buscarPasajeros(BuscarVuelo vuelo);
+    List<DetalleReserva> buscarDetalleReserva(Reserva reserva);
+    void modificarReserva(Reserva reserva, Asientosdetalles asientosdetalles);
     
     
 

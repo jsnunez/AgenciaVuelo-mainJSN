@@ -10,6 +10,7 @@ import com.agencia.reserva.application.CancelReservaClienteUseCase;
 import com.agencia.reserva.application.CreateReservaAgenteUseCase;
 import com.agencia.reserva.application.DeleteReservaAgenteUseCase;
 import com.agencia.reserva.application.FindReservaAgenteUseCase;
+import com.agencia.reserva.domain.entity.BuscarVuelo;
 import com.agencia.reserva.domain.entity.Reserva;
 
 public class ReservaController {
@@ -169,4 +170,8 @@ public class ReservaController {
         }
 
     }
+
+   
 }
+
+

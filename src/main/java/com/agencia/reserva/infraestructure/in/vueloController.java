@@ -33,27 +33,25 @@ import com.agencia.tipoDocumento.domain.entity.TipoDocumento;
 import com.toedter.calendar.JCalendar;
 
 public class vueloController {
-  private ConsultvueloUseCase consultvueloUseCase;
-  private BuscarCiudades buscarCiudades;
-  private BuscarvuelosUseCase buscarvuelosUseCase;
-  private CrearReservaUseCase crearReservaUseCase;
-  private VerificarPasajero verificarPasajero;
-  private BuscarTiposDocumentos buscarTiposDocumentos;
-  private FindEscalaUseCase findEscalaUseCase;
-  private CrearReservaDetalleUseCase crearReservaDetalleUseCase;
-  private AsignarsillaUseCase asignarsillaUseCase;
-  private BuscarSillasOcupadas buscarSillasOcupadas;
-  private DeleteReservaAgenteUseCase deleteReservaAgenteUseCase;
-  private DeleteDetalleReserva deleteDetalleReserva;
-  private EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase;
-  private ConsultaPrecioUseCase consultaPrecioUseCase;
-  private PagoUseCase pagoUseCase;
-
-
- 
-  
-
-  
+  private final ConsultvueloUseCase consultvueloUseCase;
+  private final BuscarCiudades buscarCiudades;
+  private final BuscarvuelosUseCase buscarvuelosUseCase;
+  private final CrearReservaUseCase crearReservaUseCase;
+  private final VerificarPasajero verificarPasajero;
+  private final BuscarTiposDocumentos buscarTiposDocumentos;
+  private final FindEscalaUseCase findEscalaUseCase;
+  private final CrearReservaDetalleUseCase crearReservaDetalleUseCase;
+  private final AsignarsillaUseCase asignarsillaUseCase;
+  private final BuscarSillasOcupadas buscarSillasOcupadas;
+  private final DeleteReservaAgenteUseCase deleteReservaAgenteUseCase;
+  private final DeleteDetalleReserva deleteDetalleReserva;
+  private final EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase;
+  private final ConsultaPrecioUseCase consultaPrecioUseCase;
+  private final PagoUseCase pagoUseCase;
+  private final FindReservaAgenteUseCase findReservaAgenteUseCase;
+  private final BuscarPasajerosReserva buscarPasajerosReserva;
+  private final BuscarDetalleReserva buscarDetalleReserva;
+  private final ActualizarReserva actualizarReserva;
 
   public vueloController(ConsultvueloUseCase consultvueloUseCase, BuscarCiudades buscarCiudades,
       BuscarvuelosUseCase buscarvuelosUseCase, CrearReservaUseCase crearReservaUseCase,
@@ -62,7 +60,9 @@ public class vueloController {
       AsignarsillaUseCase asignarsillaUseCase, BuscarSillasOcupadas buscarSillasOcupadas,
       DeleteReservaAgenteUseCase deleteReservaAgenteUseCase, DeleteDetalleReserva deleteDetalleReserva,
       EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase, ConsultaPrecioUseCase consultaPrecioUseCase,
-      PagoUseCase pagoUseCase) {
+      PagoUseCase pagoUseCase, FindReservaAgenteUseCase findReservaAgenteUseCase,
+      BuscarPasajerosReserva buscarPasajerosReserva, BuscarDetalleReserva buscarDetalleReserva,
+      ActualizarReserva actualizarReserva) {
     this.consultvueloUseCase = consultvueloUseCase;
     this.buscarCiudades = buscarCiudades;
     this.buscarvuelosUseCase = buscarvuelosUseCase;
@@ -78,6 +78,10 @@ public class vueloController {
     this.eliminarAsientoPorPagoUseCase = eliminarAsientoPorPagoUseCase;
     this.consultaPrecioUseCase = consultaPrecioUseCase;
     this.pagoUseCase = pagoUseCase;
+    this.findReservaAgenteUseCase = findReservaAgenteUseCase;
+    this.buscarPasajerosReserva = buscarPasajerosReserva;
+    this.buscarDetalleReserva = buscarDetalleReserva;
+    this.actualizarReserva = actualizarReserva;
   }
 
   public void consultar() throws SQLException {
@@ -94,6 +98,7 @@ public class vueloController {
     bvuelo = seleccionaCiudades(ciudades);
     String fechaida = SeleccionarFecha();
     bvuelo.setFechaIda(fechaida);
+    bvuelo.setIdAeropuertoOrigen("0");
     List<String> vuelos = buscarvuelosUseCase.execute(bvuelo);
     String Idvuelo = SeleccionarVuelo(vuelos);
     var yesOrNo = 0;
@@ -123,7 +128,7 @@ public class vueloController {
     Asientosdetalles asientodetalle = new Asientosdetalles();
     idReserva = crearReservaUseCase.execute(bvuelo);
     while (yesOrNo == 0) {
-      
+
       List<TipoDocumento> tipos = buscarTiposDocumentos.execute();
       Pasajero pasajero = verificarPasajero(tipos, idReserva);
       if (pasajero.getDocumento().equals("ninguno")) {
@@ -347,6 +352,123 @@ public class vueloController {
 
   public void eliminar() throws SQLException {
 
+  }
+
+  public void modificarReserva() {
+
+    String inputReserva = JOptionPane.showInputDialog(null, "Ingrese ID de la reserva a eliminar");
+    int idReserva = Integer.parseInt(inputReserva);
+
+    Reserva reserva = findReservaAgenteUseCase.execute(idReserva);
+    List<DetalleReserva> lisDetalleReservas = buscarDetalleReserva.execute(reserva);
+    if (reserva != null) {
+      BuscarVuelo bvuelo = new BuscarVuelo();
+      bvuelo.setIdAeropuertoOrigen(reserva.getAeropuertoOrigen());
+      bvuelo.setIdAeropuertoDestino(reserva.getAeropuertoDestino());
+
+      bvuelo.setIdvuelo(inputReserva);
+      List<Pasajero> pasajeros = buscarPasajerosReserva.execute(bvuelo);
+      JPanel panelEncontrar = new JPanel(new GridLayout(0, 2));
+      panelEncontrar.add(new JLabel("id:"));
+      panelEncontrar.add(new JLabel(String.valueOf(reserva.getId())));
+      panelEncontrar.add(new JLabel("Fecha:"));
+      panelEncontrar.add(new JLabel(reserva.getFechaReserva()));
+      panelEncontrar.add(new JLabel("Aeropuerto Origen:"));
+      panelEncontrar.add(new JLabel(reserva.getAeropuertoOrigen()));
+      panelEncontrar.add(new JLabel("Aeropuerto Destino:"));
+      panelEncontrar.add(new JLabel(reserva.getAeropuertoDestino()));
+      panelEncontrar.add(new JLabel("Nombre Cliente:"));
+      panelEncontrar.add(new JLabel(reserva.getNombreCliente()));
+      for (Pasajero pasajero : pasajeros) {
+        panelEncontrar.add(new JLabel("Nombre pasajero:"));
+        panelEncontrar.add(new JLabel(pasajero.getNombre()));
+      }
+      panelEncontrar.add(new JLabel("Precio Vuelo:"));
+      panelEncontrar.add(new JLabel((String.valueOf(reserva.getPrecio()))));
+      panelEncontrar.add(new JLabel("Estado Reserva:"));
+      panelEncontrar.add(new JLabel((String.valueOf(reserva.getEstado()))));
+      JOptionPane.showMessageDialog(null, panelEncontrar, "Detalles de la Reserva",
+          JOptionPane.INFORMATION_MESSAGE);
+      int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea modificar esta reserva?",
+          "Confirmar modificacion", JOptionPane.YES_NO_OPTION);
+      if (confirmacion == JOptionPane.YES_OPTION) {
+
+        String fechaida = SeleccionarFecha();
+        bvuelo.setIdvuelo(inputReserva);
+        bvuelo.setFechaIda(fechaida);
+        List<String> vuelos = buscarvuelosUseCase.execute(bvuelo);
+        String Idvuelo = SeleccionarVuelo(vuelos);
+        bvuelo.setIdvuelo(Idvuelo);
+        // int idReservaM;
+        int idDetalleReserva = 0;
+        List<Escala> escalas = findEscalaUseCase.execute(Integer.valueOf(Idvuelo));
+        List<Integer> listIdDetalleReserva = new ArrayList<>();
+        ;
+        if (escalas.isEmpty()) {
+          System.out.println(escalas);
+          // escalas.forEach(escala -> System.out.println(escala.getId()));
+          JOptionPane.showMessageDialog(null, "No existen escalas para este vuelo ");
+
+        }
+        if (!escalas.isEmpty()) {
+          for (Escala escala : escalas) {
+            System.out.println("Escala id: " + escala.getId());
+            System.out.println("Número de conexión: " + escala.getNumeroConexion());
+            System.out.println("Id trayecto: " + escala.getIdViaje());
+            System.out.println("Id Avión: " + escala.getIdAvion());
+            System.out.println("Id aeropuerto origen: " + escala.getIdAeropuertoOrigen());
+            System.out.println("Id aeropuerto destino: " + escala.getIdAeropuertoDestino());
+            System.out.println("------------"); // Separador para mayor claridad
+          }
+        }
+        Asientosdetalles asientodetalle = new Asientosdetalles();
+        for (Pasajero pasajero : pasajeros) {
+
+          if (pasajero.getDocumento().equals("ninguno")) {
+            JOptionPane.showMessageDialog(null, "regreando al menu ");
+
+            break;
+          }
+          System.out.println(pasajero.getIdTipoDocumento());
+          System.out.println(pasajero.getDocumento());
+          int idPasajero = verificarPasajero.execute(pasajero);
+          reserva.setFechaReserva(fechaida);
+          reserva.setIdVuelo(Integer.parseInt(Idvuelo));
+          DetalleReserva detalleReserva = new DetalleReserva();
+          detalleReserva.setIdPasajero(pasajero.getId());
+          for (DetalleReserva detalleReserva2 : lisDetalleReservas) {
+            System.out.println( "detalle"+detalleReserva2);
+            if (detalleReserva.getIdPasajero() == idPasajero) {
+              detalleReserva.setId( detalleReserva2.getId());
+
+            }
+          }
+
+          // System.out.println("cantidad" + escalas.size());
+          int sillaseleccionada;
+
+          JOptionPane.showMessageDialog(null, "Selecciona silla");
+
+          for (int j = 0; j < escalas.size(); j++) {
+
+            sillaseleccionada = seleccionarSilla(escalas.get(j));
+            asientodetalle.setIdConexion(escalas.get(j).getId());
+            asientodetalle.setIdDetalleReserva(detalleReserva.getId());
+            asientodetalle.setIdAsiento(sillaseleccionada);
+            actualizarReserva.execute(reserva, asientodetalle);
+          }
+
+        }
+
+   
+        JOptionPane.showMessageDialog(null, "Reserva Cancelada con éxito");
+      } else {
+        JOptionPane.showMessageDialog(null, "No se realizó cancelación");
+      }
+
+    } else {
+      JOptionPane.showMessageDialog(null, "Reserva no encontrada");
+    }
   }
 
   public int seleccionarSilla(Escala escala) {

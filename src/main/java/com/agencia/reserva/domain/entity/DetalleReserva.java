@@ -4,12 +4,14 @@ public class DetalleReserva {
 int id;
 int idReserva;
 int idPasajero;
-public DetalleReserva(int id, int idReserva, int idPasajero) {
+int idconexion;
+public DetalleReserva() {
+}
+public DetalleReserva(int id, int idReserva, int idPasajero, int idconexion) {
     this.id = id;
     this.idReserva = idReserva;
     this.idPasajero = idPasajero;
-}
-public DetalleReserva() {
+    this.idconexion = idconexion;
 }
 public int getId() {
     return id;
@@ -28,6 +30,12 @@ public int getIdPasajero() {
 }
 public void setIdPasajero(int idPasajero) {
     this.idPasajero = idPasajero;
+}
+public int getIdconexion() {
+    return idconexion;
+}
+public void setIdconexion(int idconexion) {
+    this.idconexion = idconexion;
 }
 
 

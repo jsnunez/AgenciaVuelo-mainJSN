@@ -23,8 +23,11 @@ import com.agencia.escala.domain.service.EscalaService;
 import com.agencia.escala.infraestructure.EscalaController;
 import com.agencia.escala.infraestructure.EscalaRepository;
 import com.agencia.menu.domain.Service.entity.User;
+import com.agencia.reserva.application.ActualizarReserva;
 import com.agencia.reserva.application.AsignarsillaUseCase;
 import com.agencia.reserva.application.BuscarCiudades;
+import com.agencia.reserva.application.BuscarDetalleReserva;
+import com.agencia.reserva.application.BuscarPasajerosReserva;
 import com.agencia.reserva.application.BuscarSillasOcupadas;
 import com.agencia.reserva.application.BuscarTiposDocumentos;
 import com.agencia.reserva.application.BuscarvuelosUseCase;
@@ -69,8 +72,38 @@ import com.agencia.tripulacion.infraestructure.TripulacionRepository;
 
 public class menuUI {
 
-    private final BuscarTiposDocumentos buscarTiposDocumentos;
     private final com.agencia.menu.application.iniciarsesion iniciarsesion;
+    EscalaRepository escalaRepository = new EscalaRepository();
+    vueloService vueloService = new vueloRepository();
+    ReservaRepository reservaRepository = new ReservaRepository();
+    FindEscalaUseCase findEscalaUseCase = new FindEscalaUseCase(escalaRepository);
+    ConsultvueloUseCase consultvueloUseCase = new ConsultvueloUseCase(vueloService);
+    BuscarCiudades buscarCiudades = new BuscarCiudades(vueloService);
+    BuscarvuelosUseCase buscarvuelosUseCase = new BuscarvuelosUseCase(vueloService);
+    CrearReservaUseCase crearReservaUseCase = new CrearReservaUseCase(vueloService);
+    VerificarPasajero verificarPasajero = new VerificarPasajero(vueloService);
+    DeleteReservaAgenteUseCase deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
+            reservaRepository);
+    DeleteDetalleReserva deleteDetalleReserva = new DeleteDetalleReserva(reservaRepository);
+    EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase = new EliminarAsientoPorPagoUseCase(
+            vueloService);
+    PagoUseCase pagoUseCase = new PagoUseCase(vueloService);
+    ConsultaPrecioUseCase consultaPrecioUseCase = new ConsultaPrecioUseCase(vueloService);
+
+    BuscarTiposDocumentos buscarTiposDocumentos = new BuscarTiposDocumentos(vueloService);
+    AsignarsillaUseCase asignarSillaUseCase = new AsignarsillaUseCase(vueloService);
+    CrearReservaDetalleUseCase crearReservaDetalleUseCase = new CrearReservaDetalleUseCase(
+            vueloService);
+    BuscarSillasOcupadas buscarSillasOcupadas = new BuscarSillasOcupadas(vueloService);
+    FindReservaAgenteUseCase findReservaAgenteUseCase = new FindReservaAgenteUseCase(reservaRepository);
+    BuscarPasajerosReserva buscarPasajerosReserva = new BuscarPasajerosReserva(vueloService);
+    BuscarDetalleReserva buscarDetalleReserva = new BuscarDetalleReserva(vueloService);
+    ActualizarReserva actualizarReserva = new ActualizarReserva(vueloService);
+
+    vueloController consoleAdapterVuelo = new vueloController(consultvueloUseCase, buscarCiudades,
+            buscarvuelosUseCase, crearReservaUseCase, verificarPasajero, buscarTiposDocumentos,
+            findEscalaUseCase, crearReservaDetalleUseCase, asignarSillaUseCase, buscarSillasOcupadas,deleteReservaAgenteUseCase, deleteDetalleReserva, eliminarAsientoPorPagoUseCase, consultaPrecioUseCase,
+            pagoUseCase, findReservaAgenteUseCase, buscarPasajerosReserva, buscarDetalleReserva, actualizarReserva);
 
     public menuUI(BuscarTiposDocumentos buscarTiposDocumentos,
             com.agencia.menu.application.iniciarsesion iniciarsesion) {
@@ -100,35 +133,7 @@ public class menuUI {
                 System.out.println(opcionCliente);
                 switch (opcionCliente) {
                     case 1:// "Buscar Vuelos"
-                        EscalaRepository escalaRepository = new EscalaRepository();
-                        vueloService vueloService = new vueloRepository();
-                        ReservaRepository reservaRepository = new ReservaRepository();
-                        FindEscalaUseCase findEscalaUseCase = new FindEscalaUseCase(escalaRepository);
-                        ConsultvueloUseCase consultvueloUseCase = new ConsultvueloUseCase(vueloService);
-                        BuscarCiudades buscarCiudades = new BuscarCiudades(vueloService);
-                        BuscarvuelosUseCase buscarvuelosUseCase = new BuscarvuelosUseCase(vueloService);
-                        CrearReservaUseCase crearReservaUseCase = new CrearReservaUseCase(vueloService);
-                        VerificarPasajero verificarPasajero = new VerificarPasajero(vueloService);
-                        DeleteReservaAgenteUseCase deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
-                                reservaRepository);
-                        DeleteDetalleReserva deleteDetalleReserva = new DeleteDetalleReserva(reservaRepository);
-                        EliminarAsientoPorPagoUseCase eliminarAsientoPorPagoUseCase = new EliminarAsientoPorPagoUseCase(
-                                vueloService);
-                        PagoUseCase pagoUseCase=new PagoUseCase(vueloService);
-                        ConsultaPrecioUseCase consultaPrecioUseCase=new ConsultaPrecioUseCase(vueloService);
 
-                        // BuscarTiposDocumentos buscarTiposDocumentos = new
-                        // BuscarTiposDocumentos(vueloService);
-                        AsignarsillaUseCase asignarSillaUseCase = new AsignarsillaUseCase(vueloService);
-                        CrearReservaDetalleUseCase crearReservaDetalleUseCase = new CrearReservaDetalleUseCase(
-                                vueloService);
-                        BuscarSillasOcupadas buscarSillasOcupadas = new BuscarSillasOcupadas(vueloService);
-
-                        vueloController consoleAdapterVuelo = new vueloController(consultvueloUseCase, buscarCiudades,
-                                buscarvuelosUseCase, crearReservaUseCase, verificarPasajero, buscarTiposDocumentos,
-                                findEscalaUseCase, crearReservaDetalleUseCase, asignarSillaUseCase,
-                                buscarSillasOcupadas,
-                                deleteReservaAgenteUseCase, deleteDetalleReserva, eliminarAsientoPorPagoUseCase, consultaPrecioUseCase,pagoUseCase);
                         consoleAdapterVuelo.buscar();
                         break;
                     case 2:// "Consultar Reserva de Vuelo"
@@ -145,10 +150,10 @@ public class menuUI {
                         ReservaController reservaController = new ReservaController(createReservaAgenteUseCase,
                                 findReservaAgenteUseCase,
                                 deleteReservaAgenteUseCase, cancelReservaClienteUseCase);
-                                reservaController.findReservaAgente();
+                        reservaController.findReservaAgente();
                         break;
                     case 3:// "Cancelar Reserva de Vuelo
-                    reservaRepository = new ReservaRepository();
+                        reservaRepository = new ReservaRepository();
 
                         createReservaAgenteUseCase = new CreateReservaAgenteUseCase(
                                 reservaRepository);
@@ -161,23 +166,23 @@ public class menuUI {
                         reservaController = new ReservaController(createReservaAgenteUseCase,
                                 findReservaAgenteUseCase,
                                 deleteReservaAgenteUseCase, cancelReservaClienteUseCase);
-                    reservaController.cancelarReserva();
+                        reservaController.cancelarReserva();
                         break;
                     case 4:// "modificar reserva
-                    reservaRepository = new ReservaRepository();
+                        reservaRepository = new ReservaRepository();
 
-                    createReservaAgenteUseCase = new CreateReservaAgenteUseCase(
-                            reservaRepository);
-                    findReservaAgenteUseCase = new FindReservaAgenteUseCase(
-                            reservaRepository);
-                    deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
-                            reservaRepository);
-                    cancelReservaClienteUseCase = new CancelReservaClienteUseCase(
-                            reservaRepository);
-                    reservaController = new ReservaController(createReservaAgenteUseCase,
-                            findReservaAgenteUseCase,
-                            deleteReservaAgenteUseCase, cancelReservaClienteUseCase);
-                    // reservaController.updateClienteCase();
+                        createReservaAgenteUseCase = new CreateReservaAgenteUseCase(
+                                reservaRepository);
+                        findReservaAgenteUseCase = new FindReservaAgenteUseCase(
+                                reservaRepository);
+                        deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
+                                reservaRepository);
+                        cancelReservaClienteUseCase = new CancelReservaClienteUseCase(
+                                reservaRepository);
+                        reservaController = new ReservaController(createReservaAgenteUseCase,
+                                findReservaAgenteUseCase,
+                                deleteReservaAgenteUseCase, cancelReservaClienteUseCase);
+                        consoleAdapterVuelo.modificarReserva();
                         break;
                     default:
                         break;
@@ -289,98 +294,113 @@ public class menuUI {
                     System.out.println(opcionAdmin);
                     switch (opcionAdmin) {
                         case 1:
-                            ReservaServiceOlf reservaServiceOlf= new ReservaRepository();
-                            CreateReservaAgenteUseCase createReservaAgenteUseCase=new CreateReservaAgenteUseCase(reservaServiceOlf);
-                            ReservaController reservaController=new ReservaController(createReservaAgenteUseCase, null, null, null);
-                            reservaController.createReserva();                
+                            ReservaServiceOlf reservaServiceOlf = new ReservaRepository();
+                            CreateReservaAgenteUseCase createReservaAgenteUseCase = new CreateReservaAgenteUseCase(
+                                    reservaServiceOlf);
+                            ReservaController reservaController = new ReservaController(createReservaAgenteUseCase,
+                                    null, null, null);
+                            reservaController.createReserva();
                             break;
                         case 2:
-                        ClienteService clienteService=new ClienteRepository();
-                        FindClienteCase findClienteCase= new FindClienteCase(clienteService);
-                        ClienteController findClienteController=new ClienteController(null, findClienteCase,null,null);
-                        findClienteController.buscar();
+                            ClienteService clienteService = new ClienteRepository();
+                            FindClienteCase findClienteCase = new FindClienteCase(clienteService);
+                            ClienteController findClienteController = new ClienteController(null, findClienteCase, null,
+                                    null);
+                            findClienteController.buscar();
 
-                        
-                        break;
+                            break;
                         case 3:
-                        ReservaServiceOlf consultaService= new ReservaRepository();
-                        FindReservaAgenteUseCase findReservaAgenteUseCase=new FindReservaAgenteUseCase(consultaService);
-                        ReservaController reservaControllerConsulta=new ReservaController(null, findReservaAgenteUseCase, null, null);
-                        reservaControllerConsulta.findReservaAgente();
-                        break;
+                            ReservaServiceOlf consultaService = new ReservaRepository();
+                            FindReservaAgenteUseCase findReservaAgenteUseCase = new FindReservaAgenteUseCase(
+                                    consultaService);
+                            ReservaController reservaControllerConsulta = new ReservaController(null,
+                                    findReservaAgenteUseCase, null, null);
+                            reservaControllerConsulta.findReservaAgente();
+                            break;
 
                         case 4:
-                        //Registrar cliente
-                        ClienteService crearClienteService = new ClienteRepository();
-                        CreateClienteCase createClienteCase= new CreateClienteCase(crearClienteService);
-                        ClienteController clienteControllerCrear=new ClienteController(createClienteCase,null,null,null);
-                        clienteControllerCrear.crear();                                              
-                        break;
+                            // Registrar cliente
+                            ClienteService crearClienteService = new ClienteRepository();
+                            CreateClienteCase createClienteCase = new CreateClienteCase(crearClienteService);
+                            ClienteController clienteControllerCrear = new ClienteController(createClienteCase, null,
+                                    null, null);
+                            clienteControllerCrear.crear();
+                            break;
 
                         case 5:
-                        ReservaServiceOlf eliminarReserva=new ReservaRepository();
-                        DeleteReservaAgenteUseCase deleteReservaAgenteUseCase=new DeleteReservaAgenteUseCase(eliminarReserva);
-                        ReservaController reservaControllerEliminar=new ReservaController(null, null, deleteReservaAgenteUseCase, null);
-                        reservaControllerEliminar.deleteReservaAgente();
-                        break;
+                            ReservaServiceOlf eliminarReserva = new ReservaRepository();
+                            DeleteReservaAgenteUseCase deleteReservaAgenteUseCase = new DeleteReservaAgenteUseCase(
+                                    eliminarReserva);
+                            ReservaController reservaControllerEliminar = new ReservaController(null, null,
+                                    deleteReservaAgenteUseCase, null);
+                            reservaControllerEliminar.deleteReservaAgente();
+                            break;
 
                         case 6:
-                        // Eliminar informacion cliente
-                        ClienteService deletService=new ClienteRepository();
-                        DeleteClienteCase deleteClienteCase=new DeleteClienteCase(deletService);
-                        ClienteController deleteController=new ClienteController(null,null, deleteClienteCase, null);
-                        deleteController.eliminar();
+                            // Eliminar informacion cliente
+                            ClienteService deletService = new ClienteRepository();
+                            DeleteClienteCase deleteClienteCase = new DeleteClienteCase(deletService);
+                            ClienteController deleteController = new ClienteController(null, null, deleteClienteCase,
+                                    null);
+                            deleteController.eliminar();
                             break;
 
                         case 7:
-                        //Consultar informacion vuelo
-                        vueloService consultVueloService = new vueloRepository();
-                        ConsultvueloUseCase consultvueloUseCase=new ConsultvueloUseCase(consultVueloService);
-                        vueloController vueloController=new vueloController(consultvueloUseCase, null, null, null, null,null, null, null, null, null, null, null, null, null, null);
-                        vueloController.consultar(); // Revisar con sebas si es el metodo
-                            
-                        
+                            // Consultar informacion vuelo
+                            vueloService consultVueloService = new vueloRepository();
+                            ConsultvueloUseCase consultvueloUseCase = new ConsultvueloUseCase(consultVueloService);
+                            vueloController vueloController = new vueloController(consultvueloUseCase, null, null, null,
+                                    null, null, null, null, null, null, null, null, null, null, null, null, null, null,null);
+                            vueloController.consultar(); // Revisar con sebas si es el metodo
+
                             break;
                         case 8:
-                        EscalaService findEscalaService=new EscalaRepository();
-                        FindEscalaUseCase findEscalaUseCase=new FindEscalaUseCase(findEscalaService);
-                        EscalaController escalaController=new EscalaController(findEscalaUseCase,null,null,null);
-                        escalaController.findEscalas();                            
-                        
+                            EscalaService findEscalaService = new EscalaRepository();
+                            FindEscalaUseCase findEscalaUseCase = new FindEscalaUseCase(findEscalaService);
+                            EscalaController escalaController = new EscalaController(findEscalaUseCase, null, null,
+                                    null);
+                            escalaController.findEscalas();
+
                             break;
 
                         case 9:
-                        // consultar tarifa vuelo
-                        TarifaService findTarifaService=new TarifaRepository();
-                        FindTarifaUseCase findTarifaUseCase=new FindTarifaUseCase(findTarifaService);
-                        TarifaController tarifaController=new TarifaController(null,findTarifaUseCase,null, null);
-                        tarifaController.buscar();
+                            // consultar tarifa vuelo
+                            TarifaService findTarifaService = new TarifaRepository();
+                            FindTarifaUseCase findTarifaUseCase = new FindTarifaUseCase(findTarifaService);
+                            TarifaController tarifaController = new TarifaController(null, findTarifaUseCase, null,
+                                    null);
+                            tarifaController.buscar();
 
-                        break;
+                            break;
 
                         case 10:
-                        TripulacionService tripulacionService=new TripulacionRepository();
-                        FindTripulacionUseCase findTripulacionUseCase=new FindTripulacionUseCase(tripulacionService);
-                        TripulacionController tripulacionController=new TripulacionController(null,findTripulacionUseCase);
-                        tripulacionController.findTripulacion();
-                        break;
+                            TripulacionService tripulacionService = new TripulacionRepository();
+                            FindTripulacionUseCase findTripulacionUseCase = new FindTripulacionUseCase(
+                                    tripulacionService);
+                            TripulacionController tripulacionController = new TripulacionController(null,
+                                    findTripulacionUseCase);
+                            tripulacionController.findTripulacion();
+                            break;
 
                         case 11:
-                        TipoDocumentoService tipoDocumentoService=new TipoDocumentoRepository();
-                        FindTipoDocumentoUseCase findTipoDocumentoUseCase=new FindTipoDocumentoUseCase(tipoDocumentoService);
-                        TipoDocumentoController tipoDocumentoController=new TipoDocumentoController(null,null,null,findTipoDocumentoUseCase);
-                        tipoDocumentoController.findIdtipoDocumento();  
-                        break;
+                            TipoDocumentoService tipoDocumentoService = new TipoDocumentoRepository();
+                            FindTipoDocumentoUseCase findTipoDocumentoUseCase = new FindTipoDocumentoUseCase(
+                                    tipoDocumentoService);
+                            TipoDocumentoController tipoDocumentoController = new TipoDocumentoController(null, null,
+                                    null, findTipoDocumentoUseCase);
+                            tipoDocumentoController.findIdtipoDocumento();
+                            break;
                         case 12:
                             // Actualizar informacion cliente
-                            ClienteService updtService=new ClienteRepository();
-                            UpdateClienteCase updateClienteCase= new UpdateClienteCase(updtService);
-                            ClienteController updateClienteController=new ClienteController(null,null, null,updateClienteCase);
+                            ClienteService updtService = new ClienteRepository();
+                            UpdateClienteCase updateClienteCase = new UpdateClienteCase(updtService);
+                            ClienteController updateClienteController = new ClienteController(null, null, null,
+                                    updateClienteCase);
                             updateClienteController.actualizar();
                             break;
                         default:
-                        System.out.println("Opción no válida.");
-                        break;
+                            System.out.println("Opción no válida.");
+                            break;
                     }
                 }
                 if (usuario.getRol() == 5) {
@@ -388,37 +408,43 @@ public class menuUI {
                     System.out.println(opcionAdmin);
                     switch (opcionAdmin) {
                         case 1:
-                        // Registrar revision mantenimiento
-                        RevisionService revisionService = new RevisionRepository();
-                        CreateRevisionUseCase createRevisionUseCase = new CreateRevisionUseCase(revisionService);
-                        RevisionController revisionController = new RevisionController(createRevisionUseCase, null, null, null);
-                        revisionController.createRevision();                        
+                            // Registrar revision mantenimiento
+                            RevisionService revisionService = new RevisionRepository();
+                            CreateRevisionUseCase createRevisionUseCase = new CreateRevisionUseCase(revisionService);
+                            RevisionController revisionController = new RevisionController(createRevisionUseCase, null,
+                                    null, null);
+                            revisionController.createRevision();
                             break;
 
                         case 2:
-                        // consulta historial revision
-                        RevisionService consultRevisionService=new RevisionRepository();
-                        FindRevisionUseCase findRevisionUseCase=new FindRevisionUseCase(consultRevisionService);
-                        RevisionController consultRevisionController=new RevisionController(null,null,findRevisionUseCase,null);
-                        consultRevisionController.findRevision();
+                            // consulta historial revision
+                            RevisionService consultRevisionService = new RevisionRepository();
+                            FindRevisionUseCase findRevisionUseCase = new FindRevisionUseCase(consultRevisionService);
+                            RevisionController consultRevisionController = new RevisionController(null, null,
+                                    findRevisionUseCase, null);
+                            consultRevisionController.findRevision();
                             break;
 
                         case 3:
-                        // Actualizar ifnromacion revision
-                        RevisionService actualizaRevisionService=new RevisionRepository();
-                        UpdateRevisionUseCase updateRevisionUseCase=new UpdateRevisionUseCase(actualizaRevisionService);
-                        RevisionController actualizaRevisionController=new RevisionController(null,updateRevisionUseCase,null,null);
-                        actualizaRevisionController.updateRevision();
+                            // Actualizar ifnromacion revision
+                            RevisionService actualizaRevisionService = new RevisionRepository();
+                            UpdateRevisionUseCase updateRevisionUseCase = new UpdateRevisionUseCase(
+                                    actualizaRevisionService);
+                            RevisionController actualizaRevisionController = new RevisionController(null,
+                                    updateRevisionUseCase, null, null);
+                            actualizaRevisionController.updateRevision();
                             break;
 
                         case 4:
-                        // Eliminar revision mantenimiento
-                        RevisionService elimRevisionService=new RevisionRepository();
-                        DeleteRevisionUseCase deleteRevisionUseCase=new DeleteRevisionUseCase(elimRevisionService);
-                        RevisionController elimController=new RevisionController(null,null,null,deleteRevisionUseCase);
-                        elimController.deleteRevision();
+                            // Eliminar revision mantenimiento
+                            RevisionService elimRevisionService = new RevisionRepository();
+                            DeleteRevisionUseCase deleteRevisionUseCase = new DeleteRevisionUseCase(
+                                    elimRevisionService);
+                            RevisionController elimController = new RevisionController(null, null, null,
+                                    deleteRevisionUseCase);
+                            elimController.deleteRevision();
                             break;
-                        
+
                     }
                 }
 

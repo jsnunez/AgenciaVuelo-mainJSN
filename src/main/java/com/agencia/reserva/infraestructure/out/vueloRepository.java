@@ -26,6 +26,7 @@ import com.agencia.tipoDocumento.domain.entity.TipoDocumento;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.sound.midi.Soundbank;
 
 public class vueloRepository implements vueloService {
 
@@ -133,9 +134,13 @@ public class vueloRepository implements vueloService {
 
   @Override
   public List<String> BuscarVuelo(BuscarVuelo buscarVuelo) {
+    String idAeropuertoOrigen = buscarVuelo.getIdAeropuertoOrigen();
+    String idAeropuertoDestino = buscarVuelo.getIdAeropuertoDestino();
+    if (buscarVuelo.getIdAeropuertoOrigen().equals("0")) {
 
-    String idAeropuertoOrigen = obtenerIdAeropuerto(buscarVuelo.getCiudadOrigen());
-    String idAeropuertoDestino = obtenerIdAeropuerto(buscarVuelo.getCiudadDestino());
+      idAeropuertoOrigen = obtenerIdAeropuerto(buscarVuelo.getCiudadOrigen());
+      idAeropuertoDestino = obtenerIdAeropuerto(buscarVuelo.getCiudadDestino());
+    }
     buscarVuelo.setIdAeropuertoDestino(idAeropuertoDestino);
     buscarVuelo.setIdAeropuertoOrigen(idAeropuertoOrigen);
     System.out.println(buscarVuelo.getIdAeropuertoDestino());
@@ -174,8 +179,6 @@ public class vueloRepository implements vueloService {
       }
     }
   }
-
-
 
   private String obtenerIdAeropuerto(String nombreCiudad) {
     String idAeropuerto = null;
@@ -248,95 +251,97 @@ public class vueloRepository implements vueloService {
 
   @Override
   public int VerificarPasajero(Pasajero pasajero) {
-     int idPasajero = 0;
-    String sqlPasajero = "SELECT c.id, c.nombre, c.idtipodocumento, c.numerodocumento, c.edad, t.nombre as tipodocumento " +
-                         "FROM clientes c " +
-                         "JOIN tiposdocumentos t ON c.idtipodocumento = t.id " +
-                         "WHERE numerodocumento = ? AND idtipodocumento = ?;";
+    int idPasajero = 0;
+    String sqlPasajero = "SELECT c.id, c.nombre, c.idtipodocumento, c.numerodocumento, c.edad, t.nombre as tipodocumento "
+        +
+        "FROM clientes c " +
+        "JOIN tiposdocumentos t ON c.idtipodocumento = t.id " +
+        "WHERE numerodocumento = ? AND idtipodocumento = ?;";
 
     try (PreparedStatement statement = connection.prepareStatement(sqlPasajero)) {
-        statement.setString(1, pasajero.getDocumento());
-        statement.setInt(2, pasajero.getIdTipoDocumento());
+      statement.setString(1, pasajero.getDocumento());
+      statement.setInt(2, pasajero.getIdTipoDocumento());
 
-        try (ResultSet resultSet = statement.executeQuery()) {
-            if (resultSet.next()) {
-                pasajero.setId(resultSet.getInt("id"));
-                pasajero.setNombre(resultSet.getString("nombre"));
-                pasajero.setEdad(resultSet.getInt("edad"));
-                pasajero.setIdTipoDocumento(resultSet.getInt("idtipodocumento"));
-                pasajero.setDocumento(resultSet.getString("numerodocumento"));
-                pasajero.setTipoDocumento(resultSet.getString("tipodocumento"));
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          pasajero.setId(resultSet.getInt("id"));
+          pasajero.setNombre(resultSet.getString("nombre"));
+          pasajero.setEdad(resultSet.getInt("edad"));
+          pasajero.setIdTipoDocumento(resultSet.getInt("idtipodocumento"));
+          pasajero.setDocumento(resultSet.getString("numerodocumento"));
+          pasajero.setTipoDocumento(resultSet.getString("tipodocumento"));
 
-                JPanel panelPasajero = new JPanel(new GridLayout(0, 1));
-                panelPasajero.add(new JLabel("Nombre: " + pasajero.getNombre()));
-                panelPasajero.add(new JLabel("Edad: " + pasajero.getEdad()));
-                panelPasajero.add(new JLabel("Tipo Documento: " + pasajero.getTipoDocumento()));
-                panelPasajero.add(new JLabel("Número Documento: " + pasajero.getDocumento()));
+          JPanel panelPasajero = new JPanel(new GridLayout(0, 1));
+          panelPasajero.add(new JLabel("Nombre: " + pasajero.getNombre()));
+          panelPasajero.add(new JLabel("Edad: " + pasajero.getEdad()));
+          panelPasajero.add(new JLabel("Tipo Documento: " + pasajero.getTipoDocumento()));
+          panelPasajero.add(new JLabel("Número Documento: " + pasajero.getDocumento()));
 
-                int result = JOptionPane.showConfirmDialog(null, panelPasajero, "Detalles del Pasajero",
-                                                           JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+          int result = JOptionPane.showConfirmDialog(null, panelPasajero, "Detalles del Pasajero",
+              JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                if (result == JOptionPane.OK_OPTION) {
-                    idPasajero = pasajero.getId();
-                }
-            } else {
-                JPanel panelPasajero = new JPanel(new GridLayout(0, 2));
-                panelPasajero.add(new JLabel("Nombre:"));
-                JTextField nombreField = new JTextField();
-                panelPasajero.add(nombreField);
+          if (result == JOptionPane.OK_OPTION) {
+            idPasajero = pasajero.getId();
+          }
+        } else {
+          JPanel panelPasajero = new JPanel(new GridLayout(0, 2));
+          panelPasajero.add(new JLabel("Nombre:"));
+          JTextField nombreField = new JTextField();
+          panelPasajero.add(nombreField);
 
-                panelPasajero.add(new JLabel("Edad:"));
-                JTextField edadField = new JTextField();
-                panelPasajero.add(edadField);
+          panelPasajero.add(new JLabel("Edad:"));
+          JTextField edadField = new JTextField();
+          panelPasajero.add(edadField);
 
-                panelPasajero.add(new JLabel("Tipo Documento:"));
-                panelPasajero.add(new JLabel(pasajero.getTipoDocumento()));
+          panelPasajero.add(new JLabel("Tipo Documento:"));
+          panelPasajero.add(new JLabel(pasajero.getTipoDocumento()));
 
-                panelPasajero.add(new JLabel("Número Documento:"));
-                panelPasajero.add(new JLabel(pasajero.getDocumento()));
+          panelPasajero.add(new JLabel("Número Documento:"));
+          panelPasajero.add(new JLabel(pasajero.getDocumento()));
 
-                int result = JOptionPane.showConfirmDialog(null, panelPasajero, "Nuevo Pasajero",
-                                                           JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+          int result = JOptionPane.showConfirmDialog(null, panelPasajero, "Nuevo Pasajero",
+              JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                if (result == JOptionPane.OK_OPTION) {
-                    pasajero = new Pasajero(nombreField.getText(), Integer.parseInt(edadField.getText()),
-                                            pasajero.getIdTipoDocumento(), pasajero.getDocumento());
-                    // Add code to insert the new passenger into the database and retrieve the new id
-                    // idPasajero = createNewPasajero(pasajero); // This should be a method to insert and return the new ID
-                }
+          if (result == JOptionPane.OK_OPTION) {
+            pasajero = new Pasajero(nombreField.getText(), Integer.parseInt(edadField.getText()),
+                pasajero.getIdTipoDocumento(), pasajero.getDocumento());
+            // Add code to insert the new passenger into the database and retrieve the new
+            // id
+            // idPasajero = createNewPasajero(pasajero); // This should be a method to
+            // insert and return the new ID
+          }
 
-                try {
-                  String query = "INSERT INTO clientes (nombre,edad,idtipodocumento,numerodocumento,rol) VALUES (?,?,?,?,?)";
-                  PreparedStatement ps = connection.prepareStatement(query,
-                      PreparedStatement.RETURN_GENERATED_KEYS);
-                  ps.setString(1, pasajero.getNombre());
-                  ps.setInt(2, pasajero.getEdad());
-                  ps.setInt(3, pasajero.getIdTipoDocumento());
-                  ps.setString(4, pasajero.getDocumento());
-                  ps.setInt(5, 2);
+          try {
+            String query = "INSERT INTO clientes (nombre,edad,idtipodocumento,numerodocumento,rol) VALUES (?,?,?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(query,
+                PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, pasajero.getNombre());
+            ps.setInt(2, pasajero.getEdad());
+            ps.setInt(3, pasajero.getIdTipoDocumento());
+            ps.setString(4, pasajero.getDocumento());
+            ps.setInt(5, 2);
 
-                  ps.executeUpdate();
+            ps.executeUpdate();
 
-                  try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                      pasajero.setId(generatedKeys.getInt(1));
-                      System.out.println(pasajero.getId());
-                      idPasajero=pasajero.getId();
-                    }
-                  }
-                } catch (SQLException e) {
-                  e.printStackTrace();
-
-                }
-
-
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+              if (generatedKeys.next()) {
+                pasajero.setId(generatedKeys.getInt(1));
+                System.out.println(pasajero.getId());
+                idPasajero = pasajero.getId();
+              }
             }
+          } catch (SQLException e) {
+            e.printStackTrace();
+
+          }
+
         }
+      }
     } catch (SQLException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
     return idPasajero;
-}
+  }
 
   @Override
   public List<TipoDocumento> buscarTipoDocumento() {
@@ -368,11 +373,10 @@ public class vueloRepository implements vueloService {
           PreparedStatement.RETURN_GENERATED_KEYS);
 
       ps.setInt(1, asientosdetalles.getIdConexion());
-      ps.setInt(2,  asientosdetalles.getIdDetalleReserva());
-      ps.setInt(3,  asientosdetalles.getIdAsiento());
+      ps.setInt(2, asientosdetalles.getIdDetalleReserva());
+      ps.setInt(3, asientosdetalles.getIdAsiento());
 
       ps.executeUpdate();
-
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -386,30 +390,30 @@ public class vueloRepository implements vueloService {
     int generatedId = -1; // Initialize with a default invalid value
     System.out.println(detalleReserva.getIdReserva());
     System.out.println(detalleReserva.getIdReserva());
-    
+
     String query = "INSERT INTO detallesreservaviaje (idreserva, idpasajero,idtarifa) VALUES (?, ?,?)";
 
     try (PreparedStatement ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-        ps.setInt(1, detalleReserva.getIdReserva());
-        ps.setInt(2, detalleReserva.getIdPasajero());
-        ps.setInt(3, 1);
+      ps.setInt(1, detalleReserva.getIdReserva());
+      ps.setInt(2, detalleReserva.getIdPasajero());
+      ps.setInt(3, 1);
 
-        int affectedRows = ps.executeUpdate();
+      int affectedRows = ps.executeUpdate();
 
-        if (affectedRows > 0) {
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    generatedId = generatedKeys.getInt(1);
-                    detalleReserva.setId(generatedId);
-                }
-            }
+      if (affectedRows > 0) {
+        try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+          if (generatedKeys.next()) {
+            generatedId = generatedKeys.getInt(1);
+            detalleReserva.setId(generatedId);
+          }
         }
+      }
     } catch (SQLException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
 
     return generatedId;
- }
+  }
 
   @Override
   public List<String> sillasVacias(int idConexion) {
@@ -435,18 +439,18 @@ public class vueloRepository implements vueloService {
 
   @Override
   public void eliminarAsientoPago(int id) {
-    try{
-    String asientoquery ="DELETE FROM asientodetallereservaviajeconexion WHERE iddetallereserva=? ";
-    PreparedStatement statement = connection.prepareStatement(asientoquery);
-    statement.setInt(1, id);
-    statement.executeUpdate();
-    }catch(SQLException e){
+    try {
+      String asientoquery = "DELETE FROM asientodetallereservaviajeconexion WHERE iddetallereserva=? ";
+      PreparedStatement statement = connection.prepareStatement(asientoquery);
+      statement.setInt(1, id);
+      statement.executeUpdate();
+    } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
   @Override
-  public void  pagoReserva (Reserva reserva) {
+  public void pagoReserva(Reserva reserva) {
     System.out.println("el id" + reserva.getId());
     String query = "UPDATE reservaviaje SET estado= ? WHERE id =?  ";
     try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -464,29 +468,120 @@ public class vueloRepository implements vueloService {
   @Override
   public Reserva consultatarifa(int id) {
     String query = "SELECT SUM(v.precioviaje + t.valor) AS total_valor " +
-                   "FROM reservaviaje r " +
-                   "INNER JOIN detallesreservaviaje d ON d.idreserva = r.id " +
-                   "INNER JOIN tarifasvuelos t ON t.id = d.idtarifa " +
-                   "INNER JOIN viajes v ON v.id = r.idvuelos " +
-                   "WHERE r.id = ?";
-    
+        "FROM reservaviaje r " +
+        "INNER JOIN detallesreservaviaje d ON d.idreserva = r.id " +
+        "INNER JOIN tarifasvuelos t ON t.id = d.idtarifa " +
+        "INNER JOIN viajes v ON v.id = r.idvuelos " +
+        "WHERE r.id = ?";
+
     Reserva reserva = null;
     try (PreparedStatement ps = connection.prepareStatement(query)) {
-        ps.setInt(1, id);
-        try (ResultSet resultSet = ps.executeQuery()) {
-            if (resultSet.next()) {
-                reserva = new Reserva();
-                
-                reserva.setId(id);
-                reserva.setPrecio(resultSet.getInt("total_valor"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+      ps.setInt(1, id);
+      try (ResultSet resultSet = ps.executeQuery()) {
+        if (resultSet.next()) {
+          reserva = new Reserva();
+
+          reserva.setId(id);
+          reserva.setPrecio(resultSet.getInt("total_valor"));
         }
-    } catch (SQLException e) {
+      } catch (SQLException e) {
         e.printStackTrace();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 
     return reserva;
-}
+  }
+
+  @Override
+  public List<Pasajero> buscarPasajeros(BuscarVuelo vuelo) {
+    List<Pasajero> listaPasajero = new ArrayList<>();
+    String sql = " SELECT d.idpasajero,c.nombre,c.idtipodocumento,c.numerodocumento  from detallesreservaviaje d join clientes c  on d.idpasajero = c.id  WHERE  idreserva =?;";
+    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+      statement.setString(1, vuelo.getIdvuelo());
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          Pasajero pasajero = new Pasajero();
+
+          pasajero.setId(resultSet.getInt("d.idpasajero"));
+          pasajero.setNombre(resultSet.getString("c.nombre"));
+          pasajero.setIdTipoDocumento(resultSet.getInt(("c.idtipodocumento")));
+          pasajero.setDocumento(resultSet.getString(("c.numerodocumento")));
+
+          System.out.println(pasajero.getId());
+          listaPasajero.add(pasajero);
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return listaPasajero;
+
+  }
+
+  @Override
+  public List<DetalleReserva> buscarDetalleReserva(Reserva reserva) {
+    List<DetalleReserva> listaDetallereserva = new ArrayList<>();
+    String sql = " SELECT d.id,d.idreserva ,d.idpasajero ,d.idtarifa , a.idconexionvuelos  FROM detallesreservaviaje d join asientodetallereservaviajeconexion a on d.id = a.iddetallereserva  wHERE idreserva =?" ;
+    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+      statement.setInt(1, reserva.getId());
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          DetalleReserva detalleReserva = new DetalleReserva();
+          detalleReserva.setId(resultSet.getInt("d.id"));
+          detalleReserva.setIdReserva(resultSet.getInt("d.idreserva"));
+          detalleReserva.setIdPasajero(resultSet.getInt("d.idpasajero"));
+          detalleReserva.setIdconexion(resultSet.getInt("a.idconexionvuelos"));
+          listaDetallereserva.add(detalleReserva);
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return listaDetallereserva;
+  }
+
+  @Override
+  public void modificarReserva(Reserva reserva, Asientosdetalles asientosdetalles) {
+    try {
+      String sql = "UPDATE reservaviaje SET fecha = ?,idvuelos=? WHERE id = ?";
+System.out.println(reserva.getFechaReserva());
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.setString(1, reserva.getFechaReserva());
+      statement.setInt(2, reserva.getIdVuelo());
+      statement.setInt(3, reserva.getId());
+
+      int rowsUpdate = statement.executeUpdate();
+      System.out.println("Numero de filas actualizadas  " + rowsUpdate);
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    try {
+      String sql = "UPDATE asientodetallereservaviajeconexion SET idasientos = ?,idconexionvuelos=? WHERE iddetallereserva = ? AND idconexionvuelos=? ";
+System.out.println(asientosdetalles.getIdConexion());
+// System.out.println(asientosdetalles.getIdAsiento());
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.setInt(1, asientosdetalles.getIdAsiento());
+      statement.setInt(2, asientosdetalles.getIdConexion());
+
+      statement.setInt(3, asientosdetalles.getIdDetalleReserva());
+      statement.setInt(4, asientosdetalles.getIdConexion());
+
+      int rowsUpdate = statement.executeUpdate();
+      System.out.println("Numero de filas actualizadas  " + rowsUpdate);
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
 }
