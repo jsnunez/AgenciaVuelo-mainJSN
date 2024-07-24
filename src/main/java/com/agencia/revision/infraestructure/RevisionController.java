@@ -1,8 +1,11 @@
 package com.agencia.revision.infraestructure;
 
+import java.awt.GridLayout;
 import java.util.Scanner;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.agencia.revision.application.CreateRevisionUseCase;
 import com.agencia.revision.application.DeleteRevisionUseCase;
@@ -94,18 +97,19 @@ public class RevisionController {
         Revision foundRevision = findRevisionUseCase.execute(idRevision);
 
         if (foundRevision != null) {
-            String mensaje = String.format(
-                    "Revision id: %d\n" +
-                            "Fecha revisión: %s\n" +
-                            "ID Avión: %d\n" +
-                            "Descripción de la revisión: %s\n" +
-                            "ID empleado encargado: %d\n",
-                    foundRevision.getId(),
-                    foundRevision.getFechaRevision(),
-                    foundRevision.getIdAvion(),
-                    foundRevision.getDescripcion(),
-                    foundRevision.getIdEmpleado());
-            JOptionPane.showMessageDialog(null, mensaje, "Detalle de revision", JOptionPane.INFORMATION_MESSAGE);
+            JPanel panel=new JPanel(new GridLayout(0,2));
+            panel.add(new JLabel("id:"));
+            panel.add(new JLabel(String.valueOf(foundRevision.getId())));
+            panel.add(new JLabel("Fecha revisión:"));
+            panel.add(new JLabel(foundRevision.getFechaRevision()));
+            panel.add(new JLabel("ID Avión:"));
+            panel.add(new JLabel(String.valueOf(foundRevision.getIdAvion())));
+            panel.add(new JLabel("Descripcion de la revisión:"));
+            panel.add(new JLabel(foundRevision.getDescripcion()));
+            panel.add(new JLabel("ID Empleado:"));
+            panel.add(new JLabel(String.valueOf(foundRevision.getIdEmpleado())));
+            
+            
         } else {
             JOptionPane.showMessageDialog(null, "Id no encontrado");
         }
@@ -148,9 +152,10 @@ public class RevisionController {
         String inputIdElim=JOptionPane.showInputDialog(null,"Ingrese id de la revisión a eliminar");
         int idDelete=Integer.parseInt(inputIdElim);
 
-        deleteRevisionUseCase.execute(idDelete);
+        Revision foundRevision = findRevisionUseCase.execute(idDelete);
 
-        if (deleteRevisionUseCase != null) {
+        if (foundRevision != null) {
+            deleteRevisionUseCase.execute(idDelete);
             JOptionPane.showMessageDialog(null, "Revisión eliminada");
         } else {
             JOptionPane.showMessageDialog(null, "Revisión no encontrada");

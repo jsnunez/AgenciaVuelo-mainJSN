@@ -1,8 +1,13 @@
 
 package com.agencia.aeropuerto.infrastructure.in;
 
+import java.awt.GridLayout;
 import java.sql.SQLException;
+
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import com.agencia.aeropuerto.aplication.CreateAeropuertoCase;
 import com.agencia.aeropuerto.aplication.DeleteAeropuertoCase;
 import com.agencia.aeropuerto.aplication.FindAeropuertoCase;
@@ -46,9 +51,14 @@ public class AeropuertoController {
         Aeropuerto aeropuerto = findAeropuertoCase.execute(idaeropuerto);
 
         if (aeropuerto != null) {
-            System.out.println("Id: " + aeropuerto.getId());
-            System.out.println("Nombre: " + aeropuerto.getNombreae());
-            System.out.println("ID de la ciudad: " + aeropuerto.getIdciudadae());
+            JPanel panel = new JPanel(new GridLayout(0, 2));
+            panel.add(new JLabel("ID del aeropuerto"));
+            panel.add(new JLabel(String.valueOf(aeropuerto.getId())));
+            panel.add(new JLabel("Nombre del aeropuerto"));
+            panel.add(new JLabel(aeropuerto.getNombreae()));
+            panel.add(new JLabel("ID de la ciudad"));
+            panel.add(new JLabel(String.valueOf(aeropuerto.getIdciudadae())));
+
         } else {
             JOptionPane.showMessageDialog(null, "Aeropuerto no encontrado!");
         }

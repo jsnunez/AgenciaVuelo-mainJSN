@@ -1,8 +1,13 @@
 package com.agencia.escala.infraestructure;
 
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.agencia.escala.application.AsignAvionUseCase;
 import com.agencia.escala.application.DeleteEscalaUseCase;
@@ -25,143 +30,104 @@ public class EscalaController {
         this.asignAvionUseCase = asignAvionUseCase;
     }
 
-    Scanner scanner = new Scanner(System.in);
-
-    public void gestionEscala() {
-
-        while (true) {
-            System.out.println("1. Encontrar Escala: ");
-            System.out.println("2. Actualizar Escala: ");
-            System.out.println("3. Eliminar Escala: ");
-            System.out.println("4. Asignar Avión a escala: ");
-
-            System.out.println("4. Salir: ");
-
-            int opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (opcion) {
-                case 1:
-
-                    findEscalas();
-
-                    break;
-
-                case 2:
-
-                    updateEscala();
-
-                    break;
-
-                case 3:
-
-                    deleteEscala();
-
-                    break;
-
-                case 4:
-
-                    asignAvion();
-
-                case 5:
-                    System.out.println("Saliendo...");
-                    return;
-
-                default:
-
-                    break;
-
-            }
-        }
-
-    }
 
    public void findEscalas() {
-    System.out.println("¿Cuál es el id del trayecto del cual desea consultar las escalas?");
-    int idViaje = scanner.nextInt();
-    scanner.nextLine();
+    String inputid=JOptionPane.showInputDialog(null,"Ingrese id del trayecto para consultar escalas");
+    int idTrayecto=Integer.parseInt(inputid);
+    
     List<Escala> escalas= new ArrayList<>();
-    escalas = findEscalaUseCase.execute(idViaje); // Asumiendo que devuelve una lista de escalas
+    escalas = findEscalaUseCase.execute(idTrayecto); // Asumiendo que devuelve una lista de escalas
 
     if (!escalas.isEmpty()) {
         System.out.println(escalas);
         // escalas.forEach(escala -> System.out.println(escala.getId()));
 
         for (Escala escala : escalas) {
-            System.out.println("Escala id: " + escala.getId());
-            System.out.println("Número de conexión: " + escala.getNumeroConexion());
-            System.out.println("Id trayecto: " + escala.getIdViaje());
-            System.out.println("Id Avión: " + escala.getIdAvion());
-            System.out.println("Id aeropuerto origen: " + escala.getIdAeropuertoOrigen());
-            System.out.println("Id aeropuerto destino: " + escala.getIdAeropuertoDestino());
-            System.out.println("------------"); 
+            JPanel panel=new JPanel(new GridLayout(0,2));
+            panel.add(new JLabel("Escala id:"));
+            panel.add(new JLabel(String.valueOf(escala.getId())));
+            panel.add(new JLabel("Número de conexión:"));
+            panel.add(new JLabel(String.valueOf(escala.getNumeroConexion())));
+            panel.add(new JLabel("Id Trayecto:"));
+            panel.add(new JLabel(String.valueOf(escala.getIdViaje())));
+            panel.add(new JLabel("Id Avión:"));
+            panel.add(new JLabel(String.valueOf(escala.getIdAvion())));
+            panel.add(new JLabel("Id Aeropuerto origen:"));
+            panel.add(new JLabel(escala.getIdAeropuertoOrigen()));
+            panel.add(new JLabel("Id Aeropuerto destino:"));
+            panel.add(new JLabel(escala.getIdAeropuertoDestino()));
+            
+           
         }
     } else {
-        System.out.println("No se encontraron escalas para el id de viaje proporcionado.");
+        JOptionPane.showConfirmDialog(null,"No se encontraron escalas para el id de viaje proporcionado");
+        
     }
 }
 
 
     public void updateEscala() {
 
-        System.out.println("Ingrese el id de la escala a actualizar: ");
-        int idEscalaUpdate = scanner.nextInt();
-        scanner.nextLine();
+        String inputIdEscala=JOptionPane.showInputDialog(null,"ingrese id de la escala a actualziar");
+        int idEscala=Integer.parseInt(inputIdEscala);
 
-        System.out.println("Ingrese el nuevo id del avión ");
-        int nuevoAvion = scanner.nextInt();
-        scanner.nextLine();
+        
+        
+        String inputIdAvion=JOptionPane.showInputDialog(null,"ingrese id de la Avion a actualziar");
+        int idAvion=Integer.parseInt(inputIdAvion);
 
-        System.out.println("Ingrese el nuevo id del aeropuerto origen");
-        String nuevoAeropuertoOrigen = scanner.nextLine();
+        String inputIdAeropuertoOrigen=JOptionPane.showInputDialog(null,"ingrese id de la Aeropuerto origen a actualziar");
+        //int idAeropuertoOrigen=Integer.parseInt(inputIdAeropuertoOrigen);
 
-        System.out.println("Ingrese el nuevo id del aeropuerto destino");
-        String nuevoAeropuertoDestino = scanner.nextLine();
+        String inputIdAeropuertoLlegada=JOptionPane.showInputDialog(null,"ingrese id de la Aeropuerto llegada a actualziar");
+        //int idAeropuertoLlegada=Integer.parseInt(inputIdAeropuertoLlegada);
+
 
         Escala newEscala = new Escala();
 
-        newEscala.setId(idEscalaUpdate);
-        newEscala.setIdAvion(nuevoAvion);
-        newEscala.setIdAeropuertoOrigen(nuevoAeropuertoOrigen);
-        newEscala.setIdAeropuertoDestino(nuevoAeropuertoDestino);
+        newEscala.setId(idEscala);
+        newEscala.setIdAvion(idAvion);
+        newEscala.setIdAeropuertoOrigen(inputIdAeropuertoOrigen);
+        newEscala.setIdAeropuertoDestino(inputIdAeropuertoLlegada);
+
 
         updateEscalaUseCase.execute(newEscala);
+        JOptionPane.showMessageDialog(null,"Escala Actualizada con exito");
 
     }
 
     public void deleteEscala(){
-        System.out.println("Ingrese el id de la escala que desea eliminar: ");
-        int deleteEscala = scanner.nextInt();
-        scanner.nextLine();
+        String inputIdEscala=JOptionPane.showInputDialog(null,"ingrese id de la escala a eliminar");
+        int idEscala=Integer.parseInt(inputIdEscala);
+        
 
         // User userD = new User();
-        deleteEscalaUseCase.execute(deleteEscala);
+        deleteEscalaUseCase.execute(idEscala);
 
         if(deleteEscalaUseCase != null){
-            System.out.println("Escala eliminada");
+            JOptionPane.showMessageDialog(null,"Escala eliminada");
         }else{
-            System.out.println("No eliminada");
+            JOptionPane.showMessageDialog(null,"No se pudo eliminar la escala");
         }
     }
 
     public void asignAvion(){
 
-        System.out.println("Ingrese el id de la escala a la cual le deseas asignar un avión: ");
-        int idEscalaAvion = scanner.nextInt();
-        scanner.nextLine();
+        String inputIdEscala=JOptionPane.showInputDialog(null,"Ingrese id escala");
+        int idEscala=Integer.parseInt(inputIdEscala);
 
-        System.out.println("Cuál es el id del avión que desea darle a la escala: ");
-        int idAvion = scanner.nextInt();
-        scanner.nextLine();
+        String inputIdAvion=JOptionPane.showInputDialog(null,"Ingrese id avion la cual quiere asignar a la escala");
+        int idAvion=Integer.parseInt(inputIdAvion);
 
+        
         Escala escala = new Escala();
 
-        escala.setId(idEscalaAvion);
+        escala.setId(idEscala);
         escala.setIdAvion(idAvion);
 
         asignAvionUseCase.execute(escala);
 
-        System.out.println("Avión asignado <3");
+        JOptionPane.showMessageDialog(null,"Avion asignado");
 
     }
 
