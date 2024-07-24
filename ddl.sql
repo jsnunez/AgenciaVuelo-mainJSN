@@ -159,10 +159,11 @@ CREATE TABLE empleados (
     idaerolinea INT,
     idaeropuerto VARCHAR(5),
     password VARCHAR(50),
+    idrol INT,
     FOREIGN KEY (idpuesto) REFERENCES puestostripulacion(id),
     FOREIGN KEY (idaeropuerto) REFERENCES aeropuertos(id),
     FOREIGN KEY (idaerolinea) REFERENCES aerolineas(id),
-
+     FOREIGN KEY (idrol) REFERENCES roles(id),
         FOREIGN KEY (idtipodocumento) REFERENCES tiposdocumentos(id)
 );
 
