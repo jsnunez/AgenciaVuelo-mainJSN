@@ -226,15 +226,16 @@ public class menuUI {
                             break;
                         case 3:
                             // consultarInformacionAvion();
-                            break;
-                        case 4:
-                            // consultarInformacionTrayecto();
                             AvionService consultaAvionService = new AvionRepository();
                             FindAvionUseCase findAvionUseCase = new FindAvionUseCase(consultaAvionService);
 
                             AvionController avionControllerConsulta = new AvionController(null, null, null, findAvionUseCase);
 
                             avionControllerConsulta.findAvion();
+                            break;
+                        case 4:
+                            // consultarInformacionTrayecto();
+                            
                             break;
                         case 5:
                             // registrarAeropuerto();
@@ -247,7 +248,7 @@ public class menuUI {
                             AvionService updtAvionService=new AvionRepository();
                             UpdateAvionUseCase updateAvionUseCase= new UpdateAvionUseCase(updtAvionService);
 
-                            AvionController avionControllerUpdt=new AvionController(null,   null,deleteAvionUseCase,null);
+                            AvionController avionControllerUpdt=new AvionController(null,   updateAvionUseCase,null,null);
 
                             avionControllerUpdt.deleteAvion();
                             break;
