@@ -280,20 +280,89 @@ VALUES ('Eco Prom Int Est', 'Asiento estándar, vuelo internacional (promoción)
 
 -- Inserciones de viajes programados
 
-INSERT INTO viajes (fechaviaje, precioviaje,idorigenaeropuerto,iddestionaeropuerto)
-VALUES ('2024-08-15', 250.00,"MAD1",'LAX1');
 
-INSERT INTO viajes (fechaviaje, precioviaje,idorigenaeropuerto,iddestionaeropuerto)
-VALUES ('2024-08-20', 300.00,'LYO1','MAR1');
-
-INSERT INTO viajes (fechaviaje, precioviaje,idorigenaeropuerto,iddestionaeropuerto)
-VALUES ('2024-09-05', 200.00,'HAM1','MIA1');
-
-INSERT INTO viajes (fechaviaje, precioviaje,idorigenaeropuerto,iddestionaeropuerto)
-VALUES ('2024-09-10', 350.00,'BOG1','MIA1');
-
-INSERT INTO viajes (fechaviaje, precioviaje,idorigenaeropuerto,iddestionaeropuerto)
-VALUES ('2024-10-01', 180.00,'NYC1','PAR1');
+-- Viajes en julio y agosto de 2024
+INSERT INTO viajes (fechaviaje, precioviaje, idorigenaeropuerto, iddestionaeropuerto)
+VALUES 
+    ('2024-07-01', 260.00, 'NYC1', 'PAR1'),
+    ('2024-07-01', 310.00, 'BCN1', 'LAX1'),
+    ('2024-07-01', 280.00, 'MAD1', 'MIA1'),
+    ('2024-07-02', 320.00, 'LYO1', 'NYC1'),
+    ('2024-07-02', 290.00, 'SEV1', 'PAR1'),
+    ('2024-07-03', 275.00, 'MAD1', 'LAX1'),
+    ('2024-07-03', 305.00, 'NYC1', 'MIA1'),
+    ('2024-07-04', 340.00, 'BCN1', 'PAR1'),
+    ('2024-07-04', 310.00, 'LYO1', 'MIA1'),
+    ('2024-07-05', 295.00, 'SEV1', 'NYC1'),
+    ('2024-07-05', 315.00, 'MAD1', 'PAR1'),
+    ('2024-07-06', 325.00, 'NYC1', 'LAX1'),
+    ('2024-07-06', 280.00, 'BCN1', 'MIA1'),
+    ('2024-07-07', 300.00, 'LYO1', 'LAX1'),
+    ('2024-07-07', 290.00, 'SEV1', 'MIA1'),
+    ('2024-07-08', 310.00, 'MAD1', 'NYC1'),
+    ('2024-07-08', 270.00, 'NYC1', 'PAR1'),
+    ('2024-07-09', 325.00, 'BCN1', 'LAX1'),
+    ('2024-07-09', 310.00, 'LYO1', 'NYC1'),
+    ('2024-07-10', 285.00, 'SEV1', 'LAX1'),
+    ('2024-07-10', 320.00, 'MAD1', 'MIA1'),
+    ('2024-07-11', 275.00, 'NYC1', 'MIA1'),
+    ('2024-07-11', 315.00, 'BCN1', 'PAR1'),
+    ('2024-07-12', 305.00, 'LYO1', 'LAX1'),
+    ('2024-07-12', 290.00, 'SEV1', 'NYC1'),
+    ('2024-07-13', 325.00, 'MAD1', 'PAR1'),
+    ('2024-07-13', 270.00, 'NYC1', 'LAX1'),
+    ('2024-07-14', 310.00, 'BCN1', 'MIA1'),
+    ('2024-07-14', 295.00, 'LYO1', 'PAR1'),
+    ('2024-07-15', 280.00, 'SEV1', 'LAX1'),
+    ('2024-07-15', 320.00, 'MAD1', 'NYC1'),
+    ('2024-07-16', 275.00, 'NYC1', 'PAR1'),
+    ('2024-07-16', 325.00, 'BCN1', 'LAX1'),
+    ('2024-07-17', 300.00, 'LYO1', 'MIA1'),
+    ('2024-07-17', 290.00, 'SEV1', 'NYC1'),
+    ('2024-07-18', 310.00, 'MAD1', 'PAR1'),
+    ('2024-07-18', 325.00, 'NYC1', 'LAX1'),
+    ('2024-07-19', 280.00, 'BCN1', 'MIA1'),
+    ('2024-07-19', 300.00, 'LYO1', 'LAX1'),
+    ('2024-07-20', 290.00, 'SEV1', 'MIA1'),
+    ('2024-07-20', 310.00, 'MAD1', 'NYC1'),
+    ('2024-07-21', 275.00, 'NYC1', 'PAR1'),
+    ('2024-07-21', 325.00, 'BCN1', 'LAX1'),
+    ('2024-07-22', 310.00, 'LYO1', 'MIA1'),
+    ('2024-07-22', 285.00, 'SEV1', 'LAX1'),
+    ('2024-07-23', 320.00, 'MAD1', 'PAR1'),
+    ('2024-07-23', 275.00, 'NYC1', 'MIA1'),
+    ('2024-07-24', 305.00, 'BCN1', 'LAX1'),
+    ('2024-07-24', 290.00, 'LYO1', 'NYC1'),
+    ('2024-07-25', 325.00, 'SEV1', 'MIA1'),
+    ('2024-07-25', 270.00, 'MAD1', 'LAX1'),
+    ('2024-07-26', 310.00, 'NYC1', 'PAR1'),
+    ('2024-07-26', 295.00, 'BCN1', 'MIA1'),
+    ('2024-07-27', 320.00, 'LYO1', 'LAX1'),
+    ('2024-07-27', 285.00, 'SEV1', 'NYC1'),
+    ('2024-07-28', 275.00, 'MAD1', 'MIA1'),
+    ('2024-07-28', 325.00, 'NYC1', 'LAX1'),
+    ('2024-07-29', 300.00, 'BCN1', 'PAR1'),
+    ('2024-07-29', 290.00, 'LYO1', 'MIA1'),
+    ('2024-07-30', 310.00, 'SEV1', 'LAX1'),
+    ('2024-07-30', 280.00, 'MAD1', 'NYC1'),
+    ('2024-07-31', 325.00, 'NYC1', 'PAR1'),
+    ('2024-08-01', 310.00, 'BCN1', 'LAX1'),
+    ('2024-08-01', 295.00, 'LYO1', 'MIA1'),
+    ('2024-08-02', 280.00, 'SEV1', 'NYC1'),
+    ('2024-08-02', 320.00, 'MAD1', 'PAR1'),
+    ('2024-08-03', 325.00, 'NYC1', 'LAX1'),
+    ('2024-08-03', 275.00, 'BCN1', 'MIA1'),
+    ('2024-08-04', 290.00, 'LYO1', 'PAR1'),
+    ('2024-08-04', 310.00, 'SEV1', 'NYC1'),
+    ('2024-08-05', 275.00, 'MAD1', 'LAX1'),
+    ('2024-08-05', 325.00, 'NYC1', 'MIA1'),
+    ('2024-08-06', 280.00, 'BCN1', 'PAR1'),
+    ('2024-08-06', 295.00, 'LYO1', 'LAX1'),
+    ('2024-08-07', 310.00, 'SEV1', 'NYC1'),
+    ('2024-08-07', 320.00, 'MAD1', 'MIA1'),
+    ('2024-08-08', 325.00, 'NYC1', 'PAR1'),
+    ('2024-08-08', 275.00, 'BCN1', 'LAX1')
+;
 
 -- Inserciones de reservas de viajes
 
@@ -305,16 +374,16 @@ VALUES ('2024-10-01', 180.00,'NYC1','PAR1');
 INSERT INTO reservaviaje (fecha, idvuelos,idclientes,estado)
 VALUES ('2024-08-10', 1,1,"pagado"); -- Reserva para el viaje programado con ID 1
 
-INSERT INTO reservaviaje (fecha, idvuelos,idclientes)
+INSERT INTO reservaviaje (fecha, idvuelos,idclientes,estado)
 VALUES ('2024-08-18', 2,2,"pagado"); -- Reserva para el viaje programado con ID 2
 
-INSERT INTO reservaviaje (fecha, idvuelos,idclientes)
+INSERT INTO reservaviaje (fecha, idvuelos,idclientes,estado)
 VALUES ('2024-09-02', 3,3,"pagado"); -- Reserva para el viaje programado con ID 3
 
-INSERT INTO reservaviaje (fecha, idvuelos,idclientes)
+INSERT INTO reservaviaje (fecha, idvuelos,idclientes,estado)
 VALUES ('2024-09-08', 4,4,"pagado"); -- Reserva para el viaje programado con ID 4
 
-INSERT INTO reservaviaje (fecha, idvuelos,idclientes)
+INSERT INTO reservaviaje (fecha, idvuelos,idclientes,estado)
 VALUES ('2024-09-25', 5,5,"pagado"); -- Reserva para el viaje programado con ID 5
 
 
@@ -559,23 +628,7 @@ INSERT INTO puestostripulacion (nombre) VALUES ('Mecánico de vuelo');
 
 -- Empleados de Iberia (España)
 -- Ensure the empleados table exists with the correct structure
-CREATE TABLE IF NOT EXISTS empleados (
-    id INT PRIMARY KEY,
-    nombre VARCHAR(40), 
-    idtipodocumento INT,
-    numerodocumento VARCHAR(30),
-    fechaingreso DATE,
-    idpuesto INT,
-    idaerolinea INT,
-    idaeropuerto VARCHAR(5),
-    password VARCHAR(50) DEFAULT '123',
-    idrol INT,
-    FOREIGN KEY (idpuesto) REFERENCES puestostripulacion(id),
-    FOREIGN KEY (idaeropuerto) REFERENCES aeropuertos(id),
-    FOREIGN KEY (idaerolinea) REFERENCES aerolineas(id),
-    FOREIGN KEY (idrol) REFERENCES roles(id),
-    FOREIGN KEY (idtipodocumento) REFERENCES tiposdocumentos(id)
-);
+
 
 -- Insert employees into the empleados table with specified idrol values
 INSERT INTO empleados (id, nombre, idtipodocumento, numerodocumento, fechaingreso, idpuesto, idaerolinea, idaeropuerto, password, idrol)
@@ -958,106 +1011,130 @@ VALUES (
     19 -- idempleado correspondiente a Hans Müller, Técnico de vuelo
 );
 
+-- Viajes en julio y agosto de 2024
+INSERT INTO viajes (fechaviaje, precioviaje, idorigenaeropuerto, iddestionaeropuerto)
+VALUES 
+    ('2024-07-01', 260.00, 'NYC1', 'PAR1'),
+    ('2024-07-01', 310.00, 'BCN1', 'LAX1'),
+    ('2024-07-01', 280.00, 'MAD1', 'MIA1'),
+    ('2024-07-02', 320.00, 'LYO1', 'NYC1'),
+    ('2024-07-02', 290.00, 'SEV1', 'PAR1'),
+    ('2024-07-03', 275.00, 'MAD1', 'LAX1'),
+    ('2024-07-03', 305.00, 'NYC1', 'MIA1'),
+    ('2024-07-04', 340.00, 'BCN1', 'PAR1'),
+    ('2024-07-04', 310.00, 'LYO1', 'MIA1'),
+    ('2024-07-05', 295.00, 'SEV1', 'NYC1'),
+    ('2024-07-05', 315.00, 'MAD1', 'PAR1'),
+    ('2024-07-06', 325.00, 'NYC1', 'LAX1'),
+    ('2024-07-06', 280.00, 'BCN1', 'MIA1'),
+    ('2024-07-07', 300.00, 'LYO1', 'LAX1'),
+    ('2024-07-07', 290.00, 'SEV1', 'MIA1'),
+    ('2024-07-08', 310.00, 'MAD1', 'NYC1'),
+    ('2024-07-08', 270.00, 'NYC1', 'PAR1'),
+    ('2024-07-09', 325.00, 'BCN1', 'LAX1'),
+    ('2024-07-09', 310.00, 'LYO1', 'NYC1'),
+    ('2024-07-10', 285.00, 'SEV1', 'LAX1'),
+    ('2024-07-10', 320.00, 'MAD1', 'MIA1'),
+    ('2024-07-11', 275.00, 'NYC1', 'MIA1'),
+    ('2024-07-11', 315.00, 'BCN1', 'PAR1'),
+    ('2024-07-12', 305.00, 'LYO1', 'LAX1'),
+    ('2024-07-12', 290.00, 'SEV1', 'NYC1'),
+    ('2024-07-13', 325.00, 'MAD1', 'PAR1'),
+    ('2024-07-13', 270.00, 'NYC1', 'LAX1'),
+    ('2024-07-14', 310.00, 'BCN1', 'MIA1'),
+    ('2024-07-14', 295.00, 'LYO1', 'PAR1'),
+    ('2024-07-15', 280.00, 'SEV1', 'LAX1'),
+    ('2024-07-15', 320.00, 'MAD1', 'NYC1'),
+    ('2024-07-16', 275.00, 'NYC1', 'PAR1'),
+    ('2024-07-16', 325.00, 'BCN1', 'LAX1'),
+    ('2024-07-17', 300.00, 'LYO1', 'MIA1'),
+    ('2024-07-17', 290.00, 'SEV1', 'NYC1'),
+    ('2024-07-18', 310.00, 'MAD1', 'PAR1'),
+    ('2024-07-18', 325.00, 'NYC1', 'LAX1'),
+    ('2024-07-19', 280.00, 'BCN1', 'MIA1'),
+    ('2024-07-19', 300.00, 'LYO1', 'LAX1'),
+    ('2024-07-20', 290.00, 'SEV1', 'MIA1'),
+    ('2024-07-20', 310.00, 'MAD1', 'NYC1'),
+    ('2024-07-21', 275.00, 'NYC1', 'PAR1'),
+    ('2024-07-21', 325.00, 'BCN1', 'LAX1'),
+    ('2024-07-22', 310.00, 'LYO1', 'MIA1'),
+    ('2024-07-22', 285.00, 'SEV1', 'LAX1'),
+    ('2024-07-23', 320.00, 'MAD1', 'PAR1'),
+    ('2024-07-23', 275.00, 'NYC1', 'MIA1'),
+    ('2024-07-24', 305.00, 'BCN1', 'LAX1'),
+    ('2024-07-24', 290.00, 'LYO1', 'NYC1'),
+    ('2024-07-25', 325.00, 'SEV1', 'MIA1'),
+    ('2024-07-25', 270.00, 'MAD1', 'LAX1'),
+    ('2024-07-26', 310.00, 'NYC1', 'PAR1'),
+    ('2024-07-26', 295.00, 'BCN1', 'MIA1'),
+    ('2024-07-27', 320.00, 'LYO1', 'LAX1'),
+    ('2024-07-27', 285.00, 'SEV1', 'NYC1'),
+    ('2024-07-28', 275.00, 'MAD1', 'MIA1'),
+    ('2024-07-28', 325.00, 'NYC1', 'LAX1'),
+    ('2024-07-29', 300.00, 'BCN1', 'PAR1'),
+    ('2024-07-29', 290.00, 'LYO1', 'MIA1'),
+    ('2024-07-30', 310.00, 'SEV1', 'LAX1'),
+    ('2024-07-30', 280.00, 'MAD1', 'NYC1'),
+    ('2024-07-31', 325.00, 'NYC1', 'PAR1'),
+    ('2024-08-01', 310.00, 'BCN1', 'LAX1'),
+    ('2024-08-01', 295.00, 'LYO1', 'MIA1'),
+    ('2024-08-02', 280.00, 'SEV1', 'NYC1'),
+    ('2024-08-02', 320.00, 'MAD1', 'PAR1'),
+    ('2024-08-03', 325.00, 'NYC1', 'LAX1'),
+    ('2024-08-03', 275.00, 'BCN1', 'MIA1'),
+    ('2024-08-04', 290.00, 'LYO1', 'PAR1'),
+    ('2024-08-04', 310.00, 'SEV1', 'NYC1'),
+    ('2024-08-05', 275.00, 'MAD1', 'LAX1'),
+    ('2024-08-05', 325.00, 'NYC1', 'MIA1'),
+    ('2024-08-06', 280.00, 'BCN1', 'PAR1'),
+    ('2024-08-06', 295.00, 'LYO1', 'LAX1'),
+    ('2024-08-07', 310.00, 'SEV1', 'NYC1'),
+    ('2024-08-07', 320.00, 'MAD1', 'MIA1'),
+    ('2024-08-08', 325.00, 'NYC1', 'PAR1'),
+    ('2024-08-08', 275.00, 'BCN1', 'LAX1')
+;
 
 
+-- Conexiones para los viajes
+INSERT INTO conexionesvuelos  (numeroconexion, idviaje, idavion, salidaidaeropuerto, llegadaidaeropuerto)
+VALUES
+    ('CON1', 1, 1, 'NYC1', 'LAX1'),
+    ('CON2', 1, 2, 'LAX1', 'PAR1'),
+    ('CON3', 2, 3, 'BCN1', 'NYC1'),
+    ('CON4', 2, 4, 'NYC1', 'MIA1'),
+    ('CON5', 3, 5, 'MAD1', 'LAX1'),
+    ('CON6', 3, 6, 'LAX1', 'MIA1'),
+    ('CON7', 4, 7, 'LYO1', 'NYC1'),
+    ('CON8', 4, 8, 'NYC1', 'PAR1'),
+    ('CON9', 5, 9, 'SEV1', 'PAR1'),
+    ('CON10', 5, 10, 'PAR1', 'NYC1'),
+    ('CON11', 6, 11, 'MAD1', 'MIA1'),
+    ('CON12', 6, 12, 'MIA1', 'LAX1'),
+    ('CON13', 7, 13, 'NYC1', 'LAX1'),
+    ('CON14', 7, 14, 'LAX1', 'PAR1'),
+    ('CON15', 8, 15, 'BCN1', 'MIA1'),
+    ('CON16', 8, 16, 'MIA1', 'NYC1'),
+    ('CON17', 9, 17, 'LYO1', 'LAX1'),
+    ('CON18', 9, 18, 'LAX1', 'PAR1'),
+    ('CON19', 10, 1, 'SEV1', 'NYC1'),
+    ('CON20', 10, 10, 'NYC1', 'MIA1'),
+    ('CON21', 11, 1, 'MAD1', 'PAR1'),
+    ('CON22', 11, 2, 'PAR1', 'NYC1'),
+    ('CON23', 12, 3, 'NYC1', 'LAX1'),
+    ('CON24', 12, 4, 'LAX1', 'MIA1'),
+    ('CON25', 13, 5, 'BCN1', 'PAR1'),
+    ('CON26', 13, 6, 'PAR1', 'LAX1'),
+    ('CON27', 14, 7, 'LYO1', 'MIA1'),
+    ('CON28', 14, 8, 'MIA1', 'NYC1'),
+    ('CON29', 15, 9, 'SEV1', 'LAX1'),
+    ('CON30', 15, 10, 'LAX1', 'PAR1'),
+    ('CON31', 16, 11, 'MAD1', 'NYC1'),
+    ('CON32', 16, 12, 'NYC1', 'MIA1'),
+    ('CON33', 17, 13, 'NYC1', 'LAX1'),
+    ('CON34', 17, 14, 'LAX1', 'PAR1'),
+    ('CON35', 18, 15, 'BCN1', 'MIA1')
+;
 
-
--- // conexionesvuelos: Las conexiones de los vuelos, que dependen de los viajes, aviones y aeropuertos.
-
--- Inserciones en la tabla conexionesvuelos
-
--- Inserciones en la tabla conexionesvuelos
-
--- Vuelo 1: Viaje 1, Avión EC-JNB, Aeropuerto: MAD1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-001', -- número de conexión (ejemplo)
-    1, -- idviaje correspondiente al viaje del 15 de agosto de 2024
-    1, -- idavion correspondiente al avión EC-JNB
-    'MAD1' -- idaeropuerto correspondiente al Aeropuerto Adolfo Suárez Madrid-Barajas
-);
-
--- Vuelo 2: Viaje 2, Avión EC-MVM, Aeropuerto: BCN1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-002', -- número de conexión (ejemplo)
-    2, -- idviaje correspondiente al viaje del 20 de agosto de 2024
-    2, -- idavion correspondiente al avión EC-MVM
-    'BCN1' -- idaeropuerto correspondiente al Aeropuerto de Barcelona-El Prat
-);
-
--- Vuelo 3: Viaje 3, Avión EC-KDH, Aeropuerto: MAD1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-003', -- número de conexión (ejemplo)
-    3, -- idviaje correspondiente al viaje del 5 de septiembre de 2024
-    3, -- idavion correspondiente al avión EC-KDH
-    'MAD1' -- idaeropuerto correspondiente al Aeropuerto Adolfo Suárez Madrid-Barajas
-);
-
--- Vuelo 4: Viaje 4, Avión F-GKXA, Aeropuerto: PAR1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-004', -- número de conexión (ejemplo)
-    4, -- idviaje correspondiente al viaje del 10 de septiembre de 2024
-    4, -- idavion correspondiente al avión F-GKXA
-    'PAR1' -- idaeropuerto correspondiente al Aeropuerto Charles de Gaulle
-);
-
--- Vuelo 5: Viaje 5, Avión F-HMLB, Aeropuerto: NYC1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-005', -- número de conexión (ejemplo)
-    5, -- idviaje correspondiente al viaje del 1 de octubre de 2024
-    5, -- idavion correspondiente al avión F-HMLB
-    'NYC1' -- idaeropuerto correspondiente al Aeropuerto Internacional John F. Kennedy
-);
-
-
--- Vuelo 6: Viaje 1, Avión EC-MVM, Aeropuerto: BCN1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-006', -- número de conexión (ejemplo)
-    1, -- idviaje correspondiente al viaje del 15 de agosto de 2024
-    2, -- idavion correspondiente al avión EC-MVM
-    'BCN1' -- idaeropuerto correspondiente al Aeropuerto de Barcelona-El Prat
-);
-
--- Vuelo 7: Viaje 2, Avión F-HRBA, Aeropuerto: BER1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-007', -- número de conexión (ejemplo)
-    2, -- idviaje correspondiente al viaje del 20 de agosto de 2024
-    6, -- idavion correspondiente al avión F-HRBA
-    'BER1' -- idaeropuerto correspondiente al Aeropuerto de Berlín-Brandeburgo
-);
-
--- Vuelo 8: Viaje 3, Avión N234AA, Aeropuerto: NYC1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-008', -- número de conexión (ejemplo)
-    3, -- idviaje correspondiente al viaje del 5 de septiembre de 2024
-    8, -- idavion correspondiente al avión N234AA
-    'NYC1' -- idaeropuerto correspondiente al Aeropuerto Internacional John F. Kennedy
-);
-
--- Vuelo 9: Viaje 4, Avión HK-5678, Aeropuerto: NIC1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-009', -- número de conexión (ejemplo)
-    4, -- idviaje correspondiente al viaje del 10 de septiembre de 2024
-    18, -- idavion correspondiente al avión HK-5678
-    'NIC1' -- idaeropuerto correspondiente al Aeropuerto de Niza-Costa Azul
-);
-
--- Vuelo 10: Viaje 5, Avión D-AILE, Aeropuerto: PAR1
-INSERT INTO conexionesvuelos (numeroconexion, idviaje, idavion, idaeropuerto)
-VALUES (
-    'CV-010', -- número de conexión (ejemplo)
-    5, -- idviaje correspondiente al viaje del 1 de octubre de 2024
-    11, -- idavion correspondiente al avión D-AILE
-    'PAR1' -- idaeropuerto correspondiente al Aeropuerto Charles de Gaulle
-);
 
 
 
