@@ -113,13 +113,13 @@ public class Main {
 
                 case 4:
                 
-                    tipoDocumentoController.gestionTipoDocumento();
+                    // tipoDocumentoController.gestionTipoDocumento();
 
                     break;
 
                 case 5:
 
-                    revisionController.gestionRevision();
+                    // revisionController.gestionRevision();
 
                     break;
 
