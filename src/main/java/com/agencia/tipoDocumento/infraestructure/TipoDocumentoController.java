@@ -26,42 +26,6 @@ public class TipoDocumentoController {
         this.findTipoDocumentoUseCase = findTipoDocumentoUseCase;
     }
 
-    // Scanner scanner = new Scanner(System.in);
-
-    // public void gestionTipoDocumento() {
-    // while (true) {
-    // System.out.println("1. crear tipo documento");
-    // System.out.println("2. Modificar tipo documento");
-    // System.out.println("3. Eliminar tipo documento");
-    // System.out.println("4. Buscar documento");
-    // System.out.println("5. Salir");
-
-    // int opcion = scanner.nextInt();
-    // scanner.nextLine();
-
-    // switch (opcion) {
-    // case 1:
-    // createTipoDocumento();
-    // break;
-    // case 2:
-    // updateTipoDocumento();
-    // break;
-    // case 3:
-    // deleteTipoDocumento();
-    // break;
-
-    // case 4:
-    // findIdtipoDocumento();
-    // break;
-
-    // default:
-    // break;
-    // }
-
-    // }
-
-    // }
-
     public void createTipoDocumento() {
         String imputNombre = JOptionPane.showInputDialog(null, "Ingrese Nombre de documento");
 

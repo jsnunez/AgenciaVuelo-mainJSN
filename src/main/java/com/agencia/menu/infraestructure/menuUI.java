@@ -11,6 +11,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.agencia.avion.application.CreateAvionUseCase;
+import com.agencia.avion.application.DeleteAvionUseCase;
+import com.agencia.avion.application.FindAvionUseCase;
+import com.agencia.avion.application.UpdateAvionUseCase;
+import com.agencia.avion.domain.service.AvionService;
+import com.agencia.avion.infraestructure.AvionController;
+import com.agencia.avion.infraestructure.AvionRepository;
 import com.agencia.cliente.aplication.CreateClienteCase;
 import com.agencia.cliente.aplication.DeleteClienteCase;
 import com.agencia.cliente.aplication.FindClienteCase;
@@ -206,7 +213,13 @@ public class menuUI {
                     System.out.println(opcionAdmin);
                     switch (opcionAdmin) {
                         case 1:
-                            // registrarAvion();
+                            // registrarAvion();}
+                            AvionService registrarService=new AvionRepository();
+                            CreateAvionUseCase createAvionUseCase=new CreateAvionUseCase(registrarService);
+                            AvionController avionControllerRegistrar=new AvionController(createAvionUseCase,null,null,null);
+
+                            avionControllerRegistrar.createAvion();
+
                             break;
                         case 2:
                             // asignarTripulacionATrayecto();
@@ -216,6 +229,12 @@ public class menuUI {
                             break;
                         case 4:
                             // consultarInformacionTrayecto();
+                            AvionService consultaAvionService = new AvionRepository();
+                            FindAvionUseCase findAvionUseCase = new FindAvionUseCase(consultaAvionService);
+
+                            AvionController avionControllerConsulta = new AvionController(null, null, null, findAvionUseCase);
+
+                            avionControllerConsulta.findAvion();
                             break;
                         case 5:
                             // registrarAeropuerto();
@@ -225,9 +244,20 @@ public class menuUI {
                             break;
                         case 7:
                             // actualizarInformacionAvion();
+                            AvionService updtAvionService=new AvionRepository();
+                            UpdateAvionUseCase updateAvionUseCase= new UpdateAvionUseCase(updtAvionService);
+
+                            AvionController avionControllerUpdt=new AvionController(null,   null,deleteAvionUseCase,null);
+
+                            avionControllerUpdt.deleteAvion();
                             break;
                         case 8:
                             // eliminarAvion();
+                            AvionService avionServiceDelete=new AvionRepository();
+
+                            DeleteAvionUseCase deleteAvionUseCase=new DeleteAvionUseCase(avionServiceDelete);
+                            AvionController avionControllerDelete=new AvionController(null,   null,deleteAvionUseCase,null);
+                            avionControllerDelete.deleteAvion();
                             break;
                         case 9:
                             // asignarAeronaveATrayecto();

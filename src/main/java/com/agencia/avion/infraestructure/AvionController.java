@@ -1,6 +1,11 @@
 package com.agencia.avion.infraestructure;
 
-import java.util.Scanner;
+
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.GridLayout;
 
 import com.agencia.avion.application.CreateAvionUseCase;
 import com.agencia.avion.application.DeleteAvionUseCase;
@@ -23,173 +28,134 @@ public class AvionController {
         this.findAvionUseCase = findAvionUseCase;
     }
 
-    Scanner scanner = new Scanner(System.in);
-
-    public void gestionAvion(){
-
-
-        while(true){
-            System.out.println("1. Crear Avion: ");
-            System.out.println("2. Borrar Avion: ");
-            System.out.println("3. Encontrar Avion: ");
-            System.out.println("4. Actualizar Avion: ");
-            System.out.println("5. Salir: ");
-            
-            int opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (opcion) {
-                case 1:
-
-                    createAvion();
-                    
-                    break;
-
-                case 2:
-                    
-                    deleteAvion();            
-    
-                    break;
-
-                case 3:
-                
-                    findAvion();
-                    
-                    break;
-
-                case 4:
-
-                    updateAvion();
-
-                    break;
-
-                
-            
-                default:
-                    break;
-            }
-            
-        }
-
-    }
 
     public void createAvion(){
       
+            String inputMatricula=JOptionPane.showInputDialog(null,"Ingrese matricua del aviòn");
 
-            System.out.println("Ingrese matrícula del avión:");
-            String matricula = scanner.nextLine();
+            String inputCapacidad=JOptionPane.showInputDialog(null,"Ingese capacidad del aviòn");
+            int capacidad=Integer.parseInt(inputCapacidad);
+
+            String inputFecha=JOptionPane.showInputDialog(null,"ingrese fecha de fabricacion");
+
+            String inputEstado=JOptionPane.showInputDialog(null,"ingrese id del estado");
+            int estado=Integer.parseInt(inputEstado);
             
-            System.out.println("Ingrese capacidad:");
-            int capacidad = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea después de nextInt
-            
-            System.out.print("Fecha de Fabricación (YYYY-MM-DD): ");
-            String fechaFabricacion = scanner.nextLine();
-            
-            System.out.print("ID Estado: ");
-            int idEstado = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea después de nextInt
-            
-            System.out.print("ID Modelo: ");
-            int idModelo = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea después de nextInt
-            
-            System.out.print("ID Aerolínea: ");
-            int idAerolinea = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea después de nextInt
+            String inputModelo=JOptionPane.showInputDialog(null,"ingrese id del modelo");
+            int modelo=Integer.parseInt(inputModelo);
+
+            String inputAerolinea=JOptionPane.showInputDialog(inputModelo);
+            int aerolinea=Integer.parseInt(inputAerolinea);
             
             Avion avion = new Avion();
-            avion.setMatricula(matricula);
+            avion.setMatricula(inputMatricula);
             avion.setCapacidad(capacidad);
-            avion.setFechaFabricacion(fechaFabricacion);
-            avion.setIdEstado(idEstado);
-            avion.setIdModelo(idModelo);
-            avion.setIdAerolinea(idAerolinea);
+            avion.setFechaFabricacion(inputFecha);
+            avion.setIdEstado(estado);
+            avion.setIdModelo(modelo);
+            avion.setIdAerolinea(aerolinea);
             
             createAvionUseCase.execute(avion);
-            System.out.println("Avión creado correctamente :D");
+            JOptionPane.showMessageDialog(null,"Avion creado con exito");
     
 
         
     }
 
     public void deleteAvion(){
-        System.out.println("Ingrese el id para eliminar el avión");
-        int deleteAvion = scanner.nextInt();
-        scanner.nextLine();
-
+        String inputIdAvion =JOptionPane.showInputDialog(null,"Ingrese id del aviòn a eliminar");
+        int idAvion=Integer.parseInt(inputIdAvion);
+     
         // User userD = new User();
-        deleteAvionUseCase.execute(deleteAvion);
+        deleteAvionUseCase.execute(idAvion);
 
         if(deleteAvionUseCase != null){
-            System.out.println("Eliminado");
+            JOptionPane.showMessageDialog(null,"Aviòn eiminado con exito!");
         }else{
-            System.out.println("No eliminado");
+            JOptionPane.showMessageDialog(null,"No se pudo eliminar el aviòn");
         }
     }
 
     public void updateAvion(){
 
-        System.out.println("Ingrese el id para actualizar el avión: ");
-        int idAvionUpdate = scanner.nextInt();
-        scanner.nextLine();
+        String inputIdAvion =JOptionPane.showInputDialog(null,"Ingrese id del aviòn a actualizar");
+        int idAvion=Integer.parseInt(inputIdAvion);
 
-        System.out.println("Ingrese la nueva matricula: ");
-        String nuevaMatricula = scanner.nextLine();
+        Avion avionExistente =new Avion();
+        avionExistente.setId(idAvion);
+        avionExistente = findAvionUseCase.execute(idAvion);
 
-        System.out.println("Ingrese la capacidad del avión");
-        int nuevaCapacidad = scanner.nextInt();
-        scanner.nextLine();
+        if (avionExistente!= null){
+            String inputMatricula=JOptionPane.showInputDialog(null,"Ingrese matricula");
 
-        System.out.println("Ingrese la fecha de fabricación: ");
-        String nuevaFecha = scanner.nextLine();
+            String inputCapacidad=JOptionPane.showInputDialog(null,"Ingrese matricula");
+            int capacidad=Integer.parseInt(inputCapacidad);
 
-        System.out.println("Ingrese el id del estado: ");
-        int nuevoEstado = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Ingrese el id del modelo: ");
-        int nuevoModelo = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Ingrese el id de la aerolínea: ");
-        int nuevaAerolinea = scanner.nextInt();
-        scanner.nextLine();
-
-        Avion newAvion = new Avion();
-
-        newAvion.setId(idAvionUpdate);
-        newAvion.setMatricula(nuevaMatricula);
-        newAvion.setCapacidad(nuevaCapacidad);
-        newAvion.setFechaFabricacion(nuevaFecha);
-        newAvion.setIdEstado(nuevoEstado);
-        newAvion.setIdModelo(nuevoModelo);
-        newAvion.setIdAerolinea(nuevaAerolinea);
-
-        updateAvionUseCase.execute(newAvion);
-
+            String inputFecha=JOptionPane.showInputDialog(null,"Ingrese matricula");
+            String inputEstado=JOptionPane.showInputDialog(null,"Ingrese matricula");
+            int estado=Integer.parseInt(inputEstado);
+            
+            String inputModelo=JOptionPane.showInputDialog(null,"Ingrese matricula");
+            int modelo=Integer.parseInt(inputModelo);
+            
+            String inputAerolinea=JOptionPane.showInputDialog(null,"Ingrese matricula");
+            int aerolinea=Integer.parseInt(inputAerolinea);
+            
+            Avion newAvion = new Avion();
+            newAvion.setMatricula(inputMatricula);
+            newAvion.setCapacidad(capacidad);
+            newAvion.setFechaFabricacion(inputFecha);
+            newAvion.setIdEstado(estado);
+            newAvion.setIdModelo(modelo);
+            newAvion.setIdAerolinea(aerolinea);
+            
+            updateAvionUseCase.execute(newAvion);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"El aviòn no existe");
+        }
+    
     }
 
     public void findAvion(){
 
-        System.out.println("Cuál es el id del avión que desea consultar: ");
-        int idAvion = scanner.nextInt();
-        scanner.nextLine();
-
+        String inputConIdAvion=JOptionPane.showInputDialog(null,"Ingrese id matricula");
+        int idAvion=Integer.parseInt(inputConIdAvion);
+        
+        
         Avion foundAvion = findAvionUseCase.execute(idAvion);
 
         if(foundAvion != null){
-            System.out.println("Avion id: " + foundAvion.getId());
-            System.out.println("Avion Matricula: " + foundAvion.getMatricula());
-            System.out.println("Avion Capacidad: " + foundAvion.getCapacidad());
-            System.out.println("Avion fecha Fabricación: " + foundAvion.getFechaFabricacion());
-            System.out.println("Avion id Estado: " + foundAvion.getIdEstado());
-            System.out.println("Avion id Modelo: " + foundAvion.getIdModelo());
-            System.out.println("Avion id Aerolínea: " + foundAvion.getIdAerolinea());
-        }
-        else{
-            System.out.println("Avión no encontrado c:");
-        }
 
+            JPanel panelEncontrar = new JPanel(new GridLayout(0, 2));
+            panelEncontrar.add(new JLabel("id:"));
+            panelEncontrar.add(new JLabel(String.valueOf(foundAvion.getId())));
+            
+            panelEncontrar.add(new JLabel("Matricula:"));
+            panelEncontrar.add(new JLabel(foundAvion.getMatricula()));
+
+            panelEncontrar.add(new JLabel("Capacidad:"));
+            panelEncontrar.add(new JLabel(String.valueOf(foundAvion.getCapacidad())));
+
+            panelEncontrar.add(new JLabel("Fecha Fabricación:"));
+            panelEncontrar.add(new JLabel(foundAvion.getFechaFabricacion()));
+
+            panelEncontrar.add(new JLabel("id Estado:"));
+            panelEncontrar.add(new JLabel(String.valueOf(foundAvion.getIdEstado())));
+
+            panelEncontrar.add(new JLabel("id Modelo:"));
+            panelEncontrar.add(new JLabel(String.valueOf(foundAvion.getIdModelo())));
+
+            panelEncontrar.add(new JLabel("id Aerolínea:"));
+            panelEncontrar.add(new JLabel(String.valueOf(foundAvion.getIdAerolinea())));
+            
+            JOptionPane.showMessageDialog(null,panelEncontrar, "Detalles Avión encontrado", JOptionPane.INFORMATION_MESSAGE);
+          
+        }else{
+            JOptionPane.showMessageDialog(null, "Avion no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+            
     }
+
 }
+
