@@ -102,9 +102,9 @@ CREATE TABLE viajes(
     fechaviaje DATE,
     precioviaje DOUBLE,
     idorigenaeropuerto VARCHAR(5),
-    iddestionaeropuerto VARCHAR(5),
+    iddestinoaeropuerto VARCHAR(5),
         FOREIGN KEY (idorigenaeropuerto) REFERENCES aeropuertos(id),
-        FOREIGN KEY (iddestionaeropuerto) REFERENCES aeropuertos(id)
+        FOREIGN KEY (iddestinoaeropuerto) REFERENCES aeropuertos(id)
     );
 
 CREATE TABLE reservaviaje (
