@@ -1,4 +1,8 @@
 
+create database aviones;
+use aviones;
+
+
 
 CREATE TABLE paises (
     id VARCHAR(5) PRIMARY KEY,
@@ -146,6 +150,7 @@ CREATE TABLE puestostripulacion (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(40)
 );
+
 
 
 
