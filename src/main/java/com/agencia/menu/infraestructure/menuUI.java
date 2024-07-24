@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.agencia.aeropuerto.aplication.CreateAeropuertoCase;
@@ -858,7 +859,7 @@ public class menuUI {
             panelInicio.add(documentoField);
             user.setNumeroDocumento(null);
             panelInicio.add(new JLabel("Ingrese password: "));
-            JTextField passwordField = new JTextField();
+            JTextField passwordField = new JPasswordField();
             panelInicio.add(passwordField);
             String tipoDocumento = null;
             int result = JOptionPane.showConfirmDialog(null, panelInicio, "inicio de sesion",
