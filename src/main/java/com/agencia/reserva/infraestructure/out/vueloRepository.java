@@ -566,13 +566,14 @@ System.out.println(reserva.getFechaReserva());
     }
 
     try {
-      String sql = "UPDATE asientodetallereservaviajeconexion SET idasientos = ?, WHERE iddetallereserva = ? AND idconexionvuelos=? ";
+      String sql = "UPDATE asientodetallereservaviajeconexion SET idasientos = ?,idconexionvuelos=? WHERE iddetallereserva = ? AND idconexionvuelos=? ";
 System.out.println(asientosdetalles.getIdConexion());
 // System.out.println(asientosdetalles.getIdAsiento());
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.setInt(1, asientosdetalles.getIdAsiento());
-      statement.setInt(2, asientosdetalles.getIdDetalleReserva());
-      statement.setInt(3, asientosdetalles.getIdConexion());
+      statement.setInt(2, asientosdetalles.getIdConexionnuevo());
+      statement.setInt(3, asientosdetalles.getIdDetalleReserva());
+      statement.setInt(4, asientosdetalles.getIdConexion());
 
       int rowsUpdate = statement.executeUpdate();
       System.out.println("Numero de filas actualizadas  " + rowsUpdate);

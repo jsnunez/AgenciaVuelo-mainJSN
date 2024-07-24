@@ -77,7 +77,7 @@ public class ReservaRepository implements ReservaServiceOlf {
 
     @Override
     public Reserva findReservaAgente(int id) {
-        String query = "SELECT r.id, r.fecha, v.precioviaje, v.idorigenaeropuerto, " +
+        String query = "SELECT r.id, r.fecha, v.precioviaje, v.idorigenaeropuerto,r.idvuelos ," +
                 "v.iddestinoaeropuerto, c.nombre, c.numerodocumento, r.estado " +
                 "FROM reservaviaje r " +
                 "INNER JOIN viajes v ON v.id = r.idvuelos " +
@@ -97,6 +97,7 @@ public class ReservaRepository implements ReservaServiceOlf {
                     reserva.setNombreCliente(rs.getString("c.nombre"));
                     reserva.setNumeroDocumento(rs.getString("c.numerodocumento"));
                     reserva.setEstado(rs.getString("r.estado"));
+                    reserva.setIdVuelo(rs.getInt("r.idvuelos"));
                 }
             }
         } catch (SQLException e) {

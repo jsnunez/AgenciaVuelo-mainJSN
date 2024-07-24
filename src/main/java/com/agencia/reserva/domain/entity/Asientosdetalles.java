@@ -4,17 +4,18 @@ public class Asientosdetalles {
 int idConexion;
 int idDetalleReserva;
 int idAsiento;
-public Asientosdetalles(int idConexion, int idDetalleReserva, int idAsiento) {
+int idConexionnuevo;
+public Asientosdetalles(int idConexion, int idDetalleReserva, int idAsiento, int idConexionnuevo) {
     this.idConexion = idConexion;
     this.idDetalleReserva = idDetalleReserva;
     this.idAsiento = idAsiento;
+    this.idConexionnuevo = idConexionnuevo;
 }
 public Asientosdetalles() {
 }
 public int getIdConexion() {
     return idConexion;
 }
-
 public void setIdConexion(int idConexion) {
     this.idConexion = idConexion;
 }
@@ -27,8 +28,16 @@ public void setIdDetalleReserva(int idDetalleReserva) {
 public int getIdAsiento() {
     return idAsiento;
 }
-public void setIdAsiento(int sillaseleccionada) {
-    this.idAsiento = sillaseleccionada;
+public void setIdAsiento(int idAsiento) {
+    this.idAsiento = idAsiento;
 }
+public int getIdConexionnuevo() {
+    return idConexionnuevo;
+}
+public void setIdConexionnuevo(int idConexionnuevo) {
+    this.idConexionnuevo = idConexionnuevo;
+}
+
+
 
 }

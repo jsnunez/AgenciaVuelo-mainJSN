@@ -361,6 +361,8 @@ public class vueloController {
 
     Reserva reserva = findReservaAgenteUseCase.execute(idReserva);
     List<DetalleReserva> lisDetalleReservas = buscarDetalleReserva.execute(reserva);
+    List<Escala> escalasant = findEscalaUseCase.execute(Integer.valueOf(reserva.getIdVuelo()));
+
     if (reserva != null) {
       BuscarVuelo bvuelo = new BuscarVuelo();
       bvuelo.setIdAeropuertoOrigen(reserva.getAeropuertoOrigen());
@@ -452,16 +454,17 @@ public class vueloController {
           for (int j = 0; j < escalas.size(); j++) {
 
             sillaseleccionada = seleccionarSilla(escalas.get(j));
-            asientodetalle.setIdConexion(escalas.get(j).getId());
+            asientodetalle.setIdConexion(escalasant.get(j).getId());
             asientodetalle.setIdDetalleReserva(detalleReserva.getId());
             asientodetalle.setIdAsiento(sillaseleccionada);
+           asientodetalle.setIdConexionnuevo(escalas.get(j).getId());
             actualizarReserva.execute(reserva, asientodetalle);
           }
 
         }
 
    
-        JOptionPane.showMessageDialog(null, "Reserva Cancelada con éxito");
+        JOptionPane.showMessageDialog(null, "Reserva modificada con éxito");
       } else {
         JOptionPane.showMessageDialog(null, "No se realizó cancelación");
       }
