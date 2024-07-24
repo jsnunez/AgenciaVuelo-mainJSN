@@ -282,7 +282,7 @@ VALUES ('Eco Prom Int Est', 'Asiento estándar, vuelo internacional (promoción)
 
 
 -- Viajes en julio y agosto de 2024
-INSERT INTO viajes (fechaviaje, precioviaje, idorigenaeropuerto, iddestionaeropuerto)
+INSERT INTO viajes (fechaviaje, precioviaje, idorigenaeropuerto, iddestinoaeropuerto)
 VALUES 
     ('2024-07-01', 260.00, 'NYC1', 'PAR1'),
     ('2024-07-01', 310.00, 'BCN1', 'LAX1'),
@@ -1012,7 +1012,7 @@ VALUES (
 );
 
 -- Viajes en julio y agosto de 2024
-INSERT INTO viajes (fechaviaje, precioviaje, idorigenaeropuerto, iddestionaeropuerto)
+INSERT INTO viajes (fechaviaje, precioviaje, idorigenaeropuerto, iddestinoaeropuerto)
 VALUES 
     ('2024-07-01', 260.00, 'NYC1', 'PAR1'),
     ('2024-07-01', 310.00, 'BCN1', 'LAX1'),
