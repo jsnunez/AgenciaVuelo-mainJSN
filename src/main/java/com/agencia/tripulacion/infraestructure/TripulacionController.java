@@ -1,6 +1,11 @@
 package com.agencia.tripulacion.infraestructure;
 
+import java.awt.GridLayout;
 import java.util.Scanner;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.agencia.tripulacion.application.CreateTripulacionUseCase;
 import com.agencia.tripulacion.application.FindTripulacionUseCase;
@@ -16,73 +21,41 @@ public class TripulacionController {
         this.findTripulacionUseCase = findTripulacionUseCase;
     }
 
-    Scanner scanner = new Scanner(System.in);
-
-    public void gestionTripulacion(){
-
-        while (true) {
-            
-            System.out.println("1. Ingresar Empleado y conexión: ");
-            System.out.println("2. Encontrar Tripulación: ");
-            System.out.println("3. Salir: ");
-
-            int opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (opcion) {
-                case 1:
-
-                    createTripulacion();
-                    
-                    break;
-
-                case 2:
-
-                    findTripulacion();
-            
-                case 3: 
-
-                    return;
-
-                default:
-                    break;
-            }
-
-        }
-        
-    }
         public void createTripulacion(){
 
-            System.out.println("Ingrese el id del empleado: ");
-            int idEmpleado = scanner.nextInt();
-            scanner.nextLine();
+            String inputidEmpleado=JOptionPane.showInputDialog(null,"ingrese id del empleado");
+            int idEmpleado=Integer.parseInt(inputidEmpleado);
 
-            System.out.println("Ingrese el id de la escala: ");
-            int idconexion = scanner.nextInt();
-            scanner.nextLine();
+            String inputIdEscala=JOptionPane.showInputDialog(null,"Ingrese id de la escala");
+            int idEscala=Integer.parseInt(inputIdEscala);
+
 
             Tripulacion tripulacion = new Tripulacion();
 
             tripulacion.setIdempleado(idEmpleado);
-            tripulacion.setIdconexion(idconexion);
+            tripulacion.setIdconexion(idEscala);
 
             createTripulacionUseCase.execute(tripulacion);
-            System.out.println("Tripulante creado correctamente <3");
+            JOptionPane.showMessageDialog(null,"Tripulacion creada con exito");
 
         }
 
 
         public void findTripulacion(){
 
-            System.out.println("Cuál es el id de la escala: ");
-            int idEscala = scanner.nextInt();
-            scanner.nextLine();
+            String inputidEscala=JOptionPane.showInputDialog(null,"Ingrese id de la escala");
+            int idEscala=Integer.parseInt(inputidEscala);
+            
 
             Tripulacion findTripulacion = findTripulacionUseCase.execute(idEscala);
 
             if (findTripulacion != null) {
-                System.out.println("El id del empleado: " + findTripulacion.getIdempleado());
-                System.out.println("El id de la escala es: " + findTripulacion.getIdconexion());
+                JPanel jPanel=new JPanel(new GridLayout(0,2));
+                jPanel.add(new JLabel("id del empleado"));
+                jPanel.add(new JLabel(String.valueOf(findTripulacion.getIdempleado())));
+                jPanel.add(new JLabel("id de la escala"));
+                jPanel.add(new JLabel(String.valueOf(findTripulacion.getIdconexion())));
+                
             }
 
 

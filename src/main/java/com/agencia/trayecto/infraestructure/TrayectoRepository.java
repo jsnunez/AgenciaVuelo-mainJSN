@@ -106,6 +106,15 @@ public class TrayectoRepository implements TrayectoService{
     @Override
 
     public void asignAvion(Trayecto trayecto){
+        String query ="UPDATE conexionesvuelos SET idaeropuerto=? WHERE id=?";
+        try (PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setInt(1, trayecto.getId());
+            ps.setInt(2, trayecto.getId());
+            ps.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
 
 
 
